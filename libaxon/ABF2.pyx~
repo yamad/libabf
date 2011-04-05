@@ -1,0 +1,2 @@
+cdef extern from "axon.h" namespace "axon":
+     cdef cppclass ABF:

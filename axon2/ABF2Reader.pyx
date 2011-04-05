@@ -1,0 +1,1 @@
+cdef extern from "ProtocolReaderABF2.hpp" namespace

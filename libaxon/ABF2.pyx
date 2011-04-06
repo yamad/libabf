@@ -1,33 +1,45 @@
+import numpy as np
+from numpy cimport ndarray, NPY_DOUBLE, npy_intp, import_array
+
+import_array()
+
+cdef extern from "numpy/arrayobject.h":
+     cdef object PyArray_SimpleNewFromData(int nd, npy_intp *dims,
+                                           int typenum, void *data)
+
+cdef extern from "axon_structs.h":
+     ctypedef struct ABF_FileInfo:
+          pass
+
 cdef extern from "axon.h" namespace "axon":
      cdef cppclass ABF:
-          ABF(void)
+          ABF_FileInfo FileInfo
+          ABF()
           ABF(char*)
           int Open(char*)
-          int Open(void)
-          int Close(void)
-          int ReadFileInfo(void)
-          int ReadProtocolInfo(void)
-          int ReadADCInfo(void)
-          int ReadDACInfo(void)
-          int ReadEpochInfo(void)
-          int ReadEpochInfoPerDAC(void)
-          int ReadStrings(void)
+          int Open()
+          int Close()
+          int ReadFileInfo()
+          int ReadProtocolInfo()
+          int ReadADCInfo()
+          int ReadDACInfo()
+          int ReadEpochInfo()
+          int ReadEpochInfoPerDAC()
+          int ReadStrings()
           int GetString(char*, int)
           char* GetString(int)
-          int ReadSynchArray(void)
-          int ReadAllSections(void)
-          int ReadData(void)
-          float *ReadFloatData(void)
-          short *ReadIntData(void)
-
-import numpy as np
+          int ReadSynchArray()
+          int ReadAllSections()
+          int ReadData()
+          float *ReadFloatData()
+          short *ReadIntData()
 
 cdef class ABF2:
      cdef ABF *thisptr                # holds a C++ instance for wrapping
-     def __cinit__(self, str fname):
+     def __cinit__(self, bytes fname):
           self.thisptr = new ABF(fname)
      def __dealloc__(self):
-          def self.thisptr
+          del self.thisptr
      def Open(self):
           return self.thisptr.Open()
      def Close(self):
@@ -53,13 +65,16 @@ cdef class ABF2:
      def ReadAllSections(self):
           return self.thisptr.ReadAllSections()
      def ReadData(self):
-          if not self.thisptr.FileInfo: # int data
-               self.thisptr.ReadFileInfo()
+          self.ReadFileInfo()
+          cdef npy_intp dims = self.thisptr.FileInfo.DataSection.llNumEntries
+
           if self.thisptr.FileInfo.nDataFormat == 0:
-               data = np.array(self.thisptr.ReadIntData(), float)
-          else if self.thisptr.FileInfo.nDataFormat == 1:
-               data = np.array(self.thisptr.ReadFloatData(), float)
+               data = PyArray_SimpleNewFromData(1, &dims, NPY_DOUBLE,
+                                                self.thisptr.ReadIntData())
+          elif self.thisptr.FileInfo.nDataFormat == 1:
+               data = PyArray_SimpleNewFromData(1, &dims, NPY_DOUBLE,
+                                                self.thisptr.ReadFloatData())
           else:
                print "Wrong data format, must be int or float data"
-               self.thisptr.Close()
+               self.Close()
           return data

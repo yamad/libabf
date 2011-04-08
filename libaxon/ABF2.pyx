@@ -8,10 +8,22 @@ cdef extern from "numpy/arrayobject.h":
                                            int typenum, void *data)
 
 cdef extern from "axon_structs.h":
+     ctypedef struct ABF_Section:
+          long long llNumEntries
+          unsigned int uBytes
+          unsigned int uBlockIndex
      ctypedef struct ABF_FileInfo:
-          pass
+          # ABF 1 sections
+          ABF_Section DataSection
+          ABF_Section TagSection
+          ABF_Section ScopeSection
+          ABF_Section DeltaSection
+          ABF_Section VoiceTagSection
+          ABF_Section SynchArraySection
+          ABF_Section AnnotationSection
+          ABF_Section StatsSection
 
-cdef extern from "axon.h" namespace "axon":
+cdef extern from "axon.h":
      cdef cppclass ABF:
           ABF_FileInfo FileInfo
           ABF()
@@ -78,3 +90,6 @@ cdef class ABF2:
                print "Wrong data format, must be int or float data"
                self.Close()
           return data
+
+     property FileInfo:
+          def __get__(self): return self.thisptr.FileInfo

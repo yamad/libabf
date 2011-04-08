@@ -6,7 +6,7 @@ ext = Extension(
     "ABF2",                             # name of extension
     ["ABF2.pyx", "axon.cpp"],           # source files
     language="c++",
-    include_dirs=["usr/lib/python2.7/site-packages/numpy/core/include/numpy/",],
+    include_dirs=["/usr/lib/python2.7/site-packages/numpy/core/include/",],
     libraries=["stdc++",],
     )
 

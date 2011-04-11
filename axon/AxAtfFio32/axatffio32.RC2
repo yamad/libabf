@@ -1,0 +1,26 @@
+//**********************************************************************************************
+//
+//    Copyright (c) 1995 Axon Instruments.
+//    All rights reserved.
+//
+//**********************************************************************************************
+// MODULE:  AXATFFIO32.RC2
+// PURPOSE: Contains resources App Studio does not edit directly
+// AUTHOR:  BHI  Feb 1995
+//
+
+#ifdef APSTUDIO_INVOKED
+   #error this file is not editable by App Studio
+#endif //APSTUDIO_INVOKED
+
+//***********************************************************************************************
+// Add other additional manually edited resources here...
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+#include "axatffio32.h"
+#include "atferror.str"
+
+//***********************************************************************************************

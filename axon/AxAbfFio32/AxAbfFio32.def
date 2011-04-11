@@ -1,0 +1,153 @@
+;;***********************************************************************************************
+;;
+;;    Copyright (c) 1993-1998 Axon Instruments.
+;;    All rights reserved.
+;;    Permission is granted to freely to use, modify and copy the code in this file.
+;;
+;;***********************************************************************************************
+LIBRARY   AxABFFIO32    BASE=0x64200000
+
+;CODE      LOADONCALL MOVEABLE DISCARDABLE
+;DATA      PRELOAD MOVEABLE SINGLE
+
+HEAPSIZE  2048
+
+EXPORTS
+   ABF_ReadOpen                   @110
+   ABF_WriteOpen                  @120
+   ABF_UpdateHeader               @130
+   ABF_IsABFFile                  @140
+   ABF_HasData                    @150
+   ABF_Close                      @160
+   ABF_MultiplexRead              @170
+   ABF_MultiplexWrite             @180
+   ABF_WriteRawData               @190
+   ABF_ReadChannel                @210
+   ABF_ReadRawChannel             @220
+   ABF_ReadDACFileEpi             @230
+   ABF_WriteDACFileEpi            @240
+   ABF_GetWaveform                @250
+   ABF_WriteTag                   @260
+   ABF_UpdateTag                  @262
+   ABF_ReadTags                   @270
+   ABF_FormatTag                  @280
+   ABF_EpisodeFromSynchCount      @290
+   ABF_SynchCountFromEpisode      @300
+   ABF_GetEpisodeFileOffset       @310
+   ABF_GetMissingSynchCount       @320
+   ABF_HasOverlappedData          @330
+   ABF_GetNumSamples              @340
+   ABF_GetStartTime               @350
+   ABF_GetEpisodeDuration         @360
+   ABF_WriteScopeConfig           @370
+   ABF_ReadScopeConfig            @380
+   ABF_WriteStatisticsConfig      @390
+   ABF_ReadStatisticsConfig       @400
+   ABF_SaveVoiceTag               @410
+   ABF_GetVoiceTag                @420
+   ABF_PlayVoiceTag               @430
+   ABF_WriteDelta                 @440
+   ABF_ReadDeltas                 @450
+   ABF_FormatDelta                @460
+   ABF_BuildErrorText             @470
+   ABF_SetErrorCallback           @480
+   ABF_UpdateEpisodeSamples       @490
+   ABF_SetChunkSize               @500
+   ABF_SetOverlap                 @510
+   ABF_SetEpisodeStart            @520
+   ABF_GetTrialDuration           @530
+
+   ABF_WriteAnnotation            @610
+   ABF_WriteStringAnnotation      @611
+   ABF_WriteIntegerAnnotation     @612
+   ABF_ReadAnnotation             @620
+   ABF_ReadStringAnnotation       @621
+   ABF_ReadIntegerAnnotation      @622
+   ABF_GetMaxAnnotationSize       @630
+   ABF_ParseStringAnnotation      @631
+                                   
+   ABF_GetSynchArray              @900
+   ABF_GetFileHandle              @910
+   ABF_UpdateAfterAcquisition     @920
+
+   ABF_WriteDACFileEpiEx          @930
+   ABF_ReadDACFileEpiEx           @940
+   ABF_GetWaveformEx              @950
+   ABF_GetFileName                @960
+   ABF_ValidateFileCRC            @970
+                              
+   ABFH_Initialize                @1110
+   ABFH_InitializeScopeConfig     @1120
+   ABFH_CheckScopeConfig          @1130
+   ABFH_GetADCDisplayRange        @1140
+   ABFH_GetADCtoUUFactors         @1150
+   ABFH_ClipADCUUValue            @1160
+   ABFH_GetDACtoUUFactors         @1170
+   ABFH_ClipDACUUValue            @1180
+   ABFH_GetMathValue              @1190
+   ABFH_GetMathChannelName        @1210
+   ABFH_ParamReader               @1220
+   ABFH_ParamWriter               @1230
+   ABFH_GetErrorText              @1240
+   ABFH_GetEpochLimits            @1250
+   ABFH_GetChannelOffset          @1260
+   ABFH_GetWaveform               @1270
+   ABFH_GetDigitalWaveform        @1280
+   ABFH_GetWaveformVector         @1290
+   ABFH_GetDigitalWaveformVector  @1300
+   ABFH_GetTimebase               @1310
+   ABFH_GetTimebaseEx             @1320
+   ABFH_GetHoldingDuration        @1330
+   ABFH_IsConstantWaveform        @1340
+   ABFH_CheckSampleIntervals      @1350
+   ABFH_GetClosestSampleIntervals @1360
+   ABFH_SetupSamplingList         @1370
+   ABFH_SweepLenFromUserLen       @1380
+   ABFH_UserLenFromSweepLen       @1390
+   ABFH_GainOffsetToDisplayRange  @1400
+   ABFH_DisplayRangeToGainOffset  @1410
+   ABFH_SynchCountToMS            @1420
+   ABFH_MSToSynchCount            @1430
+
+   ABFH_GetClockChange            @1440
+   ABFH_GetEpisodeDuration        @1450
+   ABFH_GetPNDuration             @1460
+   ABFH_GetTrainDuration          @1470
+   ABFH_GetMetaEpisodeDuration    @1480
+   ABFH_GetEpisodeStartToStart    @1490
+   ABFH_CheckUserList             @1500
+   ABFH_IsNewHeader               @1510
+   ABFH_DemoteHeader              @1520
+   ABFH_PromoteHeader             @1530
+   ABFH_GetEpochLimitsEx          @1540
+   ABFH_GetWaveformEx             @1550
+   ABFH_IsConstantWaveformEx      @1570
+   ABFH_GetTrainDurationEx        @1580
+   ABFH_GetPNDurationEx           @1590
+   ABFH_CheckUserListEx           @1600
+   ABFH_GetFirstSampleInterval    @1610
+   ABFH_GetSecondSampleInterval   @1620
+   ABFH_GetNumberOfChangingSweeps @1630
+   ABFH_IsConstantDigitalOutput   @1640
+   ABFH_IsConstantDigitalOutputEx @1650
+
+   ABFH_GetEpochDuration          @1660
+   ABFH_GetEpochLevel             @1670
+   ABFH_GetEpochLevelRange        @1680
+   ABFH_GetMaxPNSubsweeps         @1690
+
+   INFO_GetBufferSize             @2000
+   INFO_GetInfo                   @2010
+   INFO_FormatTime                @2020
+   INFO_FormatDate                @2030
+
+   
+   ABFU_GetTempFileName           @3000
+   ABFU_ReadFile                  @3010
+   ABFU_FormatDouble              @3020
+   ABFU_FormatHMS                 @3025
+   ABFU_SetABFString              @3030
+   ABFU_GetABFString              @3040
+   ABFU_IsValidSignalName         @3050
+   ABFU_GetValidSignalNameChars   @3060
+   ABFU_FixSignalName             @3070

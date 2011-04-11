@@ -1,0 +1,344 @@
+# Microsoft Developer Studio Generated Dependency File, included by Axabffio32.mak
+
+.\Abffiles.cpp : \
+	"..\AxoUtils32\axoutils32.h"\
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\common\BufferedArray.hpp"\
+	"..\Common\COLORS.H"\
+	"..\Common\crc.h"\
+	"..\common\FileIO.hpp"\
+	"..\common\filereadcache.hpp"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\csynch.hpp"\
+	".\DACFile.hpp"\
+	".\FILEDESC.HPP"\
+	".\notify.hpp"\
+	".\Oldheadr.h"\
+	".\SimpleStringCache.hpp"\
+	".\StringResource.h"\
+	".\VOICETAG.HPP"\
+	".\Wincpp.hpp"\
+	
+
+.\Abfheadr.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\Oldheadr.h"\
+	".\StringResource.h"\
+	".\Wincpp.hpp"\
+	
+
+.\Abfhwave.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\PopulateEpoch.hpp"\
+	".\UserList.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\Abfinfo.cpp : \
+	"..\AxoUtils32\axoutils32.h"\
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\version.hpp"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\ABFINFO.H"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\cabfhdr.cpp"\
+	".\cabfhdr.hpp"\
+	".\TextBuffer.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\Abfutil.cpp : \
+	"..\axonvalidation\axonvalidation.h"\
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\Wincpp.hpp"\
+	
+
+.\Abfvtags.cpp : \
+	"..\AxoUtils32\axoutils32.h"\
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\waitcursor.hpp"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\audiofileheader.h"\
+	".\axabffio32.h"\
+	".\Wincpp.hpp"\
+	
+
+.\Axabffio32.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\version.hpp"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\axabffio32.h"\
+	".\Wincpp.hpp"\
+	
+
+.\axabffio32.rc : \
+	".\Abferror.str"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\axabffio32.h"\
+	".\AXABFFIO32.ICO"\
+	".\axabffio32.rc2"\
+	
+
+..\Common\Axodebug.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\BufferedArray.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\common\BufferedArray.hpp"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\crc.cpp : \
+	"..\Common\crc.h"\
+	"..\Common\crcmodel.h"\
+	
+
+..\Common\crcmodel.c : \
+	"..\Common\crcmodel.h"\
+	
+
+.\Csynch.cpp : \
+	"..\AxoUtils32\axoutils32.h"\
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\csynch.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\DACFile.CPP : \
+	"..\AxoUtils32\axoutils32.h"\
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\DACFile.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\Filedesc.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\common\BufferedArray.hpp"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\axabffio32.h"\
+	".\csynch.hpp"\
+	".\DACFile.hpp"\
+	".\FILEDESC.HPP"\
+	".\notify.hpp"\
+	".\SimpleStringCache.hpp"\
+	".\VOICETAG.HPP"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\FileIO.CPP : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\FILEPATH.CPP : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\filepath.h"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\FileReadCache.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	"..\common\filereadcache.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\Msbincvt.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\Msbincvt.h"\
+	".\Wincpp.hpp"\
+	
+
+.\Oldheadr.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\ABFOLDNX.H"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\Msbincvt.h"\
+	".\Oldheadr.h"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\pkware.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	"..\Common\pkware.h"\
+	".\Wincpp.hpp"\
+	
+
+.\PopulateEpoch.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\PopulateEpoch.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\SimpleStringCache.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	".\SimpleStringCache.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\StringResource.CPP : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\StringResource.h"\
+	".\Wincpp.hpp"\
+	
+
+.\TextBuffer.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\TextBuffer.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\UserList.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	".\abfheadr.h"\
+	".\abfutil.h"\
+	".\axabffio32.h"\
+	".\UserList.hpp"\
+	".\Wincpp.hpp"\
+	
+
+..\Common\VERSION.CPP : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\version.hpp"\
+	".\Wincpp.hpp"\
+	
+
+.\Voicetag.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\Common\ArrayPtr.hpp"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\common\FileIO.hpp"\
+	"..\Common\pkware.h"\
+	".\Abffiles.h"\
+	".\abfheadr.h"\
+	".\axabffio32.h"\
+	".\notify.hpp"\
+	".\VOICETAG.HPP"\
+	".\Wincpp.hpp"\
+	
+
+.\Wincpp.cpp : \
+	"..\Common\ADCDAC.H"\
+	"..\common\axodebug.h"\
+	"..\Common\AXODEFN.H"\
+	"..\Common\COLORS.H"\
+	"..\Common\WIN32.H"\
+	".\Wincpp.hpp"\
+	

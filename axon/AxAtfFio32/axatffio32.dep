@@ -1,0 +1,40 @@
+# Microsoft Developer Studio Generated Dependency File, included by axatffio32.mak
+
+.\Axatffio32.cpp : \
+	"..\axonvalidation\axonvalidation.h"\
+	"..\common\axodebug.h"\
+	".\Atfintl.h"\
+	".\Atfutil.h"\
+	".\axatffio32.H"\
+	
+
+.\Axatffio32.rc : \
+	".\atferror.str"\
+	".\axatffio32.H"\
+	".\AXATFFIO32.ICO"\
+	".\axatffio32.rc2"\
+	
+
+..\Common\Axodebug.cpp : \
+	"..\common\axodebug.h"\
+	
+
+.\fileio.CPP : \
+	"..\common\axodebug.h"\
+	".\Atfintl.h"\
+	".\axatffio32.H"\
+	
+
+.\Initlize.cpp : \
+	"..\common\axodebug.h"\
+	".\axatffio32.H"\
+	
+
+.\Wincpp.cpp : \
+	"..\common\adcdac.h"\
+	"..\common\axodebug.h"\
+	"..\common\axodefn.h"\
+	"..\common\colors.h"\
+	"..\common\win32.h"\
+	".\Wincpp.hpp"\
+	

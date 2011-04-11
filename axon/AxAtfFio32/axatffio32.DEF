@@ -1,0 +1,37 @@
+LIBRARY   AXATFFIO32    BASE=0x64300000
+
+;CODE      LOADONCALL MOVEABLE DISCARDABLE
+;DATA      PRELOAD MOVEABLE SINGLE
+
+HEAPSIZE  2048
+
+EXPORTS
+ATF_OpenFile                     @1000
+ATF_CloseFile                    @1010
+ATF_SetSeperator                 @1020
+ATF_IsAppending                  @1030
+ATF_RewindFile                   @1040
+ATF_CountDataLines               @1050
+ATF_GetNumHeaders                @1060
+ATF_WriteHeaderRecord            @1070
+ATF_SetColumnTitle               @1080
+ATF_SetColumnUnits               @1090
+ATF_WriteEndOfLine               @2000
+ATF_WriteDataRecord              @2010
+ATF_WriteDataComment             @2020
+ATF_WriteDataRecordArray         @2030
+ATF_WriteDataRecordArrayFloat    @2040
+ATF_WriteDataRecord1             @2050
+ATF_WriteDataRecord1Float        @2060
+ATF_ReadHeaderLine               @2070
+ATF_ReadHeaderNoQuotes           @2080
+ATF_GetColumnTitle               @2090
+ATF_GetColumnUnits               @3000
+ATF_ReadDataRecord               @3010
+ATF_ReadDataRecordArray          @3020
+ATF_ReadDataColumn               @3030
+ATF_BuildErrorText               @3040
+ATF_GetFileDateTime              @3050
+
+;end of file
+

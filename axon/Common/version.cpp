@@ -4,16 +4,16 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  VERSION.CPP
+// MODULE:  version.cpp
 // PURPOSE: Contains member functions for the CVersion class.
 // AUTHOR:  BHI  Mar 1994
 //
 
 #include "wincpp.hpp"
-#include "..\Common\AxoDebug.h"
-#include "..\Common\Version.hpp"
+#include "..\Common\axodebug.h"
+#include "..\common\version.hpp"
 
-#pragma comment(lib, "Version.lib")
+#pragma comment(lib, "version.lib")
 
 struct VERTRANS       // a language/character-set id pair
 {

@@ -11,7 +11,7 @@
 
 #include "wincpp.hpp"
 #include "JpegIO.hpp"
-#include "\AxonDev\Comp\Common\Version.hpp"
+#include "\AxonDev\Comp\Common\version.hpp"
 #include "\AxonDev\Comp\Common\ArrayPtr.hpp"
 #include "\AxonDev\Comp\AxoUtils32\AxoUtils32.h"
 

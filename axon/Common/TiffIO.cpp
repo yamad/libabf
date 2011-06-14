@@ -14,7 +14,7 @@
 
 #include "TiffIO.hpp"
 #include "\AxonDev\comp\axoutils32\axoutils32.h"
-#include "\AxonDev\Comp\Common\Version.hpp"
+#include "\AxonDev\Comp\Common\version.hpp"
 #include "\AxonDev\Comp\Common\ArrayPtr.hpp"
 
 extern HINSTANCE g_hInstance;

@@ -10,7 +10,7 @@
 //
 #include "wincpp.hpp"
 #include "DisplaySurface.hpp"
-#include "Colors.h"
+#include "colors.h"
 
 #define DRAWFASTRECT(hdc,lprc)  ExtTextOut(hdc,0,0,ETO_OPAQUE,lprc,NULL,0,NULL)
 

@@ -14,7 +14,7 @@
 #if !defined INC_AXOLOGEVENTUTIL_HPP
 #define      INC_AXOLOGEVENTUTIL_HPP
 
-#include "\Axondev\Comp\Common\Axappmsg.h"
+#include "\Axondev\Comp\Common\axappmsg.h"
 #include <string>
 using namespace std;
 

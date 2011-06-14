@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  WINCPP.C
+// MODULE:  wincpp.c
 // PURPOSE: Used to create preprocessed header.
 // AUTHOR:  BHI  Nov 1993
 //

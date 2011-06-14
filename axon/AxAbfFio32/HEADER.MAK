@@ -51,16 +51,16 @@ CLEAN :"Abflib - Win32 ReleaseCLEAN" "AxoUtils32 - Win32 ReleaseCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\Cparam.obj"
 	-@erase "$(INTDIR)\crc.obj"
 	-@erase "$(INTDIR)\crcmodel.obj"
-	-@erase "$(INTDIR)\FILEPATH.OBJ"
+	-@erase "$(INTDIR)\filepath.obj"
 	-@erase "$(INTDIR)\Header.obj"
 	-@erase "$(INTDIR)\HEADER.pch"
 	-@erase "$(INTDIR)\header.res"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(INTDIR)\Version.obj"
+	-@erase "$(INTDIR)\version.obj"
 	-@erase "$(INTDIR)\Wincpp.obj"
 	-@erase "$(OUTDIR)\HEADER.exe"
 
@@ -76,13 +76,13 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=oldnames.lib kernel32.lib user32.lib gdi32.lib winmm.lib winspool.lib version.lib setargv.obj ole32.lib /nologo /stack:0x1400 /subsystem:console /incremental:no /pdb:"$(OUTDIR)\HEADER.pdb" /machine:IX86 /out:"$(OUTDIR)\HEADER.exe" 
 LINK32_OBJS= \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\Cparam.obj" \
 	"$(INTDIR)\crc.obj" \
 	"$(INTDIR)\crcmodel.obj" \
-	"$(INTDIR)\FILEPATH.OBJ" \
+	"$(INTDIR)\filepath.obj" \
 	"$(INTDIR)\Header.obj" \
-	"$(INTDIR)\Version.obj" \
+	"$(INTDIR)\version.obj" \
 	"$(INTDIR)\Wincpp.obj" \
 	"$(INTDIR)\header.res" \
 	"..\..\Lib\Abflib.lib" \
@@ -135,17 +135,17 @@ CLEAN :"Abflib - Win32 DebugCLEAN" "AxoUtils32 - Win32 DebugCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\Cparam.obj"
 	-@erase "$(INTDIR)\crc.obj"
 	-@erase "$(INTDIR)\crcmodel.obj"
-	-@erase "$(INTDIR)\FILEPATH.OBJ"
+	-@erase "$(INTDIR)\filepath.obj"
 	-@erase "$(INTDIR)\Header.obj"
 	-@erase "$(INTDIR)\HEADER.pch"
 	-@erase "$(INTDIR)\header.res"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
-	-@erase "$(INTDIR)\Version.obj"
+	-@erase "$(INTDIR)\version.obj"
 	-@erase "$(INTDIR)\Wincpp.obj"
 	-@erase "$(OUTDIR)\HEADER.exe"
 	-@erase "$(OUTDIR)\HEADER.ilk"
@@ -163,13 +163,13 @@ BSC32_SBRS= \
 LINK32=link.exe
 LINK32_FLAGS=ole32.lib oldnames.lib kernel32.lib user32.lib gdi32.lib winmm.lib winspool.lib version.lib setargv.obj /nologo /stack:0x1400 /subsystem:console /incremental:yes /pdb:"$(OUTDIR)\HEADER.pdb" /debug /machine:IX86 /out:"$(OUTDIR)\HEADER.exe" 
 LINK32_OBJS= \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\Cparam.obj" \
 	"$(INTDIR)\crc.obj" \
 	"$(INTDIR)\crcmodel.obj" \
-	"$(INTDIR)\FILEPATH.OBJ" \
+	"$(INTDIR)\filepath.obj" \
 	"$(INTDIR)\Header.obj" \
-	"$(INTDIR)\Version.obj" \
+	"$(INTDIR)\version.obj" \
 	"$(INTDIR)\Wincpp.obj" \
 	"$(INTDIR)\header.res" \
 	"..\..\Lib\Abflib.lib" \
@@ -242,9 +242,9 @@ $(DS_POSTBUILD_DEP) : "AxoUtils32 - Win32 Debug" "Abflib - Win32 Debug" "$(OUTDI
 
 
 !IF "$(CFG)" == "Header - Win32 Release" || "$(CFG)" == "Header - Win32 Debug"
-SOURCE=..\Common\Axodebug.cpp
+SOURCE=..\Common\axodebug.cpp
 
-"$(INTDIR)\Axodebug.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\HEADER.pch"
+"$(INTDIR)\axodebug.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\HEADER.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -301,9 +301,9 @@ CPP_SWITCHES=/nologo /Zp4 /MTd /W4 /Gm /ZI /Od /D "_DEBUG" /D "WIN32" /D "_CONSO
 
 !ENDIF 
 
-SOURCE=..\Common\FILEPATH.CPP
+SOURCE=..\Common\filepath.cpp
 
-"$(INTDIR)\FILEPATH.OBJ" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\HEADER.pch"
+"$(INTDIR)\filepath.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\HEADER.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -318,9 +318,9 @@ SOURCE=.\header.rc
 	$(RSC) $(RSC_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Version.cpp
+SOURCE=..\Common\version.cpp
 
-"$(INTDIR)\Version.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\HEADER.pch"
+"$(INTDIR)\version.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\HEADER.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

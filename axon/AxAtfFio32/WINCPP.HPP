@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //**********************************************************************************************
-// HEADER:  WINCPP.HPP
+// HEADER:  wincpp.hpp
 // PURPOSE: Contains common includes. Used for generation of precompiled headers.
 // AUTHOR:  BHI  Nov 1993
 //

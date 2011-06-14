@@ -5,7 +5,7 @@
 //    Permission is granted to freely to use, modify and copy the code in this file.
 //
 //***********************************************************************************************
-// HEADER:  WINCPP.HPP
+// HEADER:  wincpp.hpp
 // PURPOSE: Contains common includes. Used for generation of precompiled headers.
 // AUTHOR:  BHI  Nov 1993
 //

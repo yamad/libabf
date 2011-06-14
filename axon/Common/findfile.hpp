@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// HEADER:  FINDFILE.HPP
+// HEADER:  findfile.hpp
 // PURPOSE: Contains class definition and inline functions for the CFindFile class.
 // AUTHOR:  BHI  Apr 1994
 //

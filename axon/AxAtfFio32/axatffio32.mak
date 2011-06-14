@@ -45,7 +45,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Axatffio32.obj"
 	-@erase "$(INTDIR)\axatffio32.pch"
 	-@erase "$(INTDIR)\Axatffio32.res"
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\fileio.obj"
 	-@erase "$(INTDIR)\Initlize.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -71,7 +71,7 @@ DEF_FILE= \
 	".\axatffio32.def"
 LINK32_OBJS= \
 	"$(INTDIR)\Axatffio32.obj" \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\fileio.obj" \
 	"$(INTDIR)\Initlize.obj" \
 	"$(INTDIR)\Wincpp.obj" \
@@ -114,7 +114,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Axatffio32.obj"
 	-@erase "$(INTDIR)\axatffio32.pch"
 	-@erase "$(INTDIR)\Axatffio32.res"
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\fileio.obj"
 	-@erase "$(INTDIR)\Initlize.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -142,7 +142,7 @@ DEF_FILE= \
 	".\axatffio32.def"
 LINK32_OBJS= \
 	"$(INTDIR)\Axatffio32.obj" \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\fileio.obj" \
 	"$(INTDIR)\Initlize.obj" \
 	"$(INTDIR)\Wincpp.obj" \
@@ -185,7 +185,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Axatffio32.obj"
 	-@erase "$(INTDIR)\axatffio32.pch"
 	-@erase "$(INTDIR)\Axatffio32.res"
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\fileio.obj"
 	-@erase "$(INTDIR)\Initlize.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -215,7 +215,7 @@ LINK32_OBJS= \
 	"..\..\lib\AxonValidation.lib" \
 	"$(INTDIR)\Axatffio32.obj" \
 	"$(INTDIR)\Axatffio32.res" \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\fileio.obj" \
 	"$(INTDIR)\Initlize.obj" \
 	"$(INTDIR)\Wincpp.obj"
@@ -295,9 +295,9 @@ SOURCE=.\Axatffio32.rc
 	$(RSC) $(RSC_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Axodebug.cpp
+SOURCE=..\Common\axodebug.cpp
 
-"$(INTDIR)\Axodebug.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\axatffio32.pch"
+"$(INTDIR)\axodebug.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\axatffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

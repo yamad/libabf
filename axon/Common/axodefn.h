@@ -4,7 +4,7 @@
 **    All rights reserved.
 **
 *************************************************************************************************
-** HEADER:  AXODEFN.H
+** HEADER:  axodefn.h
 ** PURPOSE: Contains standard Axon definitions and prototypes. 
 ** AUTHOR:  BHI  Oct 1993
 ** NOTES:   * The following compilers are supported:
@@ -101,7 +101,7 @@
 //
 
 #ifndef COMPILER
-   #error "Compiler not recognised... check AXODEFN.H"
+   #error "Compiler not recognised... check axodefn.h"
 #endif
 
 //===============================================================================================
@@ -140,7 +140,7 @@
 #elif defined(_WINDOWS)
    #error "ERROR: WIN16 is not supported any more."
 #else
-   #error "Platform not recognised... check AXODEFN.H"
+   #error "Platform not recognised... check axodefn.h"
 #endif
 
 //=======================================================================================

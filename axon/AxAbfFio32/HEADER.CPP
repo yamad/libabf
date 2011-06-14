@@ -39,7 +39,7 @@
 #include "cparam.h"
 #include "cabfhdr.hpp"
 #include "\AxonDev\Comp\common\ArrayPtr.hpp"
-#include "\AxonDev\Comp\common\Version.hpp"
+#include "\AxonDev\Comp\common\version.hpp"
 #include "\AxonDev\Comp\AxoUtils32\AxoUtils32.h"
 
 //-----------------------------------------------------------------------------

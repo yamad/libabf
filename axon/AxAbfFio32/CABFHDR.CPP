@@ -15,7 +15,7 @@
 #include "wincpp.hpp"
 #include "\AxonDev\Comp\AxABFFIO32\cabfhdr.hpp"
 #include "\AxonDev\Comp\AxoUtils32\axoutils32.h"
-#include "\AxonDev\Comp\Common\Version.hpp"
+#include "\AxonDev\Comp\Common\version.hpp"
 
 #include <math.h>
 #include <time.h>

@@ -4,12 +4,12 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// HEADER:  CPICTWND.CPP
+// HEADER:  cpictwnd.cpp
 // PURPOSE: Generic Picture Window Class. 
 // AUTHOR:  BHI  Feb 1995
 //
 #include "wincpp.hpp"
-#include "\AxonDev\Comp\Common\CPictWnd.hpp"
+#include "\AxonDev\Comp\Common\cpictwnd.hpp"
 #include "\AxonDev\Comp\Axoutils32\Axoutils32.h"
 
 //===============================================================================================

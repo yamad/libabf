@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  FilePath.H
+// MODULE:  filepath.h
 // PURPOSE: CFilePath class.
 // AUTHOR:  JFF July'96
 //          BHI Nov  97

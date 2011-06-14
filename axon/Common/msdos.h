@@ -4,7 +4,7 @@
 **    All rights reserved.
 **
 *************************************************************************************************
-** HEADER:  MSDOS.H
+** HEADER:  msdos.h
 ** PURPOSE: Contains standard definitions and prototypes specific to MSDOS systems. 
 ** AUTHOR:  BHI  May 1994
 */

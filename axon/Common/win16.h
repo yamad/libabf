@@ -4,7 +4,7 @@
 **    All rights reserved.
 **
 *************************************************************************************************
-** HEADER:  WIN16.H
+** HEADER:  win16.h
 ** PURPOSE: Contains standard definitions and prototypes specific to WIN16 systems. 
 ** AUTHOR:  BHI  May 1994
 */

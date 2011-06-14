@@ -4,7 +4,7 @@
 **    All rights reserved.
 **
 *************************************************************************************************
-** HEADER:  WIN32.H
+** HEADER:  win32.h
 ** PURPOSE: Contains standard definitions and prototypes specific to WIN32 systems. 
 ** AUTHOR:  BHI  May 1994
 */

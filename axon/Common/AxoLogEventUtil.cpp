@@ -274,7 +274,7 @@ void CLogEvent::SendEvent( const int p_nEventPriority, const int p_nTimeStamp )
       pszLogString[uTextLength-2] = NULL;
 
 #if USE_OLD_MESSAGE_STYLE
-   // Structure defined in "\AxonDev\Comp\Common\AxAppMsg.h"
+   // Structure defined in "\AxonDev\Comp\Common\axappmsg.h"
    AM_LogEntryRec    Entry = { 0 };
 
    // Fill in the version 00 fields
@@ -286,7 +286,7 @@ void CLogEvent::SendEvent( const int p_nEventPriority, const int p_nTimeStamp )
    // Send the log text.
    SendMessage( m_hLogWnd, s_uAppMessage, AM_LOGENTRY, (LONG)&Entry );
 #else
-   // Structure defined in "\AxonDev\Comp\Common\AxAppMsg.h"
+   // Structure defined in "\AxonDev\Comp\Common\axappmsg.h"
    sLABBOOK_ENTRY    Entry;
 
    // Fill in the version 00 fields

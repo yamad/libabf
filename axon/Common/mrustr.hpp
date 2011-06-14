@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  MRUSTR.HPP
+// MODULE:  mrustr.hpp
 // PURPOSE: Class definition for maintaining a Most-Recently-Used list of strings
 // AUTHOR:  BHI  Mar 1995
 //

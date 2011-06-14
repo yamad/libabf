@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  AXODEBUG.CPP
+// MODULE:  axodebug.cpp
 // PURPOSE: Contains utility macros and defines for Axon development debugging.
 // AUTHOR:  BHI  Oct 1993
 //

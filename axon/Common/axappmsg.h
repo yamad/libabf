@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// HEADER:  AXAPPMSG.H
+// HEADER:  axappmsg.h
 // PURPOSE: Axon Application Message System, header file.
 // AUTHOR:  JDH Jun 1995
 //

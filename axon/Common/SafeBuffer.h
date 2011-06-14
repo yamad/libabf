@@ -48,7 +48,7 @@
 
 
 
-#include "\axondev\comp\common\Axodebug.h"
+#include "\axondev\comp\common\axodebug.h"
 #define UNIMPLEMENTED TRACE("UNIMPLEMENTED Feature");
 
 

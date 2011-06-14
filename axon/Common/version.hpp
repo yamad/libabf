@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// HEADER:  VERSION.HPP
+// HEADER:  version.hpp
 // PURPOSE: Contains class definition and inline functions for the CVersion class.
 // AUTHOR:  BHI  Mar 1994
 //

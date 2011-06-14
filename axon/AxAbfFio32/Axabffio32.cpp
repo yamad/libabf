@@ -13,7 +13,7 @@
 
 #include "wincpp.hpp"
 #include "abffiles.h"
-#include "\AxonDev\Comp\Common\Version.hpp"
+#include "\AxonDev\Comp\Common\version.hpp"
 
 //----------------------------------------------------------------------
 // FUNCTION:

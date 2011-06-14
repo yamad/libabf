@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  MRUSTR.CPP
+// MODULE:  mrustr.cpp
 // PURPOSE: Class member functions for maintaining a Most-Recently-Used file list
 // AUTHOR:  BHI  Jul 1994
 //

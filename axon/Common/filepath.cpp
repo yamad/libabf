@@ -4,13 +4,13 @@
 //    All rights reserved.
 //
 //***********************************************************************************************
-// MODULE:  FilePath.cpp
+// MODULE:  filepath.cpp
 // PURPOSE: CFilePath class.
 // AUTHOR:  JFF July 96
 //          BHI Nov  97
 
 #include "wincpp.hpp"
-#include "FilePath.h"
+#include "filepath.h"
 
 #include <stdlib.h>     // for _makepath, _splitpath
 #include <string.h>     // for strncpy, _strupr

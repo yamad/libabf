@@ -41,7 +41,7 @@ ALL : "$(OUTDIR)\AxonValidation.lib"
 
 
 CLEAN :
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\FloatFormat.obj"
 	-@erase "$(INTDIR)\TextFormat.obj"
 	-@erase "$(INTDIR)\Validation.obj"
@@ -59,7 +59,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\AxonValidation.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\FloatFormat.obj" \
 	"$(INTDIR)\TextFormat.obj" \
 	"$(INTDIR)\Validation.obj"
@@ -97,7 +97,7 @@ ALL : "$(OUTDIR)\AxonValidation.lib"
 
 
 CLEAN :
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\FloatFormat.obj"
 	-@erase "$(INTDIR)\TextFormat.obj"
 	-@erase "$(INTDIR)\Validation.obj"
@@ -115,7 +115,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\AxonValidation.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\FloatFormat.obj" \
 	"$(INTDIR)\TextFormat.obj" \
 	"$(INTDIR)\Validation.obj"
@@ -153,7 +153,7 @@ ALL : "$(OUTDIR)\AxonValidation.lib"
 
 
 CLEAN :
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\FloatFormat.obj"
 	-@erase "$(INTDIR)\TextFormat.obj"
 	-@erase "$(INTDIR)\Validation.obj"
@@ -171,7 +171,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\AxonValidation.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\FloatFormat.obj" \
 	"$(INTDIR)\TextFormat.obj" \
 	"$(INTDIR)\Validation.obj"
@@ -240,9 +240,9 @@ $(DS_POSTBUILD_DEP) : "$(OUTDIR)\AxonValidation.lib"
 
 
 !IF "$(CFG)" == "AxonValidation - Win32 Release" || "$(CFG)" == "AxonValidation - Win32 Debug" || "$(CFG)" == "AxonValidation - Win32 DebugMD"
-SOURCE=..\Common\Axodebug.cpp
+SOURCE=..\Common\axodebug.cpp
 
-"$(INTDIR)\Axodebug.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\axodebug.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

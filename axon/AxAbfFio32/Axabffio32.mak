@@ -61,7 +61,7 @@ CLEAN :
 	-@erase "$(INTDIR)\Axabffio32.obj"
 	-@erase "$(INTDIR)\Axabffio32.pch"
 	-@erase "$(INTDIR)\axabffio32.res"
-	-@erase "$(INTDIR)\Axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.obj"
 	-@erase "$(INTDIR)\BufferedArray.obj"
 	-@erase "$(INTDIR)\crc.obj"
 	-@erase "$(INTDIR)\crcmodel.obj"
@@ -69,7 +69,7 @@ CLEAN :
 	-@erase "$(INTDIR)\DACFile.obj"
 	-@erase "$(INTDIR)\Filedesc.obj"
 	-@erase "$(INTDIR)\FileIO.obj"
-	-@erase "$(INTDIR)\FILEPATH.OBJ"
+	-@erase "$(INTDIR)\filepath.obj"
 	-@erase "$(INTDIR)\FileReadCache.obj"
 	-@erase "$(INTDIR)\Msbincvt.obj"
 	-@erase "$(INTDIR)\Oldheadr.obj"
@@ -80,7 +80,7 @@ CLEAN :
 	-@erase "$(INTDIR)\TextBuffer.obj"
 	-@erase "$(INTDIR)\UserList.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(INTDIR)\VERSION.OBJ"
+	-@erase "$(INTDIR)\version.obj"
 	-@erase "$(INTDIR)\Voicetag.obj"
 	-@erase "$(INTDIR)\Wincpp.obj"
 	-@erase "$(OUTDIR)\Axabffio32.dll"
@@ -109,7 +109,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Abfutil.obj" \
 	"$(INTDIR)\Abfvtags.obj" \
 	"$(INTDIR)\Axabffio32.obj" \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\BufferedArray.obj" \
 	"$(INTDIR)\crc.obj" \
 	"$(INTDIR)\crcmodel.obj" \
@@ -117,7 +117,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\DACFile.obj" \
 	"$(INTDIR)\Filedesc.obj" \
 	"$(INTDIR)\FileIO.obj" \
-	"$(INTDIR)\FILEPATH.OBJ" \
+	"$(INTDIR)\filepath.obj" \
 	"$(INTDIR)\FileReadCache.obj" \
 	"$(INTDIR)\Msbincvt.obj" \
 	"$(INTDIR)\Oldheadr.obj" \
@@ -127,7 +127,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\StringResource.obj" \
 	"$(INTDIR)\TextBuffer.obj" \
 	"$(INTDIR)\UserList.obj" \
-	"$(INTDIR)\VERSION.OBJ" \
+	"$(INTDIR)\version.obj" \
 	"$(INTDIR)\Voicetag.obj" \
 	"$(INTDIR)\Wincpp.obj" \
 	"$(INTDIR)\axabffio32.res" \
@@ -195,8 +195,8 @@ CLEAN :
 	-@erase "$(INTDIR)\Axabffio32.pch"
 	-@erase "$(INTDIR)\axabffio32.res"
 	-@erase "$(INTDIR)\Axabffio32.sbr"
-	-@erase "$(INTDIR)\Axodebug.obj"
-	-@erase "$(INTDIR)\Axodebug.sbr"
+	-@erase "$(INTDIR)\axodebug.obj"
+	-@erase "$(INTDIR)\axodebug.sbr"
 	-@erase "$(INTDIR)\BufferedArray.obj"
 	-@erase "$(INTDIR)\BufferedArray.sbr"
 	-@erase "$(INTDIR)\crc.obj"
@@ -211,8 +211,8 @@ CLEAN :
 	-@erase "$(INTDIR)\Filedesc.sbr"
 	-@erase "$(INTDIR)\FileIO.obj"
 	-@erase "$(INTDIR)\FileIO.sbr"
-	-@erase "$(INTDIR)\FILEPATH.OBJ"
-	-@erase "$(INTDIR)\FILEPATH.SBR"
+	-@erase "$(INTDIR)\filepath.obj"
+	-@erase "$(INTDIR)\filepath.sbr"
 	-@erase "$(INTDIR)\FileReadCache.obj"
 	-@erase "$(INTDIR)\FileReadCache.sbr"
 	-@erase "$(INTDIR)\Msbincvt.obj"
@@ -233,8 +233,8 @@ CLEAN :
 	-@erase "$(INTDIR)\UserList.sbr"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
-	-@erase "$(INTDIR)\VERSION.OBJ"
-	-@erase "$(INTDIR)\VERSION.SBR"
+	-@erase "$(INTDIR)\version.obj"
+	-@erase "$(INTDIR)\version.sbr"
 	-@erase "$(INTDIR)\Voicetag.obj"
 	-@erase "$(INTDIR)\Voicetag.sbr"
 	-@erase "$(INTDIR)\Wincpp.obj"
@@ -262,7 +262,7 @@ BSC32_SBRS= \
 	"$(INTDIR)\Abfutil.sbr" \
 	"$(INTDIR)\Abfvtags.sbr" \
 	"$(INTDIR)\Axabffio32.sbr" \
-	"$(INTDIR)\Axodebug.sbr" \
+	"$(INTDIR)\axodebug.sbr" \
 	"$(INTDIR)\BufferedArray.sbr" \
 	"$(INTDIR)\crc.sbr" \
 	"$(INTDIR)\crcmodel.sbr" \
@@ -270,7 +270,7 @@ BSC32_SBRS= \
 	"$(INTDIR)\DACFile.sbr" \
 	"$(INTDIR)\Filedesc.sbr" \
 	"$(INTDIR)\FileIO.sbr" \
-	"$(INTDIR)\FILEPATH.SBR" \
+	"$(INTDIR)\filepath.sbr" \
 	"$(INTDIR)\FileReadCache.sbr" \
 	"$(INTDIR)\Msbincvt.sbr" \
 	"$(INTDIR)\Oldheadr.sbr" \
@@ -280,7 +280,7 @@ BSC32_SBRS= \
 	"$(INTDIR)\StringResource.sbr" \
 	"$(INTDIR)\TextBuffer.sbr" \
 	"$(INTDIR)\UserList.sbr" \
-	"$(INTDIR)\VERSION.SBR" \
+	"$(INTDIR)\version.sbr" \
 	"$(INTDIR)\Voicetag.sbr" \
 	"$(INTDIR)\Wincpp.sbr"
 
@@ -301,7 +301,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Abfutil.obj" \
 	"$(INTDIR)\Abfvtags.obj" \
 	"$(INTDIR)\Axabffio32.obj" \
-	"$(INTDIR)\Axodebug.obj" \
+	"$(INTDIR)\axodebug.obj" \
 	"$(INTDIR)\BufferedArray.obj" \
 	"$(INTDIR)\crc.obj" \
 	"$(INTDIR)\crcmodel.obj" \
@@ -309,7 +309,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\DACFile.obj" \
 	"$(INTDIR)\Filedesc.obj" \
 	"$(INTDIR)\FileIO.obj" \
-	"$(INTDIR)\FILEPATH.OBJ" \
+	"$(INTDIR)\filepath.obj" \
 	"$(INTDIR)\FileReadCache.obj" \
 	"$(INTDIR)\Msbincvt.obj" \
 	"$(INTDIR)\Oldheadr.obj" \
@@ -319,7 +319,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\StringResource.obj" \
 	"$(INTDIR)\TextBuffer.obj" \
 	"$(INTDIR)\UserList.obj" \
-	"$(INTDIR)\VERSION.OBJ" \
+	"$(INTDIR)\version.obj" \
 	"$(INTDIR)\Voicetag.obj" \
 	"$(INTDIR)\Wincpp.obj" \
 	"$(INTDIR)\axabffio32.res" \
@@ -509,19 +509,19 @@ SOURCE=.\axabffio32.rc
 	$(RSC) $(RSC_PROJ) $(SOURCE)
 
 
-SOURCE=..\Common\Axodebug.cpp
+SOURCE=..\Common\axodebug.cpp
 
 !IF  "$(CFG)" == "axabffio32 - Win32 Release"
 
 
-"$(INTDIR)\Axodebug.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
+"$(INTDIR)\axodebug.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "axabffio32 - Win32 Debug"
 
 
-"$(INTDIR)\Axodebug.obj"	"$(INTDIR)\Axodebug.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
+"$(INTDIR)\axodebug.obj"	"$(INTDIR)\axodebug.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -659,19 +659,19 @@ SOURCE=..\Common\FileIO.CPP
 
 !ENDIF 
 
-SOURCE=..\Common\FILEPATH.CPP
+SOURCE=..\Common\filepath.cpp
 
 !IF  "$(CFG)" == "axabffio32 - Win32 Release"
 
 
-"$(INTDIR)\FILEPATH.OBJ" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
+"$(INTDIR)\filepath.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "axabffio32 - Win32 Debug"
 
 
-"$(INTDIR)\FILEPATH.OBJ"	"$(INTDIR)\FILEPATH.SBR" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
+"$(INTDIR)\filepath.obj"	"$(INTDIR)\filepath.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -825,19 +825,19 @@ SOURCE=.\UserList.cpp
 
 !ENDIF 
 
-SOURCE=..\Common\VERSION.CPP
+SOURCE=..\Common\version.cpp
 
 !IF  "$(CFG)" == "axabffio32 - Win32 Release"
 
 
-"$(INTDIR)\VERSION.OBJ" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
+"$(INTDIR)\version.obj" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 !ELSEIF  "$(CFG)" == "axabffio32 - Win32 Debug"
 
 
-"$(INTDIR)\VERSION.OBJ"	"$(INTDIR)\VERSION.SBR" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
+"$(INTDIR)\version.obj"	"$(INTDIR)\version.sbr" : $(SOURCE) "$(INTDIR)" "$(INTDIR)\Axabffio32.pch"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

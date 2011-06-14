@@ -7,7 +7,7 @@
 //*                                                                         *
 //***************************************************************************
 //
-// HEADER:       AXOP.H
+// HEADER:       axop.h
 // PURPOSE:      Definition of constants types and prototypes for use in
 //               interfacing to AXOP DLLs.
 #ifndef __AXOP_H__

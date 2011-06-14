@@ -151,7 +151,7 @@ inline double Median(TYPE arr[], int n)
 //##########################################################################################
 //##########################################################################################
 
-#include "..\AxoDefn.h" // <windows.h>
+#include "..\axodefn.h" // <windows.h>
 #include <stdlib.h>
 #include <algorithm>
 

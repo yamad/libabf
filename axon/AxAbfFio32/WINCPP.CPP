@@ -5,7 +5,7 @@
 //    Permission is granted to freely to use, modify and copy the code in this file.
 //
 //***********************************************************************************************
-// MODULE:  WINCPP.C
+// MODULE:  wincpp.c
 // PURPOSE: Used to create preprocessed header.
 // AUTHOR:  BHI  Nov 1993
 //

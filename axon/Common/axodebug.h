@@ -27,7 +27,7 @@
 #define __AXODEBUG_H__
 
 #include <assert.h>
-#include <crtdbg.h>
+//#include <crtdbg.h>
 
 #ifdef __cplusplus
 extern "C" {

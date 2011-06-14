@@ -4,7 +4,7 @@
 //    All rights reserved.
 //
 //******************************************************************************
-// HEADER:  CRC16.h
+// HEADER:  crc16.h
 // PURPOSE: Declares function for calculating a 16 bit CRC code.
 // SOURCE:  http://www.brokersys.com/snippets/   file: CRC_16F.C
 //

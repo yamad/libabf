@@ -10,9 +10,12 @@
 ** NOTES:   * The following compilers are supported:
 **            - Microsoft C/C++     (COMPILER = "Mircosoft")
 **            - Borland C/C++       (COMPILER = "Borland")
+**            - GCC C/C++           (COMPILER = "gcc")
 **          * The following platforms are supported:
 **            - MSDOS               (if _DOS #defined)
 **            - WIN32               (if _WIN32 #defined)
+**            - Linux               (if __linux__ #defined)
+**            - Mac                 (if __APPLE__ #defined)
 */
 
 #ifndef INC_AXODEFN_H
@@ -92,8 +95,17 @@
 #endif  /* RC_INVOKED */
 
 /*===============================================================================================
-** Add other compiler dependant code HERE!
+** GCC compiler for unix/linux/MAC_OS_X
 */
+
+#if defined(__linux__) || defined(__STF__) || defined(__APPLE__)
+#define COMPILER "gcc"
+
+#include "unix.h"
+
+
+#endif /*__linux__*/
+
 
 //===============================================================================================
 //
@@ -139,6 +151,10 @@
    #include "..\common\msdos.h"
 #elif defined(_WINDOWS)
    #error "ERROR: WIN16 is not supported any more."
+#elif defined(__linux__)
+   #define PLATFORM "Unix"
+#elif defined(__APPLE__) 
+   #define PLATFORM "Mac"
 #else
    #error "Platform not recognised... check axodefn.h"
 #endif

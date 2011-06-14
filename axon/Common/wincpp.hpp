@@ -9,10 +9,11 @@
 // AUTHOR:  BHI  Nov 1993
 //
 
-#include "..\common\axodefn.h"
-#include "..\common\axodebug.h"
-#include "..\common\colors.h"
-#include "..\common\adcdac.h"
+#include "axodefn.h"
+#include "axodebug.h"
+#include "colors.h"
+#include "adcdac.h"
+
 #include <stdio.h>   
 #include <stdlib.h>  
 #include <ctype.h>  
@@ -20,5 +21,3 @@
 #include <memory.h>  
 #include <string.h>
 #include <math.h>
-
-

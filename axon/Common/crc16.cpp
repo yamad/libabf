@@ -4,12 +4,12 @@
 //    All rights reserved.
 //
 //******************************************************************************
-// HEADER:  CRC16.cpp
+// HEADER:  crc16.cpp
 // PURPOSE: Contains functions calculating a 16 bit CRC code.
 // SOURCE:  http://www.brokersys.com/snippets/   file: CRC_16F.C
 //
 #include "wincpp.hpp"
-#include "CRC16.h"
+#include "crc16.h"
 
 // Calculate the CRC of a dataset incrementally given a buffer at a time.
 // Initialize crc to 0 for XMODEM, -1 for CCITT.

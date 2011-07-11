@@ -6,17 +6,17 @@
 //
 //***********************************************************************************************
 //
-// MODULE:  FILEDESC.HPP
+// MODULE:  filedesc.hpp
 // PURPOSE: Contains the class definition for the CFileDescriptor class.
 // 
 
 #ifndef INC_FILEDESC_HPP
 #define INC_FILEDESC_HPP
 
-#include "\AxonDev\Comp\common\BufferedArray.hpp"  // Virtual item array objects
+#include "Common/BufferedArray.hpp" // Virtual item array objects
 
 #include "abffiles.h"               // ABF file I/O API and error codes.
-#include "..\common\FileIO.hpp"     // Low-level file I/O services
+#include "Common/FileIO.hpp"        // Low-level file I/O services
 #include "csynch.hpp"               // Virtual synch array object
 #include "DACFile.hpp"              // Virtual DACFile array object
 #include "voicetag.hpp"             // Array of voice tag descriptors.

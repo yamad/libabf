@@ -14,7 +14,7 @@
 #define INC_VOICETAG_HPP
 
 #include "abffiles.h"
-#include "..\common\FileIO.hpp"
+#include "Common/FileIO.hpp"
 #include "notify.hpp"
 
 //***********************************************************************************************

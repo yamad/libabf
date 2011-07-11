@@ -309,7 +309,14 @@ DWORD AXODBG_SetDebugFlag(DWORD dwFlags);
 // Compile time assert for static expressions 
 // (e.g. STATIC_ASSERT(sizeof(MyStruct)==256); )
 //
-#define STATIC_ASSERT(expr) C_ASSERT(expr)
+//#define STATIC_ASSERT(expr) C_ASSERT(expr)
+
+#define STATIC_ASSERT(expr) \
+    do {                    \
+        const static char dum[(expr)?1:-1] = {0};     \
+    } while(0)
+
+
 
 #endif
 

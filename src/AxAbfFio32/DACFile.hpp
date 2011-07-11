@@ -12,7 +12,9 @@
 #ifndef INC_CDACFILE_HPP
 #define INC_CDACFILE_HPP
 
-#include "..\Common\FileIO.hpp"
+#include "Common/FileIO.hpp"
+#include "Common/adcdac.h"
+
 //-----------------------------------------------------------------------------------------------
 // CDACFile class definition
 

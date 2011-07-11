@@ -16,6 +16,9 @@
 #pragma once
 #pragma pack(push, 1)
 
+#include <limits.h>
+
+#include "util.h"
 #include "platform.h"
 
 // GUID is normally defined in the Windows Platform SDK 

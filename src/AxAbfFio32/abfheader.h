@@ -48,7 +48,7 @@
 #ifndef INC_ABFHEADR_H
 #define INC_ABFHEADR_H
 
-#include "AxABFFIO32.h"
+#include "AxAbfFio32.h"
 
 #ifdef __cplusplus
 extern "C" {

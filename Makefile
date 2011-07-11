@@ -11,7 +11,7 @@ endif
 
 #--- Inputs ----#
 COMPONENT_NAME = axon
-CPPUTEST_HOME = ~/src/cpputest
+CPPUTEST_HOME = ~/src/upstream/cpputest
 
 CPPUTEST_USE_EXTENSIONS = Y
 CPP_PLATFORM = Gcc

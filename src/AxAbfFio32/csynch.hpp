@@ -12,8 +12,8 @@
 #ifndef INC_CSYNCH_HPP
 #define INC_CSYNCH_HPP
 
-#include "..\common\axodefn.h"
-#include "..\common\axodebug.h"
+#include "Common/axodefn.h"
+#include "Common/axodebug.h"
 
 //-----------------------------------------------------------------------------------------------
 // Local constants:

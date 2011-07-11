@@ -12,7 +12,7 @@
 #ifndef INC_BUFFEREDARRAY_HPP
 #define INC_BUFFEREDARRAY_HPP
 
-#include "\AxonDev\Comp\Common\FileIO.hpp"
+#include "Common/FileIO.hpp"
 //-----------------------------------------------------------------------------------------------
 // CBufferedArray class definition
 

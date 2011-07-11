@@ -9,11 +9,11 @@
 #ifndef INC_ABFFILES_H
 #define INC_ABFFILES_H
 
-#include "..\AxABFFIO32\AxABFFIO32.h"
+#include "AxAbfFio32/AxAbfFio32.h"
 
 // Include the description of the ABFFileHeader structure
 #ifndef RC_INVOKED
-#include "..\AxABFFIO32\abfheadr.h"
+#include "AxAbfFio32/abfheader.h"
 #endif
 
 #ifdef __cplusplus

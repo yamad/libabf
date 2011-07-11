@@ -24,7 +24,7 @@ typedef HANDLE FILEHANDLE;
 #define INVALID_HANDLE_VALUE ((HANDLE)0xFFFFFFFF)
 #endif
 
-#include "../AxAbfFio32/AxAbffio32.h"
+#include "AxAbfFio32/AxAbfFio32.h"
     
 #include <stdio.h>
 //

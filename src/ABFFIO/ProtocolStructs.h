@@ -10,19 +10,19 @@
 // ABF structs: used to describe the actual file contents.
 //
 
-
 #ifndef INC_PROTOCOLSTRUCTS_HPP
 #define INC_PROTOCOLSTRUCTS_HPP
 
 #pragma once
 #pragma pack(push, 1)
 
+#include "platform.h"
+
 // GUID is normally defined in the Windows Platform SDK 
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
 typedef struct _GUID
 {
-   akxjsbasd
     unsigned long  Data1;
     unsigned short Data2;
     unsigned short Data3;

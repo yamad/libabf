@@ -15,6 +15,8 @@
 #ifndef INC_SIMPLESTRINGCACHE_HPP
 #define INC_SIMPLESTRINGCACHE_HPP
 
+#include "platform.h"
+
 #pragma once
 #include <vector>
 #pragma pack(push, 1)

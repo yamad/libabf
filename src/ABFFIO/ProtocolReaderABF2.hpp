@@ -13,10 +13,10 @@
 
 #include "SimpleStringCache.hpp"
 #include "ProtocolStructs.h"            // Struct definitions for actual file contents
-#include "ProtocolReader.hpp"           // Base class
+#include "AxAbfFio32/filedesc.hpp"
 
 //===============================================================================================
-class CABF2ProtocolReader : public CProtocolReader
+class CABF2ProtocolReader
 {
 private:
    ABF_FileInfo         m_FileInfo;

@@ -224,7 +224,7 @@ sLABBOOK_ENTRY::sLABBOOK_ENTRY()
 // These flags can be combined (using bit-wise OR)
 
 // Wait/don't wait for a message
-#define  AXOAPP_PUMP_MESSAGE_WAIT         0x00000001L
+P#define  AXOAPP_PUMP_MESSAGE_WAIT         0x00000001L
 #define  AXOAPP_PUMP_MESSAGE_NOWAIT       0x00000000L
 
 // Pump multiple/single messages

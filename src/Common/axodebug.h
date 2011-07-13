@@ -29,16 +29,20 @@
 #include <assert.h>
 //#include <crtdbg.h>
 
+#include "platform.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#define cdecl
 
 // Setup the debug reporting callback.
 void AXODBG_Initialize(void);
 
 // Protected call to DebugBreak() that only breaks if a debugger is running.
 BOOL AXODBG_DebugBreak(void);
-
+    
 // Prints a printf formatted string to the debug context.
 int cdecl AXODBG_printf( char *lpsz, ... );
 
@@ -315,6 +319,8 @@ DWORD AXODBG_SetDebugFlag(DWORD dwFlags);
     do {                    \
         const static char dum[(expr)?1:-1] = {0};     \
     } while(0)
+
+#define STATIC_ASSERT(expr) ((void) 0)
 
 
 

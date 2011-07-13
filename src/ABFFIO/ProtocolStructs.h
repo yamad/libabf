@@ -17,16 +17,21 @@
 #pragma pack(push, 1)
 
 #include <limits.h>
+#include <stdio.h>
 
-#include "util.h"
+//#include "util.h"
 #include "platform.h"
+
+#include <stdint.h>
+#define long int32_t
+#define ulong uint32_t
 
 // GUID is normally defined in the Windows Platform SDK 
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
 typedef struct _GUID
 {
-    unsigned long  Data1;
+    ulong  Data1;
     unsigned short Data2;
     unsigned short Data3;
     unsigned char  Data4[8];

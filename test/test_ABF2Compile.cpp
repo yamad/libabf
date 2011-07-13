@@ -1,5 +1,5 @@
 #include "CppUTest/TestHarness.h"
-#include "ABFFIO/ProtocolReaderABF2.hpp"
+#include "ABFFIO/ProtocolStructs.h"
 
 TEST_GROUP(Compile)
 {

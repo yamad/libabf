@@ -6,12 +6,13 @@
 
 #Set this to @ to keep the makefile quiet
 ifndef SILENCE
-	SILENCE = @
+#	SILENCE = @
+	SILENCE = 
 endif
 
 #--- Inputs ----#
 COMPONENT_NAME = axon
-CPPUTEST_HOME = ~/src/cpputest
+CPPUTEST_HOME = ~/src/upstream/cpputest
 
 CPPUTEST_USE_EXTENSIONS = Y
 CPP_PLATFORM = Gcc
@@ -23,12 +24,12 @@ PLATFORM = gcc
 #CPPUTEST_MEMLEAK_DETECTOR_NEW_MACRO_FILE = -include ApplicationLib/ExamplesNewOverrides.h
 SRC_DIRS = \
   src\
-  src/ABFFIO\
-  src/AxAbfFio32\
-  src/AxAtfFio32\
-  src/AxoUtils32\
-  src/AxonValidation\
-  src/Common
+  #src/ABFFIO\
+  #src/AxAbfFio32\
+  #src/AxAtfFio32\
+  #src/AxoUtils32\
+  #src/AxonValidation\
+  #src/Common
 
 TEST_SRC_DIRS = \
   test

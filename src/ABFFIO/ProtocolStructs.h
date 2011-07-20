@@ -22,41 +22,26 @@
 //#include "util.h"
 #include "platform.h"
 
-#include <stdint.h>
-#define long int32_t
-#define ulong uint32_t
-
-// GUID is normally defined in the Windows Platform SDK 
-#ifndef GUID_DEFINED
-#define GUID_DEFINED
-typedef struct _GUID
-{
-    ulong  Data1;
-    unsigned short Data2;
-    unsigned short Data3;
-    unsigned char  Data4[8];
-} GUID;
-#endif /* GUID_DEFINED */
-
+#include <stdint.h>   
 
 // All these structs are persisted to file -> their sizes must NOT be changed without careful 
-// attention to versioning issues in order to maintain compatibility.
+// attention to versioning issues in order to maintain compatibility. 
 
 struct ABF_Section
-{
-   UINT     uBlockIndex;            // ABF block number of the first entry
-   UINT     uBytes;                 // size in bytes of of each entry
-   LONGLONG llNumEntries;           // number of entries in this section
+{  
+   uint32_t uBlockIndex;        // ABF block number of the first entry
+   uint32_t uBytes;             // size in bytes of of each entry
+   int64_t llNumEntries;        // number of entries in this section
 
    ABF_Section();
    long GetNumEntries();
-   void Set( const UINT p_uBlockIndex, const UINT p_uBytes, const LONGLONG p_llNumEntries );
+    void Set( const uint32_t p_uBlockIndex, const uint32_t p_uBytes, const int64_t p_llNumEntries );
 
 };
 
 inline ABF_Section::ABF_Section() { MEMSET_CTOR; }
 
-inline void ABF_Section::Set( const UINT p_uBlockIndex, const UINT p_uBytes, const LONGLONG p_llNumEntries )
+inline void ABF_Section::Set( const uint32_t p_uBlockIndex, const uint32_t p_uBytes, const int64_t p_llNumEntries )
 {
    uBytes       = 0;
    llNumEntries = 0;
@@ -84,27 +69,27 @@ inline long ABF_Section::GetNumEntries()
 
 struct ABF_FileInfo
 {
-   UINT  uFileSignature;
-   UINT  uFileVersionNumber;
+   uint32_t  uFileSignature;
+   uint32_t  uFileVersionNumber;
 
    // After this point there is no need to be the same as the ABF 1 equivalent.
-   UINT  uFileInfoSize;
+   uint32_t  uFileInfoSize;
 
-   UINT  uActualEpisodes;
-   UINT  uFileStartDate;
-   UINT  uFileStartTimeMS;
-   UINT  uStopwatchTime;
-   short nFileType;
-   short nDataFormat;
-   short nSimultaneousScan;
-   short nCRCEnable;
-   UINT  uFileCRC;
+   uint32_t  uActualEpisodes;
+   uint32_t  uFileStartDate;
+   uint32_t  uFileStartTimeMS;
+   uint32_t  uStopwatchTime;
+   int16_t nFileType;
+   int16_t nDataFormat;
+   int16_t nSimultaneousScan;
+   int16_t nCRCEnable;
+   uint32_t  uFileCRC;
    GUID  FileGUID;
-   UINT  uCreatorVersion;
-   UINT  uCreatorNameIndex;
-   UINT  uModifierVersion;
-   UINT  uModifierNameIndex;
-   UINT  uProtocolPathIndex;   
+   uint32_t  uCreatorVersion;
+   uint32_t  uCreatorNameIndex;
+   uint32_t  uModifierVersion;
+   uint32_t  uModifierNameIndex;
+   uint32_t  uProtocolPathIndex;   
 
    // New sections in ABF 2 - protocol stuff ...
    ABF_Section ProtocolSection;           // the protocol
@@ -124,11 +109,11 @@ struct ABF_FileInfo
    ABF_Section ScopeSection;           // Scope config
    ABF_Section DeltaSection;           // Deltas
    ABF_Section VoiceTagSection;        // Voice Tags
-   ABF_Section SynchArraySection;      // Synch Array
+   ABF_Section Synint8_traySection;      // Synch Array
    ABF_Section AnnotationSection;      // Annotations
    ABF_Section StatsSection;           // Stats config
    
-   char  sUnused[148];     // size = 512 bytes
+   int8_t  sUnused[148];     // size = 512 bytes
    
    ABF_FileInfo() 
    { 
@@ -143,89 +128,89 @@ struct ABF_FileInfo
 
 struct ABF_ProtocolInfo
 {
-   short nOperationMode;
+   int16_t nOperationMode;
    float fADCSequenceInterval;
-   bool  bEnableFileCompression;
-   char  sUnused1[3];
-   UINT  uFileCompressionRatio;
+   t_BOOL bEnableFileCompression;
+   int8_t sUnused1[3];
+   uint32_t uFileCompressionRatio;
 
    float fSynchTimeUnit;
    float fSecondsPerRun;
-   long  lNumSamplesPerEpisode;
-   long  lPreTriggerSamples;
-   long  lEpisodesPerRun;
-   long  lRunsPerTrial;
-   long  lNumberOfTrials;
-   short nAveragingMode;
-   short nUndoRunCount;
-   short nFirstEpisodeInRun;
+   int32_t  lNumSamplesPerEpisode;
+   int32_t  lPreTriggerSamples;
+   int32_t  lEpisodesPerRun;
+   int32_t  lRunsPerTrial;
+   int32_t  lNumberOfTrials;
+   int16_t nAveragingMode;
+   int16_t nUndoRunCount;
+   int16_t nFirstEpisodeInRun;
    float fTriggerThreshold;
-   short nTriggerSource;
-   short nTriggerAction;
-   short nTriggerPolarity;
+   int16_t nTriggerSource;
+   int16_t nTriggerAction;
+   int16_t nTriggerPolarity;
    float fScopeOutputInterval;
    float fEpisodeStartToStart;
    float fRunStartToStart;
-   long  lAverageCount;
+   int32_t  lAverageCount;
    float fTrialStartToStart;
-   short nAutoTriggerStrategy;
+   int16_t nAutoTriggerStrategy;
    float fFirstRunDelayS;
 
-   short nChannelStatsStrategy;
-   long  lSamplesPerTrace;
-   long  lStartDisplayNum;
-   long  lFinishDisplayNum;
-   short nShowPNRawData;
+   int16_t nChannelStatsStrategy;
+   int32_t  lSamplesPerTrace;
+   int32_t  lStartDisplayNum;
+   int32_t  lFinishDisplayNum;
+   int16_t nShowPNRawData;
    float fStatisticsPeriod;
-   long  lStatisticsMeasurements;
-   short nStatisticsSaveStrategy;
+   int32_t  lStatisticsMeasurements;
+   int16_t nStatisticsSaveStrategy;
 
    float fADCRange;
    float fDACRange;
-   long  lADCResolution;
-   long  lDACResolution;
+   int32_t  lADCResolution;
+   int32_t  lDACResolution;
    
-   short nExperimentType;
-   short nManualInfoStrategy;
-   short nCommentsEnable;
-   long  lFileCommentIndex;            
-   short nAutoAnalyseEnable;
-   short nSignalType;
+   int16_t nExperimentType;
+   int16_t nManualInfoStrategy;
+   int16_t nCommentsEnable;
+   int32_t  lFileCommentIndex;            
+   int16_t nAutoAnalyseEnable;
+   int16_t nSignalType;
 
-   short nDigitalEnable;
-   short nActiveDACChannel;
-   short nDigitalHolding;
-   short nDigitalInterEpisode;
-   short nDigitalDACChannel;
-   short nDigitalTrainActiveLogic;
+   int16_t nDigitalEnable;
+   int16_t nActiveDACChannel;
+   int16_t nDigitalHolding;
+   int16_t nDigitalInterEpisode;
+   int16_t nDigitalDACChannel;
+   int16_t nDigitalTrainActiveLogic;
 
-   short nStatsEnable;
-   short nStatisticsClearStrategy;
+   int16_t nStatsEnable;
+   int16_t nStatisticsClearStrategy;
 
-   short nLevelHysteresis;
-   long  lTimeHysteresis;
-   short nAllowExternalTags;
-   short nAverageAlgorithm;
+   int16_t nLevelHysteresis;
+   int32_t  lTimeHysteresis;
+   int16_t nAllowExternalTags;
+   int16_t nAverageAlgorithm;
    float fAverageWeighting;
-   short nUndoPromptStrategy;
-   short nTrialTriggerSource;
-   short nStatisticsDisplayStrategy;
-   short nExternalTagType;
-   short nScopeTriggerOut;
+   int16_t nUndoPromptStrategy;
+   int16_t nTrialTriggerSource;
+   int16_t nStatisticsDisplayStrategy;
+   int16_t nExternalTagType;
+   int16_t nScopeTriggerOut;
 
-   short nLTPType;
-   short nAlternateDACOutputState;
-   short nAlternateDigitalOutputState;
+   int16_t nLTPType;
+   int16_t nAlternateDACOutputState;
+   int16_t nAlternateDigitalOutputState;
 
    float fCellID[3];
 
-   short nDigitizerADCs;
-   short nDigitizerDACs;
-   short nDigitizerTotalDigitalOuts;
-   short nDigitizerSynchDigitalOuts;
-   short nDigitizerType;
+   int16_t nDigitizerADCs;
+   int16_t nDigitizerDACs;
+   int16_t nDigitizerTotalDigitalOuts;
+   int16_t nDigitizerSynchDigitalOuts;
+   int16_t nDigitizerType;
 
-   char  sUnused[304];     // size = 512 bytes
+   int8_t  sUnused[304];     // size = 512 bytes
    
    ABF_ProtocolInfo() 
    { 
@@ -236,17 +221,17 @@ struct ABF_ProtocolInfo
 
 struct ABF_MathInfo
 {
-   short nMathEnable;
-   short nMathExpression;
-   UINT  uMathOperatorIndex;     
-   UINT  uMathUnitsIndex;        
+   int16_t nMathEnable;
+   int16_t nMathExpression;
+   uint32_t uMathOperatorIndex;     
+   uint32_t uMathUnitsIndex;        
    float fMathUpperLimit;
    float fMathLowerLimit;
-   short nMathADCNum[2];
-   char  sUnused[16];
+   int16_t nMathADCNum[2];
+   int8_t  sUnused[16];
    float fMathK[6];
 
-   char  sUnused2[64];     // size = 128 bytes
+   int8_t  sUnused2[64];     // size = 128 bytes
    
    ABF_MathInfo()
    { 
@@ -258,18 +243,18 @@ struct ABF_MathInfo
 struct ABF_ADCInfo
 {
    // The ADC this struct is describing.
-   short nADCNum;
+   int16_t nADCNum;
 
-   short nTelegraphEnable;
-   short nTelegraphInstrument;
+   int16_t nTelegraphEnable;
+   int16_t nTelegraphInstrument;
    float fTelegraphAdditGain;
    float fTelegraphFilter;
    float fTelegraphMembraneCap;
-   short nTelegraphMode;
+   int16_t nTelegraphMode;
    float fTelegraphAccessResistance;
 
-   short nADCPtoLChannelMap;
-   short nADCSamplingSeq;
+   int16_t nADCPtoLChannelMap;
+   int16_t nADCSamplingSeq;
 
    float fADCProgrammableGain;
    float fADCDisplayAmplification;
@@ -281,18 +266,18 @@ struct ABF_ADCInfo
    float fSignalLowpassFilter;
    float fSignalHighpassFilter;
 
-   char  nLowpassFilterType;
-   char  nHighpassFilterType;
+   int8_t nLowpassFilterType;
+   int8_t nHighpassFilterType;
    float fPostProcessLowpassFilter;
-   char  nPostProcessLowpassFilterType;
-   bool  bEnabledDuringPN;
+   int8_t nPostProcessLowpassFilterType;
+   t_BOOL bEnabledDuringPN;
 
-   short nStatsChannelPolarity;
+   int16_t nStatsChannelPolarity;
 
-   long  lADCChannelNameIndex;
-   long  lADCUnitsIndex;
+   int32_t lADCChannelNameIndex;
+   int32_t lADCUnitsIndex;
 
-   char  sUnused[46];         // size = 128 bytes
+   int8_t sUnused[46];          // size = 128 bytes
    
    ABF_ADCInfo()
    { 
@@ -304,9 +289,9 @@ struct ABF_ADCInfo
 struct ABF_DACInfo
 {
    // The DAC this struct is describing.
-   short nDACNum;
+   int16_t nDACNum;
 
-   short nTelegraphDACScaleFactorEnable;
+   int16_t nTelegraphDACScaleFactorEnable;
    float fInstrumentHoldingLevel;
 
    float fDACScaleFactor;
@@ -314,51 +299,51 @@ struct ABF_DACInfo
    float fDACCalibrationFactor;
    float fDACCalibrationOffset;
 
-   long  lDACChannelNameIndex;
-   long  lDACChannelUnitsIndex;
+   int32_t  lDACChannelNameIndex;
+   int32_t  lDACChannelUnitsIndex;
 
-   long  lDACFilePtr;
-   long  lDACFileNumEpisodes;
+   int32_t  lDACFilePtr;
+   int32_t  lDACFileNumEpisodes;
 
-   short nWaveformEnable;
-   short nWaveformSource;
-   short nInterEpisodeLevel;
+   int16_t nWaveformEnable;
+   int16_t nWaveformSource;
+   int16_t nInterEpisodeLevel;
 
    float fDACFileScale;
    float fDACFileOffset;
-   long  lDACFileEpisodeNum;
-   short nDACFileADCNum;
+   int32_t  lDACFileEpisodeNum;
+   int16_t nDACFileADCNum;
 
-   short nConditEnable;
-   long  lConditNumPulses;
+   int16_t nConditEnable;
+   int32_t  lConditNumPulses;
    float fBaselineDuration;
    float fBaselineLevel;
    float fStepDuration;
    float fStepLevel;
    float fPostTrainPeriod;
    float fPostTrainLevel;
-   short nMembTestEnable;
+   int16_t nMembTestEnable;
 
-   short nLeakSubtractType;
-   short nPNPolarity;
+   int16_t nLeakSubtractType;
+   int16_t nPNPolarity;
    float fPNHoldingLevel;
-   short nPNNumADCChannels;
-   short nPNPosition;
-   short nPNNumPulses;
+   int16_t nPNNumADCChannels;
+   int16_t nPNPosition;
+   int16_t nPNNumPulses;
    float fPNSettlingTime;
    float fPNInterpulse;
 
-   short nLTPUsageOfDAC;
-   short nLTPPresynapticPulses;
+   int16_t nLTPUsageOfDAC;
+   int16_t nLTPPresynapticPulses;
 
-   long  lDACFilePathIndex;
+   int32_t  lDACFilePathIndex;
 
    float fMembTestPreSettlingTimeMS;
    float fMembTestPostSettlingTimeMS;
 
-   short nLeakSubtractADCIndex;
+   int16_t nLeakSubtractADCIndex;
 
-   char  sUnused[124];     // size = 256 bytes
+   int8_t  sUnused[124];     // size = 256 bytes
    
    ABF_DACInfo()
    { 
@@ -369,41 +354,41 @@ struct ABF_DACInfo
 
 struct ABF_EpochInfoPerDAC
 {
-   // The Epoch / DAC this struct is describing.
-   short nEpochNum;
-   short nDACNum;
-
-   // One full set of epochs (ABF_EPOCHCOUNT) for each DAC channel ...
-   short nEpochType;
-   float fEpochInitLevel;
-   float fEpochLevelInc;
-   long  lEpochInitDuration;  
-   long  lEpochDurationInc;
-   long  lEpochPulsePeriod;
-   long  lEpochPulseWidth;
-
-   char  sUnused[18];      // size = 48 bytes
+    // The Epoch / DAC this struct is describing.
+    int16_t nEpochNum;
+    int16_t nDACNum;
+    
+    // One full set of epochs (ABF_EPOCHCOUNT) for each DAC channel ...
+    int16_t nEpochType;
+    float fEpochInitLevel;
+    float fEpochLevelInc;
+    int32_t lEpochInitDuration;  
+    int32_t lEpochDurationInc;
+    int32_t lEpochPulsePeriod;
+    int32_t lEpochPulseWidth;
+    
+    int8_t sUnused[18];      // size = 48 bytes
    
-   ABF_EpochInfoPerDAC()
-   { 
-      MEMSET_CTOR; 
-      STATIC_ASSERT( sizeof( ABF_EpochInfoPerDAC ) == 48 );
-   }
+    ABF_EpochInfoPerDAC()
+        { 
+            MEMSET_CTOR; 
+            STATIC_ASSERT( sizeof( ABF_EpochInfoPerDAC ) == 48 );
+        }
 };
 
 struct ABF_EpochInfo
 {
    // The Epoch this struct is describing.
-   short nEpochNum;
+   int16_t nEpochNum;
 
    // Describes one epoch
-   short nDigitalValue;
-   short nDigitalTrainValue;
-   short nAlternateDigitalValue;
-   short nAlternateDigitalTrainValue;
-   bool  bEpochCompression;   // Compress the data from this epoch using uFileCompressionRatio
+   int16_t nDigitalValue;
+   int16_t nDigitalTrainValue;
+   int16_t nAlternateDigitalValue;
+   int16_t nAlternateDigitalTrainValue;
+   t_BOOL  bEpochCompression;   // Compress the data from this epoch using uFileCompressionRatio
 
-   char  sUnused[21];      // size = 32 bytes
+   int8_t  sUnused[21];      // size = 32 bytes
    
    ABF_EpochInfo()
    { 
@@ -415,31 +400,31 @@ struct ABF_EpochInfo
 struct ABF_StatsRegionInfo
 { 
    // The stats region this struct is describing.
-   short nRegionNum;
-   short nADCNum;
+   int16_t nRegionNum;
+   int16_t nADCNum;
 
-   short nStatsActiveChannels;
-   short nStatsSearchRegionFlags;
-   short nStatsSelectedRegion;
-   short nStatsSmoothing;
-   short nStatsSmoothingEnable;
-   short nStatsBaseline;
-   long  lStatsBaselineStart;
-   long  lStatsBaselineEnd;
+   int16_t nStatsActiveChannels;
+   int16_t nStatsSearchRegionFlags;
+   int16_t nStatsSelectedRegion;
+   int16_t nStatsSmoothing;
+   int16_t nStatsSmoothingEnable;
+   int16_t nStatsBaseline;
+   int32_t  lStatsBaselineStart;
+   int32_t  lStatsBaselineEnd;
 
    // Describes one stats region
-   long  lStatsMeasurements;
-   long  lStatsStart;
-   long  lStatsEnd;
-   short nRiseBottomPercentile;
-   short nRiseTopPercentile;
-   short nDecayBottomPercentile;
-   short nDecayTopPercentile;
-   short nStatsSearchMode;
-   short nStatsSearchDAC;
-   short nStatsBaselineDAC;
+   int32_t  lStatsMeasurements;
+   int32_t  lStatsStart;
+   int32_t  lStatsEnd;
+   int16_t nRiseBottomPercentile;
+   int16_t nRiseTopPercentile;
+   int16_t nDecayBottomPercentile;
+   int16_t nDecayTopPercentile;
+   int16_t nStatsSearchMode;
+   int16_t nStatsSearchDAC;
+   int16_t nStatsBaselineDAC;
 
-   char  sUnused[78];   // size = 128 bytes
+   int8_t  sUnused[78];   // size = 128 bytes
    
    ABF_StatsRegionInfo()
    { 
@@ -451,15 +436,15 @@ struct ABF_StatsRegionInfo
 struct ABF_UserListInfo
 {
    // The user list this struct is describing.
-   short nListNum;
+   int16_t nListNum;
 
    // Describes one user list
-   short nULEnable;
-   short nULParamToVary;
-   short nULRepeat;
-   long  lULParamValueListIndex;
+   int16_t nULEnable;
+   int16_t nULParamToVary;
+   int16_t nULRepeat;
+   int32_t lULParamValueListIndex;
 
-   char  sUnused[52];   // size = 64 bytes
+   int8_t sUnused[52];   // size = 64 bytes
    
    ABF_UserListInfo()
    { 
@@ -468,6 +453,6 @@ struct ABF_UserListInfo
    }
 };
 
-#pragma pack(pop)                      // return to default packing
+#pragma pack(pop)               // return to default packing
 
 #endif   // INC_PROTOCOLSTRUCTS_HPP

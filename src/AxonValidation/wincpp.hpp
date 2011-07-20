@@ -10,8 +10,8 @@
 //
 
 
-#include "..\common\axodefn.h"
-#include "..\common\axodebug.h"
+#include "Common/axodefn.h"
+#include "Common/axodebug.h"
 #include <windows.h>
 #include <stdio.h>   
 #include <stdlib.h>  

@@ -11,7 +11,6 @@
 
 #include "SimpleStringCache.hpp"
 #include "ProtocolStructs.h"            // Struct definitions for actual file contents
-#include "ProtocolWriter.hpp"           // Base class
 
 // Forward declarations.
 class CFileDescriptor;

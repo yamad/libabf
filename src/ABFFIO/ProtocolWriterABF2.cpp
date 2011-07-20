@@ -10,12 +10,10 @@
 // PURPOSE: Writes ABF 2 protocols to an ABF 2 file.
 // 
 
-#include "wincpp.hpp"
 #include "ProtocolWriterABF2.hpp"
-#include "abfutil.h"                // Large memory allocation/free
 #include "filedesc.hpp"             // File descriptors for ABF files.
-#include "\AxonDev\Comp\AxoUtils32\AxoUtils32.h"     // for AXU_* functions
-#include "\AxonDev\Comp\Common\ArrayPtr.hpp"
+#include "AxoUtils32/axoutils32.h"  // for AXU_* functions
+#include "Common/ArrayPtr.hpp"
 
 //===============================================================================================
 // Send out struct size details to AxoTrace.

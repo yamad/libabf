@@ -40,7 +40,6 @@ TEST(DataSize, GUID_is_128bit)
     BIT_SIZE_EQUAL(128, GUID);
 }
 
-
 TEST(DataSize, ABF_Section_is_16bytes)
 {
     BYTE_SIZE_EQUAL(16, ABF_Section);

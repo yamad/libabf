@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-// Ensure that booleans in filedata are 8-bit
+/* Ensure that booleans in filedata are 8-bit */
 typedef int8_t t_BOOL;
 
 typedef int32_t INT;
@@ -31,7 +31,7 @@ typedef void *HANDLE;
 #define STATIC_ASSERT(x)
 #define ERRORMSG2(msg,a,b)
 
-// GUID is normally defined in the Windows Platform SDK 
+/* GUID is normally defined in the Windows Platform SDK */
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
 typedef struct _GUID

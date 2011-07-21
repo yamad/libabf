@@ -109,7 +109,7 @@ struct ABF_FileInfo
    ABF_Section ScopeSection;           // Scope config
    ABF_Section DeltaSection;           // Deltas
    ABF_Section VoiceTagSection;        // Voice Tags
-   ABF_Section Synint8_traySection;      // Synch Array
+   ABF_Section SynchArraySection;      // Synch Array
    ABF_Section AnnotationSection;      // Annotations
    ABF_Section StatsSection;           // Stats config
    

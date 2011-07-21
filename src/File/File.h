@@ -1,10 +1,13 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include "platform.h"
+
 typedef struct FileStruct * File;
 
 typedef off_t fileAddress;
 
+File File_Create(size_t size);
 File File_OpenForRead(const char *path);
 File File_OpenForWrite(const char *path);
 int File_Close(File *fileptr);

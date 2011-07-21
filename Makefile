@@ -23,6 +23,7 @@ PLATFORM = gcc
 #CPPUTEST_MEMLEAK_DETECTOR_NEW_MACRO_FILE = -include ApplicationLib/ExamplesNewOverrides.h
 SRC_DIRS = \
   src\
+  src/File
   #src/ABFFIO\
   #src/AxAbfFio32\
   #src/AxAtfFio32\
@@ -36,6 +37,7 @@ TEST_SRC_DIRS = \
 INCLUDE_DIRS =\
   .\
   src\
+  src/File\
   src/ABFFIO\
   src/AxAbfFio32\
   src/AxAtfFio32\

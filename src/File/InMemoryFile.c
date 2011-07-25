@@ -4,6 +4,8 @@
 #include "File.h"
 #include "InMemoryFile.h"
 
+#include "memory.c"
+
 typedef struct InMemoryFileStruct * InMemoryFile;
 typedef struct InMemoryFileStruct
 {
@@ -14,8 +16,11 @@ typedef struct InMemoryFileStruct
 
 File InMemoryFile_Create(int numberBytes) 
 {
-    InMemoryFile self = malloc(sizeof(InMemoryFileStruct));
-    self->data = safe_calloc(numberBytes, sizeof(int8_t));
+    InMemoryFile self = NEW(InMemoryFileStruct);
+    if (self == NULL) {
+        return NULL;
+    }
+    self->data = allocateByteArray(numberBytes);
     if (self->data == NULL) {
         InMemoryFile_Destroy((File)self);
         return NULL;
@@ -35,8 +40,16 @@ void InMemoryFile_Destroy(File super)
     self = NULL;
 }
 
+void * allocateByteArray(int numberBytes) 
+{
+    int8_t * ptr_mem = calloc_safe(numberBytes, sizeof(int8_t));
+    if (ptr_mem == NULL) {
+        return NULL;
+    }
+    return ptr_mem;
+}
 
-void *safe_calloc(int numberElements, size_t elementSize)
+void *calloc_safe(int numberElements, size_t elementSize)
 {
     void *mem;
 

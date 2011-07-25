@@ -10,7 +10,7 @@ TEST_GROUP(InMemoryFile)
 };
 
 #define SAFE_FILE_SIZE 512
-#define BAD_FILE_SIZE 0
+#define BAD_FILE_SIZE -5
 TEST(InMemoryFile, CreateSafeSize)
 {
     File memfile = InMemoryFile_Create(SAFE_FILE_SIZE);
@@ -24,18 +24,8 @@ TEST(InMemoryFile, CreateBadFileReturnsNull)
     POINTERS_EQUAL(NULL, memfile);
 }
 
-TEST(InMemoryFile, CreateBadFileReturnsNulli)
+TEST(InMemoryFile, CreateEnormousFileReturnsNull)
 {
     File memfile = InMemoryFile_Create(UINT_MAX);
     POINTERS_EQUAL(NULL, memfile);
-}
-
-size_t sizet_test(size_t a)
-{
-    return a;
-}
-
-TEST(InMemoryFile, sizet_test)
-{
-    LONGS_EQUAL(-5, sizet_test(-5));
 }

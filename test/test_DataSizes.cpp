@@ -30,7 +30,7 @@ TEST(DataSize, double_is_8bytes)
     BYTE_SIZE_EQUAL(8, double)
 }
 
-TEST(DataSize, bool_is_Xbytes)
+TEST(DataSize, bool_is_1byte)
 {
     BYTE_SIZE_EQUAL(1, bool);
 }

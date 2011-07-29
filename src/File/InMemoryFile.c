@@ -9,8 +9,8 @@
 typedef struct InMemoryFileStruct * InMemoryFile;
 typedef struct InMemoryFileStruct
 {
-    size_t data_length;
-    fileAddress position;
+    filePosition data_length;
+    filePosition position;
     int8_t * data;
 } InMemoryFileStruct;
 
@@ -58,4 +58,26 @@ void *calloc_safe(int numberElements, size_t elementSize)
     }
     mem = calloc((size_t)numberElements, elementSize);
     return mem;
+}
+
+filePosition File_getCurrentPosition(File file) 
+{
+    return ((InMemoryFile)file)->position;
+}
+
+int File_seek(File file, filePosition offset, filePosition origin)
+{
+/*    InMemoryFile self = (InMemoryFile) file; */
+    if (isWithinFile(file, offset + origin)) {
+    }
+    return TRUE;
+}
+
+int isWithinFile(File file, filePosition position) 
+{
+    InMemoryFile self = (InMemoryFile) file;
+    if (self->data_length > position) {
+        return TRUE;    
+    }
+    return FALSE;
 }

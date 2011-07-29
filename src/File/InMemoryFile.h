@@ -5,9 +5,12 @@
 
 #include "File.h"
 
-void *safe_calloc(int numberElements, size_t elementSize);
+void *calloc_safe(int numberElements, size_t elementSize);
+void * allocateByteArray(int numberBytes);
 
 File InMemoryFile_Create(int numberBytes);
 void InMemoryFile_Destroy(File);
+
+int isWithinFile(File, filePosition);
 
 #endif

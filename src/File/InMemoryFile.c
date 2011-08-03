@@ -40,6 +40,15 @@ void InMemoryFile_Destroy(File super)
     self = NULL;
 }
 
+int8_t InMemoryFile_getByteAt(File file, filePosition index)
+{
+    InMemoryFile self = (InMemoryFile) file;
+    if (isWithinFile((File)self, index)) {
+        return self->data[index];
+    }
+    return FALSE;
+}
+
 void * allocateByteArray(int numberBytes) 
 {
     int8_t * ptr_mem = calloc_safe(numberBytes, sizeof(int8_t));
@@ -67,16 +76,52 @@ filePosition File_getCurrentPosition(File file)
 
 int File_seek(File file, filePosition offset, filePosition origin)
 {
-/*    InMemoryFile self = (InMemoryFile) file; */
-    if (isWithinFile(file, offset + origin)) {
+    InMemoryFile self = (InMemoryFile) file;
+    filePosition new_position = offset + origin;
+    if (isWithinFile((File)self, new_position)) {
+        self->position = new_position;
     }
     return TRUE;
+}
+
+int File_seekFromStart(File file, filePosition offset)
+{
+    return File_seek(file, offset, 0);
+}
+
+int File_seekFromCurrent(File file, filePosition offset)
+{
+    InMemoryFile self = (InMemoryFile) file;
+    return File_seek((File)self, offset, self->position);    
+}
+
+int File_seekFromEnd(File file, filePosition offset)
+{
+    InMemoryFile self = (InMemoryFile) file;
+    filePosition lastByte = self->data_length - 1;
+    return File_seekFromStart((File)self, lastByte - offset);
+}
+
+int File_seekToStart(File file)
+{
+    return File_seekFromStart(file, 0);
+}
+
+int File_seekToEnd(File file)
+{
+    return File_seekFromEnd(file, 0);
+}
+
+int File_writeBlock(File file, const void *ptr, size_t size) 
+{
+    
+    return FALSE;
 }
 
 int isWithinFile(File file, filePosition position) 
 {
     InMemoryFile self = (InMemoryFile) file;
-    if (self->data_length > position) {
+    if (0 <= position && self->data_length > position) {
         return TRUE;    
     }
     return FALSE;

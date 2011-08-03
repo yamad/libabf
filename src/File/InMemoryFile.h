@@ -9,7 +9,9 @@ void *calloc_safe(int numberElements, size_t elementSize);
 void * allocateByteArray(int numberBytes);
 
 File InMemoryFile_Create(int numberBytes);
-void InMemoryFile_Destroy(File);
+void InMemoryFile_Destroy(File file);
+
+int8_t InMemoryFile_getByteAt(File file, filePosition index);
 
 int isWithinFile(File, filePosition);
 

@@ -4,6 +4,7 @@ extern "C" {
 #include "InMemoryFile.h"
 #include <limits.h>
 #include <stdio.h>
+#include <string.h>    
 }
     
 TEST_GROUP(InMemoryFile_Creation)
@@ -143,8 +144,28 @@ TEST(InMemoryFile, SeekToEnd)
 
 TEST(InMemoryFile, WriteSingleBlock)
 {
-    int8_t byteToWrite = 0x10;
+    int8_t byteToWrite = 0xFF;
     File_writeBlock(file, &byteToWrite, sizeof(byteToWrite));
     filePositionIs(1);
     BYTES_EQUAL(byteToWrite, InMemoryFile_getByteAt(file, 0));
+}
+
+TEST(InMemoryFile, WriteTooBigBlockFails)
+{
+    int8_t blockToWrite[FILE_SIZE + 1];
+    memset(blockToWrite, 1, sizeof(blockToWrite));
+    int isDone = File_writeBlock(file, blockToWrite, sizeof(blockToWrite));
+
+    LONGS_EQUAL(FALSE, isDone);
+    filePositionIs(0);
+    BYTES_EQUAL(0, InMemoryFile_getByteAt(file, 0));
+}
+
+TEST(InMemoryFile, WriteMultipleBlocks)
+{
+    int8_t bytesToWrite[2] = {0xCA, 0xFE};
+    File_writeMultipleBlocks(file, bytesToWrite, sizeof(int8_t), 2);
+    filePositionIs(2);
+    BYTES_EQUAL(bytesToWrite[0], InMemoryFile_getByteAt(file, 0));
+    BYTES_EQUAL(0xFE, InMemoryFile_getByteAt(file, 1));
 }

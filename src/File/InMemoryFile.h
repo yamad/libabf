@@ -13,6 +13,7 @@ void InMemoryFile_Destroy(File file);
 
 int8_t InMemoryFile_getByteAt(File file, filePosition index);
 
-int isWithinFile(File, filePosition);
+Boolean isWithinFile(File, filePosition);
+Boolean isEnoughSpace(File, size_t);
 
 #endif

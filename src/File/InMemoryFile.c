@@ -1,5 +1,7 @@
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 #include "File.h"
 #include "InMemoryFile.h"
@@ -114,11 +116,32 @@ int File_seekToEnd(File file)
 
 int File_writeBlock(File file, const void *ptr, size_t size) 
 {
-    
+    InMemoryFile self = (InMemoryFile) file;
+    if (!isEnoughSpace((File)self, size)) {
+        return FALSE;
+    }
+    memcpy(self->data, ptr, size);
+    File_seekFromCurrent((File)self, size);
+    return TRUE;
+}
+
+int File_writeMultipleBlocks(File file, const void *ptr, size_t size, size_t count) 
+{
+    InMemoryFile self = (InMemoryFile) file;
+    size_t totalSize = size * count;
+    return File_writeBlock(file, ptr, totalSize);
+}
+
+Boolean isEnoughSpace(File file, size_t size)
+{
+    InMemoryFile self = (InMemoryFile) file;
+    if (isWithinFile((File)self, self->position + size)) {
+        return TRUE;
+    }
     return FALSE;
 }
 
-int isWithinFile(File file, filePosition position) 
+Boolean isWithinFile(File file, filePosition position) 
 {
     InMemoryFile self = (InMemoryFile) file;
     if (0 <= position && self->data_length > position) {

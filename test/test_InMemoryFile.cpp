@@ -169,3 +169,26 @@ TEST(InMemoryFile, WriteMultipleBlocks)
     BYTES_EQUAL(bytesToWrite[0], InMemoryFile_getByteAt(file, 0));
     BYTES_EQUAL(0xFE, InMemoryFile_getByteAt(file, 1));
 }
+
+TEST(InMemoryFile, ReadBlock)
+{
+    int8_t byteToWrite = 0xCA;
+    File_writeBlock(file, &byteToWrite, sizeof(int8_t));
+    File_seekToStart(file);
+
+    int8_t byteFromFile;
+    File_readBlock(file, &byteFromFile, sizeof(int8_t));
+    BYTES_EQUAL(0xCA, byteFromFile);
+}
+
+TEST(InMemoryFile, ReadMultipleBlocks)
+{
+    int8_t bytesToWrite[2] = {0xCA, 0xFE};
+    File_writeMultipleBlocks(file, bytesToWrite, sizeof(int8_t), 2);
+
+    File_seekToStart(file);
+    int8_t bytesFromFile[2];
+    File_readMultipleBlocks(file, bytesFromFile, sizeof(int8_t), 2);
+    BYTES_EQUAL(bytesToWrite[0], bytesFromFile[0]);
+    BYTES_EQUAL(bytesToWrite[1], bytesFromFile[1]);
+}

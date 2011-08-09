@@ -127,9 +127,22 @@ int File_writeBlock(File file, const void *ptr, size_t size)
 
 int File_writeMultipleBlocks(File file, const void *ptr, size_t size, size_t count) 
 {
-    InMemoryFile self = (InMemoryFile) file;
     size_t totalSize = size * count;
     return File_writeBlock(file, ptr, totalSize);
+}
+
+int File_readBlock(File file, void *ptr, size_t size) 
+{
+    InMemoryFile self = (InMemoryFile) file;
+    memcpy(ptr, self->data, size);
+    File_seekFromCurrent((File)self, size);
+    return TRUE;
+}
+
+int File_readMultipleBlocks(File file, void *ptr, size_t size, size_t count)
+{
+    size_t totalSize = size * count;
+    return File_readBlock(file, ptr, totalSize);
 }
 
 Boolean isEnoughSpace(File file, size_t size)

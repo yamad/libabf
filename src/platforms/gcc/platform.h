@@ -2,6 +2,7 @@
 #define PLATFORM_H
 
 #include <stdint.h>
+#include <unistd.h>
 
 /* Ensure that booleans in filedata are 8-bit */
 typedef int8_t t_BOOL;

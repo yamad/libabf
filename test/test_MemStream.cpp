@@ -142,53 +142,53 @@ TEST(MemStream, SeekToEnd)
     streamPositionIs(lastByte);
 }
 
-TEST(MemStream, WriteSingleBlock)
+TEST(MemStream, WriteSingleChunk)
 {
     int8_t byteToWrite = 0xFF;
-    Stream_writeBlock(stream, &byteToWrite, sizeof(byteToWrite));
+    Stream_writeChunk(stream, &byteToWrite, sizeof(byteToWrite));
     streamPositionIs(1);
     BYTES_EQUAL(byteToWrite, MemStream_getByteAt(stream, 0));
 }
 
-TEST(MemStream, WriteTooBigBlockFails)
+TEST(MemStream, WriteTooBigChunkFails)
 {
-    int8_t blockToWrite[STREAM_SIZE + 1];
-    memset(blockToWrite, 1, sizeof(blockToWrite));
-    int isDone = Stream_writeBlock(stream, blockToWrite, sizeof(blockToWrite));
+    int8_t chunkToWrite[STREAM_SIZE + 1];
+    memset(chunkToWrite, 1, sizeof(chunkToWrite));
+    int isDone = Stream_writeChunk(stream, chunkToWrite, sizeof(chunkToWrite));
 
     LONGS_EQUAL(FALSE, isDone);
     streamPositionIs(0);
     BYTES_EQUAL(0, MemStream_getByteAt(stream, 0));
 }
 
-TEST(MemStream, WriteMultipleBlocks)
+TEST(MemStream, WriteMultipleChunks)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
-    Stream_writeMultipleBlocks(stream, bytesToWrite, sizeof(int8_t), 2);
+    Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
     streamPositionIs(2);
     BYTES_EQUAL(bytesToWrite[0], MemStream_getByteAt(stream, 0));
     BYTES_EQUAL(0xFE, MemStream_getByteAt(stream, 1));
 }
 
-TEST(MemStream, ReadBlock)
+TEST(MemStream, ReadChunk)
 {
     int8_t byteToWrite = 0xCA;
-    Stream_writeBlock(stream, &byteToWrite, sizeof(int8_t));
+    Stream_writeChunk(stream, &byteToWrite, sizeof(int8_t));
     Stream_seekToStart(stream);
 
     int8_t byteFromStream;
-    Stream_readBlock(stream, &byteFromStream, sizeof(int8_t));
+    Stream_readChunk(stream, &byteFromStream, sizeof(int8_t));
     BYTES_EQUAL(0xCA, byteFromStream);
 }
 
-TEST(MemStream, ReadMultipleBlocks)
+TEST(MemStream, ReadMultipleChunks)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
-    Stream_writeMultipleBlocks(stream, bytesToWrite, sizeof(int8_t), 2);
+    Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
 
     Stream_seekToStart(stream);
     int8_t bytesFromStream[2];
-    Stream_readMultipleBlocks(stream, bytesFromStream, sizeof(int8_t), 2);
+    Stream_readMultipleChunks(stream, bytesFromStream, sizeof(int8_t), 2);
     BYTES_EQUAL(bytesToWrite[0], bytesFromStream[0]);
     BYTES_EQUAL(bytesToWrite[1], bytesFromStream[1]);
 }

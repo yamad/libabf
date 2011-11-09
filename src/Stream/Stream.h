@@ -12,10 +12,10 @@ Stream Stream_OpenForRead(const char *path);
 Stream Stream_OpenForWrite(const char *path);
 int Stream_Close(Stream stream);
 
-int Stream_readBlock(Stream stream, void *ptr, size_t size);
-int Stream_readMultipleBlocks(Stream stream, void *ptr, size_t size, size_t count);
-int Stream_writeBlock(Stream stream, const void *ptr, size_t size);
-int Stream_writeMultipleBlocks(Stream stream, const void *ptr, size_t size, size_t count);
+int Stream_readChunk(Stream stream, void *ptr, size_t size);
+int Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t count);
+int Stream_writeChunk(Stream stream, const void *ptr, size_t size);
+int Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t size, size_t count);
 
 int Stream_seek(Stream stream, streamPosition offset, streamPosition origin);
 int Stream_seekFromStart(Stream stream, streamPosition offset);

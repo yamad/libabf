@@ -111,7 +111,7 @@ int Stream_seekToEnd(Stream stream)
     return Stream_seekFromEnd(stream, 0);
 }
 
-int Stream_writeBlock(Stream stream, const void *ptr, size_t size)
+int Stream_writeChunk(Stream stream, const void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
     if (!isEnoughSpace((Stream)self, size)) {
@@ -122,13 +122,13 @@ int Stream_writeBlock(Stream stream, const void *ptr, size_t size)
     return TRUE;
 }
 
-int Stream_writeMultipleBlocks(Stream stream, const void *ptr, size_t size, size_t count)
+int Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t size, size_t count)
 {
     size_t totalSize = size * count;
-    return Stream_writeBlock(stream, ptr, totalSize);
+    return Stream_writeChunk(stream, ptr, totalSize);
 }
 
-int Stream_readBlock(Stream stream, void *ptr, size_t size)
+int Stream_readChunk(Stream stream, void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
     memcpy(ptr, self->data, size);
@@ -136,10 +136,10 @@ int Stream_readBlock(Stream stream, void *ptr, size_t size)
     return TRUE;
 }
 
-int Stream_readMultipleBlocks(Stream stream, void *ptr, size_t size, size_t count)
+int Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t count)
 {
     size_t totalSize = size * count;
-    return Stream_readBlock(stream, ptr, totalSize);
+    return Stream_readChunk(stream, ptr, totalSize);
 }
 
 Boolean isEnoughSpace(Stream stream, size_t size)

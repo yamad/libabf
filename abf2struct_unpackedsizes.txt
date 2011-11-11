@@ -1,0 +1,312 @@
+struct ABF_ADCInfo {
+  char               ABF_ADCInfo.nADCNum        0       2
+  char               ABF_ADCInfo.nTelegraphEnable      2       2
+  char               ABF_ADCInfo.nTelegraphInstrument      4       2
+  float              ABF_ADCInfo.fTelegraphAdditGain      8       4
+  float              ABF_ADCInfo.fTelegraphFilter     12       4
+  float              ABF_ADCInfo.fTelegraphMembraneCap     16       4
+  char               ABF_ADCInfo.nTelegraphMode     20       2
+  float              ABF_ADCInfo.fTelegraphAccessResistance     24       4
+  char               ABF_ADCInfo.nADCPtoLChannelMap     28       2
+  char               ABF_ADCInfo.nADCSamplingSeq     30       2
+  float              ABF_ADCInfo.fADCProgrammableGain     32       4
+  float              ABF_ADCInfo.fADCDisplayAmplification     36       4
+  float              ABF_ADCInfo.fADCDisplayOffset     40       4
+  float              ABF_ADCInfo.fInstrumentScaleFactor     44       4
+  float              ABF_ADCInfo.fInstrumentOffset     48       4
+  float              ABF_ADCInfo.fSignalGain     52       4
+  float              ABF_ADCInfo.fSignalOffset     56       4
+  float              ABF_ADCInfo.fSignalLowpassFilter     60       4
+  float              ABF_ADCInfo.fSignalHighpassFilter     64       4
+  int                ABF_ADCInfo.nLowpassFilterType     68       1
+  int                ABF_ADCInfo.nHighpassFilterType     69       1
+  float              ABF_ADCInfo.fPostProcessLowpassFilter     72       4
+  int                ABF_ADCInfo.nPostProcessLowpassFilterType     76       1
+                     ABF_ADCInfo.bEnabledDuringPN     77       1
+  char               ABF_ADCInfo.nStatsChannelPolarity     78       2
+  long int           ABF_ADCInfo.lADCChannelNameIndex     80       4
+  long int           ABF_ADCInfo.lADCUnitsIndex     84       4
+  int                ABF_ADCInfo.sUnused[46]     88      46
+}
+
+struct ABF_DACInfo {
+  char               ABF_DACInfo.nDACNum        0       2
+  char               ABF_DACInfo.nTelegraphDACScaleFactorEnable      2       2
+  float              ABF_DACInfo.fInstrumentHoldingLevel      4       4
+  float              ABF_DACInfo.fDACScaleFactor      8       4
+  float              ABF_DACInfo.fDACHoldingLevel     12       4
+  float              ABF_DACInfo.fDACCalibrationFactor     16       4
+  float              ABF_DACInfo.fDACCalibrationOffset     20       4
+  long int           ABF_DACInfo.lDACChannelNameIndex     24       4
+  long int           ABF_DACInfo.lDACChannelUnitsIndex     28       4
+  long int           ABF_DACInfo.lDACFilePtr     32       4
+  long int           ABF_DACInfo.lDACFileNumEpisodes     36       4
+  char               ABF_DACInfo.nWaveformEnable     40       2
+  char               ABF_DACInfo.nWaveformSource     42       2
+  char               ABF_DACInfo.nInterEpisodeLevel     44       2
+  float              ABF_DACInfo.fDACFileScale     48       4
+  float              ABF_DACInfo.fDACFileOffset     52       4
+  long int           ABF_DACInfo.lDACFileEpisodeNum     56       4
+  char               ABF_DACInfo.nDACFileADCNum     60       2
+  char               ABF_DACInfo.nConditEnable     62       2
+  long int           ABF_DACInfo.lConditNumPulses     64       4
+  float              ABF_DACInfo.fBaselineDuration     68       4
+  float              ABF_DACInfo.fBaselineLevel     72       4
+  float              ABF_DACInfo.fStepDuration     76       4
+  float              ABF_DACInfo.fStepLevel     80       4
+  float              ABF_DACInfo.fPostTrainPeriod     84       4
+  float              ABF_DACInfo.fPostTrainLevel     88       4
+  char               ABF_DACInfo.nMembTestEnable     92       2
+  char               ABF_DACInfo.nLeakSubtractType     94       2
+  char               ABF_DACInfo.nPNPolarity     96       2
+  float              ABF_DACInfo.fPNHoldingLevel    100       4
+  char               ABF_DACInfo.nPNNumADCChannels    104       2
+  char               ABF_DACInfo.nPNPosition    106       2
+  char               ABF_DACInfo.nPNNumPulses    108       2
+  float              ABF_DACInfo.fPNSettlingTime    112       4
+  float              ABF_DACInfo.fPNInterpulse    116       4
+  char               ABF_DACInfo.nLTPUsageOfDAC    120       2
+  char               ABF_DACInfo.nLTPPresynapticPulses    122       2
+  long int           ABF_DACInfo.lDACFilePathIndex    124       4
+  float              ABF_DACInfo.fMembTestPreSettlingTimeMS    128       4
+  float              ABF_DACInfo.fMembTestPostSettlingTimeMS    132       4
+  char               ABF_DACInfo.nLeakSubtractADCIndex    136       2
+  int                ABF_DACInfo.sUnused[124]    138     124
+}
+
+struct ABF_EpochInfo {
+  char               ABF_EpochInfo.nEpochNum      0       2
+  char               ABF_EpochInfo.nDigitalValue      2       2
+  char               ABF_EpochInfo.nDigitalTrainValue      4       2
+  char               ABF_EpochInfo.nAlternateDigitalValue      6       2
+  char               ABF_EpochInfo.nAlternateDigitalTrainValue      8       2
+                     ABF_EpochInfo.bEpochCompression     10       1
+  int                ABF_EpochInfo.sUnused[21]     11      21
+}
+
+struct ABF_EpochInfoPerDAC {
+  char               ABF_EpochInfoPerDAC.nEpochNum      0       2
+  char               ABF_EpochInfoPerDAC.nDACNum      2       2
+  char               ABF_EpochInfoPerDAC.nEpochType      4       2
+  float              ABF_EpochInfoPerDAC.fEpochInitLevel      8       4
+  float              ABF_EpochInfoPerDAC.fEpochLevelInc     12       4
+  long int           ABF_EpochInfoPerDAC.lEpochInitDuration     16       4
+  long int           ABF_EpochInfoPerDAC.lEpochDurationInc     20       4
+  long int           ABF_EpochInfoPerDAC.lEpochPulsePeriod     24       4
+  long int           ABF_EpochInfoPerDAC.lEpochPulseWidth     28       4
+  int                ABF_EpochInfoPerDAC.sUnused[18]     32      18
+}
+
+struct ABF_FileInfo {
+  long long unsigned int ABF_FileInfo.uFileSignature      0       4
+  long long unsigned int ABF_FileInfo.uFileVersionNumber      4       4
+  long long unsigned int ABF_FileInfo.uFileInfoSize      8       4
+  long long unsigned int ABF_FileInfo.uActualEpisodes     12       4
+  long long unsigned int ABF_FileInfo.uFileStartDate     16       4
+  long long unsigned int ABF_FileInfo.uFileStartTimeMS     20       4
+  long long unsigned int ABF_FileInfo.uStopwatchTime     24       4
+  char               ABF_FileInfo.nFileType     28       2
+  char               ABF_FileInfo.nDataFormat     30       2
+  char               ABF_FileInfo.nSimultaneousScan     32       2
+  char               ABF_FileInfo.nCRCEnable     34       2
+  long long unsigned int ABF_FileInfo.uFileCRC     36       4
+                     ABF_FileInfo.FileGUID     40      16
+  long long unsigned int ABF_FileInfo.uCreatorVersion     56       4
+  long long unsigned int ABF_FileInfo.uCreatorNameIndex     60       4
+  long long unsigned int ABF_FileInfo.uModifierVersion     64       4
+  long long unsigned int ABF_FileInfo.uModifierNameIndex     68       4
+  long long unsigned int ABF_FileInfo.uProtocolPathIndex     72       4
+                     ABF_FileInfo.ProtocolSection     80      16
+                     ABF_FileInfo.ADCSection     96      16
+                     ABF_FileInfo.DACSection    112      16
+                     ABF_FileInfo.EpochSection    128      16
+                     ABF_FileInfo.ADCPerDACSection    144      16
+                     ABF_FileInfo.EpochPerDACSection    160      16
+                     ABF_FileInfo.UserListSection    176      16
+                     ABF_FileInfo.StatsRegionSection    192      16
+                     ABF_FileInfo.MathSection    208      16
+                     ABF_FileInfo.StringsSection    224      16
+                     ABF_FileInfo.DataSection    240      16
+                     ABF_FileInfo.TagSection    256      16
+                     ABF_FileInfo.ScopeSection    272      16
+                     ABF_FileInfo.DeltaSection    288      16
+                     ABF_FileInfo.VoiceTagSection    304      16
+                     ABF_FileInfo.SynchArraySection    320      16
+                     ABF_FileInfo.AnnotationSection    336      16
+                     ABF_FileInfo.StatsSection    352      16
+  int                ABF_FileInfo.sUnused[148]    368     148
+}
+
+struct ABF_FileInfo22 {
+                     ABF_FileInfo22.FileGUID      0      16
+  long long unsigned int ABF_FileInfo22.uFileSignature     16       4
+  long long unsigned int ABF_FileInfo22.uFileVersionNumber     20       4
+  long long unsigned int ABF_FileInfo22.uFileInfoSize     24       4
+  long long unsigned int ABF_FileInfo22.uActualEpisodes     28       4
+  long long unsigned int ABF_FileInfo22.uFileStartDate     32       4
+  long long unsigned int ABF_FileInfo22.uFileStartTimeMS     36       4
+  long long unsigned int ABF_FileInfo22.uStopwatchTime     40       4
+  long long unsigned int ABF_FileInfo22.uFileCRC     44       4
+  long long unsigned int ABF_FileInfo22.uCreatorVersion     48       4
+  long long unsigned int ABF_FileInfo22.uCreatorNameIndex     52       4
+  long long unsigned int ABF_FileInfo22.uModifierVersion     56       4
+  long long unsigned int ABF_FileInfo22.uModifierNameIndex     60       4
+  long long unsigned int ABF_FileInfo22.uProtocolPathIndex     64       4
+  char               ABF_FileInfo22.nFileType     68       2
+  char               ABF_FileInfo22.nDataFormat     70       2
+  char               ABF_FileInfo22.nSimultaneousScan     72       2
+  char               ABF_FileInfo22.nCRCEnable     74       2
+                     ABF_FileInfo22.ProtocolSection     80      16
+                     ABF_FileInfo22.ADCSection     96      16
+                     ABF_FileInfo22.DACSection    112      16
+                     ABF_FileInfo22.EpochSection    128      16
+                     ABF_FileInfo22.ADCPerDACSection    144      16
+                     ABF_FileInfo22.EpochPerDACSection    160      16
+                     ABF_FileInfo22.UserListSection    176      16
+                     ABF_FileInfo22.StatsRegionSection    192      16
+                     ABF_FileInfo22.MathSection    208      16
+                     ABF_FileInfo22.StringsSection    224      16
+                     ABF_FileInfo22.DataSection    240      16
+                     ABF_FileInfo22.TagSection    256      16
+                     ABF_FileInfo22.ScopeSection    272      16
+                     ABF_FileInfo22.DeltaSection    288      16
+                     ABF_FileInfo22.VoiceTagSection    304      16
+                     ABF_FileInfo22.SynchArraySection    320      16
+                     ABF_FileInfo22.AnnotationSection    336      16
+                     ABF_FileInfo22.StatsSection    352      16
+  int                ABF_FileInfo22.sUnused[148]    368     148
+}
+
+struct ABF_MathInfo {
+  char               ABF_MathInfo.nMathEnable      0       2
+  char               ABF_MathInfo.nMathExpression      2       2
+  long long unsigned int ABF_MathInfo.uMathOperatorIndex      4       4
+  long long unsigned int ABF_MathInfo.uMathUnitsIndex      8       4
+  float              ABF_MathInfo.fMathUpperLimit     12       4
+  float              ABF_MathInfo.fMathLowerLimit     16       4
+  char               ABF_MathInfo.nMathADCNum[2]     20       4
+  int                ABF_MathInfo.sUnused[16]     24      16
+  float              ABF_MathInfo.fMathK[6]     40      24
+  int                ABF_MathInfo.sUnused2[64]     64      64
+}
+
+struct ABF_ProtocolInfo {
+  char               ABF_ProtocolInfo.nOperationMode      0       2
+  float              ABF_ProtocolInfo.fADCSequenceInterval      4       4
+                     ABF_ProtocolInfo.bEnableFileCompression      8       1
+  int                ABF_ProtocolInfo.sUnused1[3]      9       3
+  long long unsigned int ABF_ProtocolInfo.uFileCompressionRatio     12       4
+  float              ABF_ProtocolInfo.fSynchTimeUnit     16       4
+  float              ABF_ProtocolInfo.fSecondsPerRun     20       4
+  long int           ABF_ProtocolInfo.lNumSamplesPerEpisode     24       4
+  long int           ABF_ProtocolInfo.lPreTriggerSamples     28       4
+  long int           ABF_ProtocolInfo.lEpisodesPerRun     32       4
+  long int           ABF_ProtocolInfo.lRunsPerTrial     36       4
+  long int           ABF_ProtocolInfo.lNumberOfTrials     40       4
+  char               ABF_ProtocolInfo.nAveragingMode     44       2
+  char               ABF_ProtocolInfo.nUndoRunCount     46       2
+  char               ABF_ProtocolInfo.nFirstEpisodeInRun     48       2
+  float              ABF_ProtocolInfo.fTriggerThreshold     52       4
+  char               ABF_ProtocolInfo.nTriggerSource     56       2
+  char               ABF_ProtocolInfo.nTriggerAction     58       2
+  char               ABF_ProtocolInfo.nTriggerPolarity     60       2
+  float              ABF_ProtocolInfo.fScopeOutputInterval     64       4
+  float              ABF_ProtocolInfo.fEpisodeStartToStart     68       4
+  float              ABF_ProtocolInfo.fRunStartToStart     72       4
+  long int           ABF_ProtocolInfo.lAverageCount     76       4
+  float              ABF_ProtocolInfo.fTrialStartToStart     80       4
+  char               ABF_ProtocolInfo.nAutoTriggerStrategy     84       2
+  float              ABF_ProtocolInfo.fFirstRunDelayS     88       4
+  char               ABF_ProtocolInfo.nChannelStatsStrategy     92       2
+  long int           ABF_ProtocolInfo.lSamplesPerTrace     96       4
+  long int           ABF_ProtocolInfo.lStartDisplayNum    100       4
+  long int           ABF_ProtocolInfo.lFinishDisplayNum    104       4
+  char               ABF_ProtocolInfo.nShowPNRawData    108       2
+  float              ABF_ProtocolInfo.fStatisticsPeriod    112       4
+  long int           ABF_ProtocolInfo.lStatisticsMeasurements    116       4
+  char               ABF_ProtocolInfo.nStatisticsSaveStrategy    120       2
+  float              ABF_ProtocolInfo.fADCRange    124       4
+  float              ABF_ProtocolInfo.fDACRange    128       4
+  long int           ABF_ProtocolInfo.lADCResolution    132       4
+  long int           ABF_ProtocolInfo.lDACResolution    136       4
+  char               ABF_ProtocolInfo.nExperimentType    140       2
+  char               ABF_ProtocolInfo.nManualInfoStrategy    142       2
+  char               ABF_ProtocolInfo.nCommentsEnable    144       2
+  long int           ABF_ProtocolInfo.lFileCommentIndex    148       4
+  char               ABF_ProtocolInfo.nAutoAnalyseEnable    152       2
+  char               ABF_ProtocolInfo.nSignalType    154       2
+  char               ABF_ProtocolInfo.nDigitalEnable    156       2
+  char               ABF_ProtocolInfo.nActiveDACChannel    158       2
+  char               ABF_ProtocolInfo.nDigitalHolding    160       2
+  char               ABF_ProtocolInfo.nDigitalInterEpisode    162       2
+  char               ABF_ProtocolInfo.nDigitalDACChannel    164       2
+  char               ABF_ProtocolInfo.nDigitalTrainActiveLogic    166       2
+  char               ABF_ProtocolInfo.nStatsEnable    168       2
+  char               ABF_ProtocolInfo.nStatisticsClearStrategy    170       2
+  char               ABF_ProtocolInfo.nLevelHysteresis    172       2
+  long int           ABF_ProtocolInfo.lTimeHysteresis    176       4
+  char               ABF_ProtocolInfo.nAllowExternalTags    180       2
+  char               ABF_ProtocolInfo.nAverageAlgorithm    182       2
+  float              ABF_ProtocolInfo.fAverageWeighting    184       4
+  char               ABF_ProtocolInfo.nUndoPromptStrategy    188       2
+  char               ABF_ProtocolInfo.nTrialTriggerSource    190       2
+  char               ABF_ProtocolInfo.nStatisticsDisplayStrategy    192       2
+  char               ABF_ProtocolInfo.nExternalTagType    194       2
+  char               ABF_ProtocolInfo.nScopeTriggerOut    196       2
+  char               ABF_ProtocolInfo.nLTPType    198       2
+  char               ABF_ProtocolInfo.nAlternateDACOutputState    200       2
+  char               ABF_ProtocolInfo.nAlternateDigitalOutputState    202       2
+  float              ABF_ProtocolInfo.fCellID[3]    204      12
+  char               ABF_ProtocolInfo.nDigitizerADCs    216       2
+  char               ABF_ProtocolInfo.nDigitizerDACs    218       2
+  char               ABF_ProtocolInfo.nDigitizerTotalDigitalOuts    220       2
+  char               ABF_ProtocolInfo.nDigitizerSynchDigitalOuts    222       2
+  char               ABF_ProtocolInfo.nDigitizerType    224       2
+  int                ABF_ProtocolInfo.sUnused[304]    226     304
+}
+
+struct ABF_Section {
+  long long unsigned int ABF_Section.uBlockIndex      0       4
+  long long unsigned int ABF_Section.uBytes        4       4
+  unsigned int       ABF_Section.llNumEntries      8       8
+}
+
+struct ABF_StatsRegionInfo {
+  char               ABF_StatsRegionInfo.nRegionNum      0       2
+  char               ABF_StatsRegionInfo.nADCNum      2       2
+  char               ABF_StatsRegionInfo.nStatsActiveChannels      4       2
+  char               ABF_StatsRegionInfo.nStatsSearchRegionFlags      6       2
+  char               ABF_StatsRegionInfo.nStatsSelectedRegion      8       2
+  char               ABF_StatsRegionInfo.nStatsSmoothing     10       2
+  char               ABF_StatsRegionInfo.nStatsSmoothingEnable     12       2
+  char               ABF_StatsRegionInfo.nStatsBaseline     14       2
+  long int           ABF_StatsRegionInfo.lStatsBaselineStart     16       4
+  long int           ABF_StatsRegionInfo.lStatsBaselineEnd     20       4
+  long int           ABF_StatsRegionInfo.lStatsMeasurements     24       4
+  long int           ABF_StatsRegionInfo.lStatsStart     28       4
+  long int           ABF_StatsRegionInfo.lStatsEnd     32       4
+  char               ABF_StatsRegionInfo.nRiseBottomPercentile     36       2
+  char               ABF_StatsRegionInfo.nRiseTopPercentile     38       2
+  char               ABF_StatsRegionInfo.nDecayBottomPercentile     40       2
+  char               ABF_StatsRegionInfo.nDecayTopPercentile     42       2
+  char               ABF_StatsRegionInfo.nStatsSearchMode     44       2
+  char               ABF_StatsRegionInfo.nStatsSearchDAC     46       2
+  char               ABF_StatsRegionInfo.nStatsBaselineDAC     48       2
+  int                ABF_StatsRegionInfo.sUnused[78]     50      78
+}
+
+struct ABF_UserListInfo {
+  char               ABF_UserListInfo.nListNum      0       2
+  char               ABF_UserListInfo.nULEnable      2       2
+  char               ABF_UserListInfo.nULParamToVary      4       2
+  char               ABF_UserListInfo.nULRepeat      6       2
+  long int           ABF_UserListInfo.lULParamValueListIndex      8       4
+  int                ABF_UserListInfo.sUnused[52]     12      52
+}
+
+struct _GUID {
+  long long unsigned int _GUID.Data1               0       4
+  long long int      _GUID.Data2                4       2
+  long long int      _GUID.Data3                6       2
+}
+

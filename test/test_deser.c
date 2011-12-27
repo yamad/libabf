@@ -4,13 +4,6 @@
 void setUp(void) {}
 void tearDown(void) {}
 
-void test_floatrep(void)
-{
-    char buf[4] = { 0x3E, 0x20, 0x00, 0x00 };
-    float f1 = (float)0x3E200000;
-    TEST_ASSERT_EQUAL_FLOAT(0x3E210000, f1);
-}
-
 void test_read_char_gets_char_at_offset(void)
 {
     char buf[2] = { 0xCA, 0xFE };
@@ -128,6 +121,14 @@ void test_read_int64_gets_swapped_int64(void)
     bool swap = 1;
     int64_t result = read_int64(buf, 0, swap);
     TEST_ASSERT_EQUAL_HEX64(0xAFCAADBAEFBEFECA, result);
+}
+
+void test_read_float32_get_float(void)
+{
+    char buf[4] = { 0x3E, 0x20, 0x00, 0x00 };
+    bool swap = 0;
+    float f1 = read_float32(buf, 0, swap);
+    TEST_ASSERT_EQUAL_FLOAT(0.15625, f1);
 }
 
 void test_read_charp_advances_char_pointer(void) 

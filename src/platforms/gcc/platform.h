@@ -4,6 +4,29 @@
 #include <stdint.h>
 #include <unistd.h>
 
+/* Define macros to identify the version of C being used */
+#if defined(__STDC__)
+# define C89
+# if defined(__STDC_VERSION__)
+#  define C90
+#  if (__STDC_VERSION__ >= 199409L)
+#   define C94
+#  endif
+#  if (__STDC_VERSION__ >= 199901L)
+#   define C99
+#  endif
+# endif
+#endif
+
+/* If not using C99, create boolean macros as in stdbool ourselves */
+#if C99
+#include <stdbool.h>
+#else
+#define bool int8_t
+#define true 1
+#define false 0
+#define __bool_true_false_are_defined 1
+#endif
 /* Ensure that booleans in filedata are 8-bit */
 typedef int8_t t_BOOL;
 

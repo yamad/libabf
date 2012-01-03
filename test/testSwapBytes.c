@@ -78,5 +78,3 @@ void test_swap64_should_swap_8bytes(void)
     TEST_ASSERT_EQUAL_UINT(unswapped.as_char[6], swapped.as_char[1]);    
     TEST_ASSERT_EQUAL_UINT(unswapped.as_char[7], swapped.as_char[0]);    
 }
-
-

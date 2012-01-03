@@ -1,8 +1,6 @@
 #ifndef ABF2_STRUCT_H
 #define ABF2_STRUCT_H
 
-//#define PACK_STRUCT
-
 #ifdef PACK_STRUCT
 #pragma pack(push, 1)
 #endif

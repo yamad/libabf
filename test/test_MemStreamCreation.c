@@ -16,19 +16,24 @@ void tearDown(void)
 
 void test_MemStream_Creation_CreateSafeSize(void)
 {
-    Stream memstream = MemStream_Create(SAFE_STREAM_SIZE);
-    TEST_ASSERT_NOT_NULL(memstream);
-    MemStream_Destroy(memstream);
+    Stream memstream;
+    StreamError err;
+    err = MemStream_Create(SAFE_STREAM_SIZE, &memstream);
+    TEST_ASSERT_EQUAL_INT(err, StreamError_Success);
 }
 
-void test_MemStream_Creation_CreateBadStreamReturnsNull(void)
+void test_MemStream_Creation_CreateBadStreamReturnsMemoryError(void)
 {
-    Stream memstream = MemStream_Create(BAD_STREAM_SIZE);
+    Stream memstream;
+    StreamError err = MemStream_Create(BAD_STREAM_SIZE, &memstream);
+    TEST_ASSERT_EQUAL_INT(err, StreamError_NoMemory);
     TEST_ASSERT_NULL(memstream);
 }
 
-void test_MemStream_Creation_CreateEnormousStreamReturnsNull(void)
+void test_MemStream_Creation_CreateEnormousStreamReturnsMemoryError(void)
 {
-    Stream memstream = MemStream_Create(UINT_MAX);
+    Stream memstream;
+    StreamError err = MemStream_Create(UINT_MAX, &memstream);
+    TEST_ASSERT_EQUAL_INT(err, StreamError_NoMemory);
     TEST_ASSERT_NULL(memstream);
 }

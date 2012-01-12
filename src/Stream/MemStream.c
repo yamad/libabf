@@ -15,28 +15,31 @@ typedef struct MemStreamStruct
     int8_t * data;
 } MemStreamStruct;
 
-Stream MemStream_Create(int numberBytes)
+StreamError MemStream_Create(int numberBytes, Stream *stream)
 {
+    *stream = NULL;
     MemStream self = NEW(MemStreamStruct);
     if (self == NULL) {
-        return NULL;
+        return StreamError_Failure;
     }
     self->data = allocateByteArray(numberBytes);
     if (self->data == NULL) {
         MemStream_Destroy((Stream)self);
-        return NULL;
+        return StreamError_NoMemory;
     }
 
     self->data_length = (size_t)numberBytes;
     self->position = 0;
-    return (Stream)self;
+    *stream = (Stream)self;
+    return StreamError_Success;
 }
 
-void MemStream_Destroy(Stream super)
+StreamError MemStream_Destroy(Stream super)
 {
     MemStream self = (MemStream)super;
     FREE(self->data);
     FREE(self);
+    return StreamError_Success;
 }
 
 int8_t MemStream_getByteAt(Stream stream, streamPosition index)
@@ -68,19 +71,20 @@ void *calloc_safe(int numberElements, size_t elementSize)
     return mem;
 }
 
-streamPosition Stream_getCurrentPosition(Stream stream)
+StreamError Stream_getCurrentPosition(Stream stream, streamPosition *curr_pos)
 {
-    return ((MemStream)stream)->position;
+    *curr_pos = ((MemStream)stream)->position;
+    return StreamError_Success;
 }
 
-int Stream_seek(Stream stream, streamPosition offset, streamPosition origin)
+StreamError Stream_seek(Stream stream, streamPosition offset, streamPosition origin)
 {
     MemStream self = (MemStream) stream;
     streamPosition new_position = offset + origin;
     if (isWithinStream((Stream)self, new_position)) {
         self->position = new_position;
     }
-    return TRUE;
+    return StreamError_Success;
 }
 
 int Stream_seekFromStart(Stream stream, streamPosition offset)

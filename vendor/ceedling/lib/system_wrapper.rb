@@ -4,7 +4,8 @@ class SystemWrapper
 
   # static method for use in defaults
   def self.windows?
-    return ((RbConfig::CONFIG['host_os'] =~ /mswin|mingw/) ? true : false)
+    return ((RbConfig::CONFIG['host_os'] =~ /mswin|mingw/) ? true : false) if defined?(RbConfig)
+    return ((Config::CONFIG['host_os'] =~ /mswin|mingw/) ? true : false)
   end
 
   # class method so as to be mockable for tests

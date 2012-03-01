@@ -17,8 +17,7 @@ void tearDown(void)
 void test_MemStream_Creation_CreateSafeSize(void)
 {
     Stream memstream;
-    StreamError err;
-    err = MemStream_Create(SAFE_STREAM_SIZE, &memstream);
+    StreamError err = MemStream_Create(SAFE_STREAM_SIZE, &memstream);
     TEST_ASSERT_EQUAL_INT(err, StreamError_Success);
 }
 

@@ -87,35 +87,35 @@ StreamError Stream_seek(Stream stream, streamPosition offset, streamPosition ori
     return StreamError_Success;
 }
 
-int Stream_seekFromStart(Stream stream, streamPosition offset)
+StreamError Stream_seekFromStart(Stream stream, streamPosition offset)
 {
     return Stream_seek(stream, offset, 0);
 }
 
-int Stream_seekFromCurrent(Stream stream, streamPosition offset)
+StreamError Stream_seekFromCurrent(Stream stream, streamPosition offset)
 {
     MemStream self = (MemStream) stream;
     return Stream_seek((Stream)self, offset, self->position);
 }
 
-int Stream_seekFromEnd(Stream stream, streamPosition offset)
+StreamError Stream_seekFromEnd(Stream stream, streamPosition offset)
 {
     MemStream self = (MemStream) stream;
     streamPosition lastByte = self->data_length - 1;
     return Stream_seekFromStart((Stream)self, lastByte - offset);
 }
 
-int Stream_seekToStart(Stream stream)
+StreamError Stream_seekToStart(Stream stream)
 {
     return Stream_seekFromStart(stream, 0);
 }
 
-int Stream_seekToEnd(Stream stream)
+StreamError Stream_seekToEnd(Stream stream)
 {
     return Stream_seekFromEnd(stream, 0);
 }
 
-int Stream_writeChunk(Stream stream, const void *ptr, size_t size)
+StreamError Stream_writeChunk(Stream stream, const void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
     if (!Stream_hasSpace((Stream)self, size)) {
@@ -123,24 +123,24 @@ int Stream_writeChunk(Stream stream, const void *ptr, size_t size)
     }
     memcpy(self->data, ptr, size);
     Stream_seekFromCurrent((Stream)self, size);
-    return TRUE;
+    return StreamError_Success;
 }
 
-int Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t size, size_t count)
+StreamError Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t size, size_t count)
 {
     size_t totalSize = size * count;
     return Stream_writeChunk(stream, ptr, totalSize);
 }
 
-int Stream_readChunk(Stream stream, void *ptr, size_t size)
+StreamError Stream_readChunk(Stream stream, void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
     memcpy(ptr, self->data, size);
     Stream_seekFromCurrent((Stream)self, size);
-    return TRUE;
+    return StreamError_Success;
 }
 
-int Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t count)
+StreamError Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t count)
 {
     size_t totalSize = size * count;
     return Stream_readChunk(stream, ptr, totalSize);

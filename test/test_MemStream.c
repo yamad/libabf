@@ -6,10 +6,12 @@
 #define STREAM_SIZE 512
 
 Stream stream;
+StreamError err;
 
 void setUp(void)
 {
     MemStream_Create(STREAM_SIZE, &stream);
+    err = StreamError_Unknown;
 }
 
 void tearDown(void)
@@ -23,7 +25,7 @@ void streamPositionIs(streamPosition expected)
     if (StreamError_Success == Stream_getCurrentPosition(stream, &curr_pos))
         TEST_ASSERT_EQUAL_INT(expected, curr_pos);
     else
-        TEST_FAIL_MESSAGE("Stream error!");
+        TEST_FAIL_MESSAGE("Stream error");
 }
 
 void streamPositionIsNot(streamPosition expected)
@@ -121,18 +123,23 @@ void test_MemStream_SeekToEnd(void)
 void test_MemStream_WriteSingleChunk(void)
 {
     int8_t byteToWrite = 0xFF;
-    Stream_writeChunk(stream, &byteToWrite, sizeof(byteToWrite));
+    err = Stream_writeChunk(stream, &byteToWrite, sizeof(byteToWrite));
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: writeChunk did not succeed");
     streamPositionIs(1);
     TEST_ASSERT_EQUAL_HEX(byteToWrite, MemStream_getByteAt(stream, 0));
 }
 
 void test_MemStream_WriteTooBigChunkFails(void)
 {
+    /* write array of ones that is larger than space in stream */
     int8_t chunkToWrite[STREAM_SIZE + 1];
     memset(chunkToWrite, 1, sizeof(chunkToWrite));
-    int isDone = Stream_writeChunk(stream, chunkToWrite, sizeof(chunkToWrite));
 
-    TEST_ASSERT_EQUAL_INT(FALSE, isDone);
+    err = Stream_writeChunk(stream, chunkToWrite, sizeof(chunkToWrite));
+    TEST_ASSERT_EQUAL_INT(StreamError_NoSpace, err);
+
+    /* 1s not written to the stream */
     streamPositionIs(0);
     TEST_ASSERT_EQUAL_HEX(0, MemStream_getByteAt(stream, 0));
 }
@@ -140,7 +147,9 @@ void test_MemStream_WriteTooBigChunkFails(void)
 void test_MemStream_WriteMultipleChunks(void)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
-    Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
+    err = Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: writeMultipleChunks did not succeed");
     streamPositionIs(2);
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], MemStream_getByteAt(stream, 0));
     TEST_ASSERT_EQUAL_HEX8(0xFE, MemStream_getByteAt(stream, 1));
@@ -153,7 +162,9 @@ void test_MemStream_ReadChunk(void)
     Stream_seekToStart(stream);
 
     int8_t byteFromStream;
-    Stream_readChunk(stream, &byteFromStream, sizeof(int8_t));
+    err = Stream_readChunk(stream, &byteFromStream, sizeof(int8_t));
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: readChunk did not succeed");
     TEST_ASSERT_EQUAL_HEX8(0xCA, byteFromStream);
 }
 
@@ -161,10 +172,12 @@ void test_MemStream_ReadMultipleChunks(void)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
     Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
-
     Stream_seekToStart(stream);
+
     int8_t bytesFromStream[2];
-    Stream_readMultipleChunks(stream, bytesFromStream, sizeof(int8_t), 2);
+    err = Stream_readMultipleChunks(stream, bytesFromStream, sizeof(int8_t), 2);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: readMultipleChunks did not succeed");
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], bytesFromStream[0]);
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[1], bytesFromStream[1]);
 }

@@ -9,6 +9,7 @@ typedef off_t streamPosition;
 
 /* Stream error states */
 typedef enum {
+    StreamError_Unknown = -1,
     StreamError_Failure = 0,
     StreamError_Success,
     StreamError_NoMemory,
@@ -38,5 +39,8 @@ Boolean Stream_isOpenForWrite(Stream stream);
 
 Boolean Stream_isPositionIn(Stream stream, streamPosition position);
 Boolean Stream_hasSpace(Stream stream, size_t size);
+
+StreamError Stream_write_uint8(Stream stream, const uint8_t *in);
+StreamError Stream_read_uint8(Stream stream, uint8_t *out);
 
 #endif

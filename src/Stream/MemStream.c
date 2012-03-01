@@ -132,6 +132,11 @@ StreamError Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t si
     return Stream_writeChunk(stream, ptr, totalSize);
 }
 
+StreamError Stream_write_uint8(Stream stream, const uint8_t *in)
+{
+    return Stream_writeChunk(stream, in, sizeof(uint8_t));
+}
+
 StreamError Stream_readChunk(Stream stream, void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
@@ -144,6 +149,11 @@ StreamError Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, siz
 {
     size_t totalSize = size * count;
     return Stream_readChunk(stream, ptr, totalSize);
+}
+
+StreamError Stream_read_uint8(Stream stream, uint8_t *out)
+{
+    return Stream_readChunk(stream, out, sizeof(uint8_t));
 }
 
 Boolean Stream_hasSpace(Stream stream, size_t size)

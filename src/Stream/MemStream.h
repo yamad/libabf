@@ -6,9 +6,9 @@
 #include "Stream.h"
 
 void *calloc_safe(int numberElements, size_t elementSize);
-void * allocateByteArray(int numberBytes);
+void *allocateByteArray(int numberBytes);
 
-StreamError MemStream_Create(int numberBytes, Stream *stream);
+StreamError MemStream_Create(size_t numberBytes, Stream *stream);
 StreamError MemStream_Destroy(Stream stream);
 
 /* For testing only */

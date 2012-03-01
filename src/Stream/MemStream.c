@@ -15,7 +15,7 @@ typedef struct MemStreamStruct
     int8_t * data;
 } MemStreamStruct;
 
-StreamError MemStream_Create(int numberBytes, Stream *stream)
+StreamError MemStream_Create(size_t numberBytes, Stream *stream)
 {
     *stream = NULL;
     MemStream self = NEW(MemStreamStruct);

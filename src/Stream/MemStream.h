@@ -11,9 +11,7 @@ void * allocateByteArray(int numberBytes);
 StreamError MemStream_Create(int numberBytes, Stream *stream);
 StreamError MemStream_Destroy(Stream stream);
 
+/* For testing only */
 int8_t MemStream_getByteAt(Stream stream, streamPosition index);
-
-Boolean isWithinStream(Stream, streamPosition);
-Boolean isEnoughSpace(Stream, size_t);
 
 #endif

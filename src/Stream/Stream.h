@@ -12,6 +12,7 @@ typedef enum {
     StreamError_Failure = 0,
     StreamError_Success,
     StreamError_NoMemory,
+    StreamError_NoSpace,
 } StreamError;
 
 StreamError Stream_Create(size_t size, Stream *stream);
@@ -34,5 +35,8 @@ int Stream_seekToEnd(Stream stream);
 StreamError Stream_getCurrentPosition(Stream stream, streamPosition *curr_pos);
 Boolean Stream_isOpenForRead(Stream stream);
 Boolean Stream_isOpenForWrite(Stream stream);
+
+Boolean Stream_isPositionIn(Stream stream, streamPosition position);
+Boolean Stream_hasSpace(Stream stream, size_t size);
 
 #endif

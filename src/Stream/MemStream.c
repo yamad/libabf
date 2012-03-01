@@ -45,7 +45,7 @@ StreamError MemStream_Destroy(Stream super)
 int8_t MemStream_getByteAt(Stream stream, streamPosition index)
 {
     MemStream self = (MemStream) stream;
-    if (isWithinStream((Stream)self, index)) {
+    if (Stream_isPositionIn((Stream)self, index)) {
         return self->data[index];
     }
     return FALSE;
@@ -81,7 +81,7 @@ StreamError Stream_seek(Stream stream, streamPosition offset, streamPosition ori
 {
     MemStream self = (MemStream) stream;
     streamPosition new_position = offset + origin;
-    if (isWithinStream((Stream)self, new_position)) {
+    if (Stream_isPositionIn((Stream)self, new_position)) {
         self->position = new_position;
     }
     return StreamError_Success;
@@ -118,8 +118,8 @@ int Stream_seekToEnd(Stream stream)
 int Stream_writeChunk(Stream stream, const void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
-    if (!isEnoughSpace((Stream)self, size)) {
-        return FALSE;
+    if (!Stream_hasSpace((Stream)self, size)) {
+        return StreamError_NoSpace;
     }
     memcpy(self->data, ptr, size);
     Stream_seekFromCurrent((Stream)self, size);
@@ -146,16 +146,16 @@ int Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t coun
     return Stream_readChunk(stream, ptr, totalSize);
 }
 
-Boolean isEnoughSpace(Stream stream, size_t size)
+Boolean Stream_hasSpace(Stream stream, size_t size)
 {
     MemStream self = (MemStream) stream;
-    if (isWithinStream((Stream)self, self->position + size)) {
+    if (Stream_isPositionIn((Stream)self, self->position + size)) {
         return TRUE;
     }
     return FALSE;
 }
 
-Boolean isWithinStream(Stream stream, streamPosition position)
+Boolean Stream_isPositionIn(Stream stream, streamPosition position)
 {
     MemStream self = (MemStream) stream;
     if (0 <= position && self->data_length > position) {

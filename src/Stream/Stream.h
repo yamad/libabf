@@ -5,13 +5,15 @@
 
 typedef struct StreamStruct * Stream;
 
+struct stream;
+
 typedef off_t streamPosition;
 
 /* Stream error states */
 typedef enum {
-    StreamError_Unknown = -1,
-    StreamError_Failure = 0,
-    StreamError_Success,
+    StreamError_Unknown = -2,
+    StreamError_Failure = -1,
+    StreamError_Success = 0,
     StreamError_NoMemory,
     StreamError_NoSpace,
 } StreamError;

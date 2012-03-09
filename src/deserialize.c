@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <assert.h>
+#include <limits.h>
 
 #include "deserialize.h"
 #include "swap.h"
 
-char read_char(const char *buffer, size_t offset)
+unsigned char read_char(const char *buffer, size_t offset)
 {
     assert(NULL != buffer);
     return *(buffer+offset);
@@ -12,7 +13,8 @@ char read_char(const char *buffer, size_t offset)
 
 uint8_t read_uint8(const char *buffer, size_t offset)
 {
-    return read_char(buffer, offset);
+    assert(CHAR_BIT == 8);
+    return (uint8_t)read_char(buffer, offset);
 }
 
 uint16_t read_uint16(const char *buffer, size_t offset, bool swap) 
@@ -114,7 +116,7 @@ double read_float64(const char *buffer, size_t offset, bool swap)
     return u.d;
 }
         
-char read_charp(const char **bufferp)
+unsigned char read_charp(const char **bufferp)
 {
     assert(NULL != bufferp);
     return read_char((*bufferp)++, 0);
@@ -122,7 +124,7 @@ char read_charp(const char **bufferp)
 
 uint8_t read_uint8p(const char **bufferp)
 {
-    return read_charp(bufferp);
+    return (uint8_t)read_charp(bufferp);
 }
 
 uint16_t read_uint16p(const char **bufferp, bool swap)

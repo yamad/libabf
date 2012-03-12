@@ -7,7 +7,6 @@
 
 #include "memory.c"
 
-typedef struct MemStreamStruct * MemStream;
 typedef struct MemStreamStruct
 {
     streamPosition data_length;
@@ -51,7 +50,7 @@ int8_t MemStream_getByteAt(Stream stream, streamPosition index)
     return FALSE;
 }
 
-void * allocateByteArray(int numberBytes)
+void *allocateByteArray(int numberBytes)
 {
     int8_t * ptr_mem = calloc_safe(numberBytes, sizeof(int8_t));
     if (ptr_mem == NULL) {
@@ -105,16 +104,6 @@ StreamError Stream_seekFromEnd(Stream stream, streamPosition offset)
     return Stream_seekFromStart((Stream)self, lastByte - offset);
 }
 
-StreamError Stream_seekToStart(Stream stream)
-{
-    return Stream_seekFromStart(stream, 0);
-}
-
-StreamError Stream_seekToEnd(Stream stream)
-{
-    return Stream_seekFromEnd(stream, 0);
-}
-
 StreamError Stream_writeChunk(Stream stream, const void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
@@ -126,24 +115,12 @@ StreamError Stream_writeChunk(Stream stream, const void *ptr, size_t size)
     return StreamError_Success;
 }
 
-StreamError Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t size, size_t count)
-{
-    size_t totalSize = size * count;
-    return Stream_writeChunk(stream, ptr, totalSize);
-}
-
 StreamError Stream_readChunk(Stream stream, void *ptr, size_t size)
 {
     MemStream self = (MemStream) stream;
     memcpy(ptr, self->data, size);
     Stream_seekFromCurrent((Stream)self, size);
     return StreamError_Success;
-}
-
-StreamError Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t count)
-{
-    size_t totalSize = size * count;
-    return Stream_readChunk(stream, ptr, totalSize);
 }
 
 Boolean Stream_hasSpace(Stream stream, size_t size)
@@ -162,4 +139,12 @@ Boolean Stream_isPositionIn(Stream stream, streamPosition position)
         return TRUE;
     }
     return FALSE;
+}
+
+StreamError MemStream_fillData(MemStream memstream, const uint8_t *from, size_t size)
+{
+    if (!Stream_hasSpace((Stream)memstream, size))
+        return StreamError_NoSpace;
+    memcpy(memstream->data, from, size);
+    return StreamError_Success;
 }

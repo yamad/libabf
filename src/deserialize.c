@@ -17,7 +17,7 @@ uint8_t read_uint8(const char *buffer, size_t offset)
     return (uint8_t)read_char(buffer, offset);
 }
 
-uint16_t read_uint16(const char *buffer, size_t offset, bool swap) 
+uint16_t read_uint16(const char *buffer, size_t offset, bool swap)
 {
     uint8_t b1 = read_uint8(buffer, offset);
     uint8_t b2 = read_uint8(buffer, offset+1);
@@ -94,7 +94,7 @@ int64_t read_int64(const char *buffer, size_t offset, bool swap)
 
 float read_float32(const char *buffer, size_t offset, bool swap)
 {
-    union 
+    union
     {
         float f;
         uint32_t i;
@@ -115,55 +115,55 @@ double read_float64(const char *buffer, size_t offset, bool swap)
     u.i = read_uint64(buffer, offset, swap);
     return u.d;
 }
-        
-unsigned char read_charp(const char **bufferp)
+
+unsigned char read_charp(char **bufferp)
 {
     assert(NULL != bufferp);
-    return read_char((*bufferp)++, 0);
+    return read_char((*(const char **)bufferp)++, 0);
 }
 
-uint8_t read_uint8p(const char **bufferp)
+uint8_t read_uint8p(char **bufferp)
 {
     return (uint8_t)read_charp(bufferp);
 }
 
-uint16_t read_uint16p(const char **bufferp, bool swap)
+uint16_t read_uint16p(char **bufferp, bool swap)
 {
-    uint16_t result = read_uint16((*bufferp), 0, swap);
+    uint16_t result = read_uint16((*(const char **)bufferp), 0, swap);
     *bufferp += sizeof(uint16_t);
     return result;
 }
 
-uint32_t read_uint32p(const char **bufferp, bool swap)
+uint32_t read_uint32p(char **bufferp, bool swap)
 {
-    uint32_t result = read_uint32((*bufferp), 0, swap);
+    uint32_t result = read_uint32((*(const char **)bufferp), 0, swap);
     *bufferp += sizeof(uint32_t);
     return result;
 }
 
-uint64_t read_uint64p(const char **bufferp, bool swap)
+uint64_t read_uint64p(char **bufferp, bool swap)
 {
-    uint64_t result = read_uint64((*bufferp), 0, swap);
+    uint64_t result = read_uint64((*(const char **)bufferp), 0, swap);
     *bufferp += sizeof(uint64_t);
     return result;
 }
 
-int8_t read_int8p(const char **bufferp)
+int8_t read_int8p(char **bufferp)
 {
     return (int8_t)read_uint8p(bufferp);
 }
 
-int16_t read_int16p(const char **bufferp, bool swap)
+int16_t read_int16p(char **bufferp, bool swap)
 {
     return (int16_t)read_uint16p(bufferp, swap);
 }
 
-int32_t read_int32p(const char **bufferp, bool swap)
+int32_t read_int32p(char **bufferp, bool swap)
 {
     return (int32_t)read_uint32p(bufferp, swap);
 }
 
-int64_t read_int64p(const char **bufferp, bool swap)
+int64_t read_int64p(char **bufferp, bool swap)
 {
     return (int64_t)read_uint64p(bufferp, swap);
 }

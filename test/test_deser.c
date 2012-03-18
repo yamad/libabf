@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <string.h>
+
+
 #include "unity.h"
 #include "deserialize.h"
 
@@ -131,140 +135,152 @@ void test_read_float32_get_float(void)
     TEST_ASSERT_EQUAL_FLOAT(0.15625, f1);
 }
 
-void test_read_charp_advances_char_pointer(void) 
+void test_read_charp_advances_pointer(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
-    const char *bufp = buf;
-    char b1 = read_charp(&bufp);
-    char b2 = read_charp(&bufp);
+    char bytes[2] = {0xCA, 0xFE};
+    char *buf = bytes;
+    char b1, b2;
+    buf = read_charp(buf, &b1);
+    buf = read_charp(buf, &b2);
     TEST_ASSERT_EQUAL_HEX8(0xCA, b1);
     TEST_ASSERT_EQUAL_HEX8(0xFE, b2);
 }
 
 void test_read_uint8p_reads_uint8s_inorder(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
-    const char *bufp = buf;
-    uint8_t b1 = read_uint8p(&bufp);
-    uint8_t b2 = read_uint8p(&bufp);
+    char bytes[2] = {0xCA, 0xFE};
+    char *buf = bytes;
+    uint8_t b1, b2;
+    buf = read_uint8p(buf, &b1);
+    buf = read_uint8p(buf, &b2);
     TEST_ASSERT_EQUAL_HEX8(0xCA, b1);
     TEST_ASSERT_EQUAL_HEX8(0xFE, b2);
 }
 
 void test_read_int8p_reads_int8(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
-    const char *bufp = buf;
-    int8_t b1 = read_int8p(&bufp);
-    int8_t b2 = read_int8p(&bufp);
+    char bytes[2] = { 0xCA, 0xFE };
+    char *buf = bytes;
+    int8_t b1, b2;
+    buf = read_int8p(buf, &b1);
+    buf = read_int8p(buf, &b2);
     TEST_ASSERT_EQUAL_HEX8(0xCA, b1);
     TEST_ASSERT_EQUAL_HEX8(0xFE, b2);
 }
 
 void test_read_uint16p_reads_uint16s_inorder(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    const char *bufp = buf;
+    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    char *buf = bytes;
+    uint16_t i1, i2;
     bool swap = 0;
-    uint16_t i1 = read_uint16p(&bufp, swap);
-    uint16_t i2 = read_uint16p(&bufp, swap);
+    buf = read_uint16p(buf, &i1, swap);
+    buf = read_uint16p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX16(0xCAFE, i1);
     TEST_ASSERT_EQUAL_HEX16(0xBEEF, i2);
 }
 
 void test_read_uint16p_reads_swapped_uint16s(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    const char *bufp = buf;
+    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    char *buf = bytes;
+    uint16_t i1, i2;
     bool swap = 1;
-    uint16_t i1 = read_uint16p(&bufp, swap);
-    uint16_t i2 = read_uint16p(&bufp, swap);
+    buf = read_uint16p(buf, &i1, swap);
+    buf = read_uint16p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX16(0xFECA, i1);
     TEST_ASSERT_EQUAL_HEX16(0xEFBE, i2);
 }
 
 void test_read_int16p_reads_int16(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    const char *bufp = buf;
+    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    char *buf = bytes;
+    int16_t i1, i2;
     bool swap = 0;
-    int16_t i1 = read_int16p(&bufp, swap);
-    int16_t i2 = read_int16p(&bufp, swap);
+    buf = read_int16p(buf, &i1, swap);
+    buf = read_int16p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX16(0xCAFE, i1);
     TEST_ASSERT_EQUAL_HEX16(0xBEEF, i2);
 }
 
 void test_read_uint32p_reads_uint32s_inorder(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF};
-    const char *bufp = buf;
+    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF};
+    char *buf = bytes;
+    uint32_t i1, i2;
     bool swap = 0;
-    uint32_t i1 = read_uint32p(&bufp, swap);
-    uint32_t i2 = read_uint32p(&bufp, swap);
+    buf = read_uint32p(buf, &i1, swap);
+    buf = read_uint32p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, i1);
     TEST_ASSERT_EQUAL_HEX32(0xBAADCAAF, i2);
 }
 
 void test_read_uint32p_reads_swapped_uint32s(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF};
-    const char *bufp = buf;
+    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF};
+    char *buf = bytes;
+    uint32_t i1, i2;
     bool swap = 1;
-    uint32_t i1 = read_uint32p(&bufp, swap);
-    uint32_t i2 = read_uint32p(&bufp, swap);
+    buf = read_uint32p(buf, &i1, swap);
+    buf = read_uint32p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, i1);
     TEST_ASSERT_EQUAL_HEX32(0xAFCAADBA, i2);
 }
 
 void test_read_int32p_reads_int32(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF};
-    const char *bufp = buf;
+    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF};
+    char *buf = bytes;
+    int32_t i1, i2;
     bool swap = 0;
-    int32_t i1 = read_int32p(&bufp, swap);
-    int32_t i2 = read_int32p(&bufp, swap);
+    buf = read_int32p(buf, &i1, swap);
+    buf = read_int32p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, i1);
     TEST_ASSERT_EQUAL_HEX32(0xBAADCAAF, i2);
 }
 
 void test_read_uint64p_reads_uint64s_inorder(void)
 {
-    char buf[16] = {
+    char bytes[16] = {
         0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF,        \
         0x07, 0x03, 0x04, 0x06, 0x08, 0x14, 0x20, 0x54         \
     };
-    const char *bufp = buf;
+    char *buf = bytes;
+    uint64_t i1, i2;
     bool swap = 0;
-    uint64_t i1 = read_uint64p(&bufp, swap);
-    uint64_t i2 = read_uint64p(&bufp, swap);
+    buf = read_uint64p(buf, &i1, swap);
+    buf = read_uint64p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX64(0xCAFEBEEFBAADCAAF, i1);
     TEST_ASSERT_EQUAL_HEX64(0x0703040608142054, i2);
 }
 
 void test_read_uint64p_reads_swapped_uint64s(void)
 {
-    char buf[16] = {
+    char bytes[16] = {
         0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF,        \
         0x07, 0x03, 0x04, 0x06, 0x08, 0x14, 0x20, 0x54         \
     };
-    const char *bufp = buf;
+    char *buf = bytes;
+    uint64_t i1, i2;
     bool swap = 1;
-    uint64_t i1 = read_uint64p(&bufp, swap);
-    uint64_t i2 = read_uint64p(&bufp, swap);
+    buf = read_uint64p(buf, &i1, swap);
+    buf = read_uint64p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX64(0xAFCAADBAEFBEFECA, i1);
     TEST_ASSERT_EQUAL_HEX64(0x5420140806040307, i2);
 }
 
 void test_read_int64p_reads_int64(void)
 {
-    char buf[16] = {
+    char bytes[16] = {
         0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF,        \
         0x07, 0x03, 0x04, 0x06, 0x08, 0x14, 0x20, 0x54         \
     };
-    const char *bufp = buf;
+    char *buf = bytes;
+    int64_t i1, i2;
     bool swap = 0;
-    int64_t i1 = read_int64p(&bufp, swap);
-    int64_t i2 = read_int64p(&bufp, swap);
+    buf = read_int64p(buf, &i1, swap);
+    buf = read_int64p(buf, &i2, swap);
     TEST_ASSERT_EQUAL_HEX64(0xCAFEBEEFBAADCAAF, i1);
     TEST_ASSERT_EQUAL_HEX64(0x0703040608142054, i2);
 }

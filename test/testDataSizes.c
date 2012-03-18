@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "ABF2_struct.h"
+#include "abf2_struct.h"
 
 #include <limits.h>
 #include <stdlib.h>

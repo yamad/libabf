@@ -3,6 +3,14 @@
 
 #include <stdint.h>
 
+typedef enum byte_order {
+    ENDIAN_UNKNOWN = -1,
+    ENDIAN_LITTLE,
+    ENDIAN_BIG
+} byte_order;
+
+int get_endian(void);
+
 /* Return a byteswapped version of a 16-bit value */
 #define _swap16(x) ((uint16_t)(                  \
     (((uint16_t)(x) & (uint16_t)0x00ffU) << 8) | \

@@ -1,10 +1,6 @@
 #ifndef ABF2_STRUCT_H
 #define ABF2_STRUCT_H
 
-#ifdef PACK_STRUCT
-#pragma pack(push, 1)
-#endif
-
 #include <stdint.h>
 
 typedef int8_t t_BOOL;
@@ -13,12 +9,12 @@ typedef int8_t t_BOOL;
 typedef enum { FALSE, TRUE } Boolean;
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
-typedef struct _GUID
+typedef struct guid
 {
     uint32_t Data1;
     uint16_t Data2;
     uint16_t Data3;
-    uint8_t  Data4[8];
+    uint8_t Data4[8];
 } GUID;
 #endif /* GUID_DEFINED */
 
@@ -29,113 +25,61 @@ typedef struct _GUID
 #define ABF2_FILESIGNATURE   0x32464241      /* "ABF2" in little-endian ASCII */
                                              /* "2FBA" in big-endian ASCII */
 
-typedef struct ABF_Section
+struct abf2_section
 {
     uint32_t uBlockIndex;        // ABF block number of the first entry
     uint32_t uBytes;             // size in bytes of of each entry
     int64_t llNumEntries;        // number of entries in this section
-} ABF_Section;
+};
 
-typedef struct ABF_FileInfo
+struct abf2_fileinfo
 {
-    uint32_t  uFileSignature;
-    uint32_t  uFileVersionNumber;
+    uint32_t uFileSignature;
+    uint32_t uFileVersionNumber;
 
-    // After this point there is no need to be the same as the ABF 1 equivalent.
-    uint32_t  uFileInfoSize;
-
-    uint32_t  uActualEpisodes;
-    uint32_t  uFileStartDate;
-    uint32_t  uFileStartTimeMS;
-    uint32_t  uStopwatchTime;
+    uint32_t uFileInfoSize;
+    uint32_t uActualEpisodes;
+    uint32_t uFileStartDate;
+    uint32_t uFileStartTimeMS;
+    uint32_t uStopwatchTime;
     int16_t nFileType;
     int16_t nDataFormat;
     int16_t nSimultaneousScan;
     int16_t nCRCEnable;
-    uint32_t  uFileCRC;
-    GUID  FileGUID;
-    uint32_t  uCreatorVersion;
-    uint32_t  uCreatorNameIndex;
-    uint32_t  uModifierVersion;
-    uint32_t  uModifierNameIndex;
-    uint32_t  uProtocolPathIndex;
+    uint32_t uFileCRC;
+    struct guid FileGUID;
+    uint32_t uCreatorVersion;
+    uint32_t uCreatorNameIndex;
+    uint32_t uModifierVersion;
+    uint32_t uModifierNameIndex;
+    uint32_t uProtocolPathIndex;
 
     // New sections in ABF 2 - protocol stuff ...
-    ABF_Section ProtocolSection;           // the protocol
-    ABF_Section ADCSection;                // one for each ADC channel
-    ABF_Section DACSection;                // one for each DAC channel
-    ABF_Section EpochSection;              // one for each epoch
-    ABF_Section ADCPerDACSection;          // one for each ADC for each DAC
-    ABF_Section EpochPerDACSection;        // one for each epoch for each DAC
-    ABF_Section UserListSection;           // one for each user list
-    ABF_Section StatsRegionSection;        // one for each stats region
-    ABF_Section MathSection;
-    ABF_Section StringsSection;
+    struct abf2_section ProtocolSection;           // the protocol
+    struct abf2_section ADCSection;                // one for each ADC channel
+    struct abf2_section DACSection;                // one for each DAC channel
+    struct abf2_section EpochSection;              // one for each epoch
+    struct abf2_section ADCPerDACSection;          // one for each ADC for each DAC
+    struct abf2_section EpochPerDACSection;        // one for each epoch for each DAC
+    struct abf2_section UserListSection;           // one for each user list
+    struct abf2_section StatsRegionSection;        // one for each stats region
+    struct abf2_section MathSection;
+    struct abf2_section StringsSection;
 
     // ABF 1 sections ...
-    ABF_Section DataSection;            // Data
-    ABF_Section TagSection;             // Tags
-    ABF_Section ScopeSection;           // Scope config
-    ABF_Section DeltaSection;           // Deltas
-    ABF_Section VoiceTagSection;        // Voice Tags
-    ABF_Section SynchArraySection;      // Synch Array
-    ABF_Section AnnotationSection;      // Annotations
-    ABF_Section StatsSection;           // Stats config
+    struct abf2_section DataSection;            // Data
+    struct abf2_section TagSection;             // Tags
+    struct abf2_section ScopeSection;           // Scope config
+    struct abf2_section DeltaSection;           // Deltas
+    struct abf2_section VoiceTagSection;        // Voice Tags
+    struct abf2_section SynchArraySection;      // Synch Array
+    struct abf2_section AnnotationSection;      // Annotations
+    struct abf2_section StatsSection;           // Stats config
 
-    int8_t  sUnused[148];     // size = 512 bytes
-} ABF_FileInfo;
+    int8_t sUnused[148];     // size = 512 bytes
+};
 
-typedef struct ABF_FileInfo22
-{
-    GUID  FileGUID;
-    uint32_t  uFileSignature;
-    uint32_t  uFileVersionNumber;
-
-    // After this point there is no need to be the same as the ABF 1 equivalent.
-    uint32_t  uFileInfoSize;
-
-    uint32_t  uActualEpisodes;
-    uint32_t  uFileStartDate;
-    uint32_t  uFileStartTimeMS;
-    uint32_t  uStopwatchTime;
-    uint32_t  uFileCRC;
-    uint32_t  uCreatorVersion;
-    uint32_t  uCreatorNameIndex;
-    uint32_t  uModifierVersion;
-    uint32_t  uModifierNameIndex;
-    uint32_t  uProtocolPathIndex;
-
-    int16_t nFileType;
-    int16_t nDataFormat;
-    int16_t nSimultaneousScan;
-    int16_t nCRCEnable;
-
-    // New sections in ABF 2 - protocol stuff ...
-    ABF_Section ProtocolSection;           // the protocol
-    ABF_Section ADCSection;                // one for each ADC channel
-    ABF_Section DACSection;                // one for each DAC channel
-    ABF_Section EpochSection;              // one for each epoch
-    ABF_Section ADCPerDACSection;          // one for each ADC for each DAC
-    ABF_Section EpochPerDACSection;        // one for each epoch for each DAC
-    ABF_Section UserListSection;           // one for each user list
-    ABF_Section StatsRegionSection;        // one for each stats region
-    ABF_Section MathSection;
-    ABF_Section StringsSection;
-
-    // ABF 1 sections ...
-    ABF_Section DataSection;            // Data
-    ABF_Section TagSection;             // Tags
-    ABF_Section ScopeSection;           // Scope config
-    ABF_Section DeltaSection;           // Deltas
-    ABF_Section VoiceTagSection;        // Voice Tags
-    ABF_Section SynchArraySection;      // Synch Array
-    ABF_Section AnnotationSection;      // Annotations
-    ABF_Section StatsSection;           // Stats config
-
-    int8_t  sUnused[148];     // size = 512 bytes
-} ABF_FileInfo22;
-
-typedef struct ABF_ProtocolInfo
+struct abf2_protocolinfo
 {
     int16_t nOperationMode;
     float fADCSequenceInterval;
@@ -145,11 +89,11 @@ typedef struct ABF_ProtocolInfo
 
     float fSynchTimeUnit;
     float fSecondsPerRun;
-    int32_t  lNumSamplesPerEpisode;
-    int32_t  lPreTriggerSamples;
-    int32_t  lEpisodesPerRun;
-    int32_t  lRunsPerTrial;
-    int32_t  lNumberOfTrials;
+    int32_t lNumSamplesPerEpisode;
+    int32_t lPreTriggerSamples;
+    int32_t lEpisodesPerRun;
+    int32_t lRunsPerTrial;
+    int32_t lNumberOfTrials;
     int16_t nAveragingMode;
     int16_t nUndoRunCount;
     int16_t nFirstEpisodeInRun;
@@ -166,23 +110,23 @@ typedef struct ABF_ProtocolInfo
     float fFirstRunDelayS;
 
     int16_t nChannelStatsStrategy;
-    int32_t  lSamplesPerTrace;
-    int32_t  lStartDisplayNum;
-    int32_t  lFinishDisplayNum;
+    int32_t lSamplesPerTrace;
+    int32_t lStartDisplayNum;
+    int32_t lFinishDisplayNum;
     int16_t nShowPNRawData;
     float fStatisticsPeriod;
-    int32_t  lStatisticsMeasurements;
+    int32_t lStatisticsMeasurements;
     int16_t nStatisticsSaveStrategy;
 
     float fADCRange;
     float fDACRange;
-    int32_t  lADCResolution;
-    int32_t  lDACResolution;
+    int32_t lADCResolution;
+    int32_t lDACResolution;
 
     int16_t nExperimentType;
     int16_t nManualInfoStrategy;
     int16_t nCommentsEnable;
-    int32_t  lFileCommentIndex;
+    int32_t lFileCommentIndex;
     int16_t nAutoAnalyseEnable;
     int16_t nSignalType;
 
@@ -197,7 +141,7 @@ typedef struct ABF_ProtocolInfo
     int16_t nStatisticsClearStrategy;
 
     int16_t nLevelHysteresis;
-    int32_t  lTimeHysteresis;
+    int32_t lTimeHysteresis;
     int16_t nAllowExternalTags;
     int16_t nAverageAlgorithm;
     float fAverageWeighting;
@@ -219,10 +163,10 @@ typedef struct ABF_ProtocolInfo
     int16_t nDigitizerSynchDigitalOuts;
     int16_t nDigitizerType;
 
-    int8_t  sUnused[304];     // size = 512 bytes
-} ABF_ProtocolInfo;
+    int8_t sUnused[304];     // size = 512 bytes
+};
 
-typedef struct ABF_MathInfo
+struct abf2_mathinfo
 {
     int16_t nMathEnable;
     int16_t nMathExpression;
@@ -234,10 +178,10 @@ typedef struct ABF_MathInfo
     int8_t  sUnused[16];
     float fMathK[6];
 
-    int8_t  sUnused2[64];     // size = 128 bytes
-} ABF_MathInfo;
+    int8_t sUnused2[64];     // size = 128 bytes
+};
 
-typedef struct ABF_ADCInfo
+struct abf2_adcinfo
 {
     // The ADC this struct is describing.
     int16_t nADCNum;
@@ -275,9 +219,9 @@ typedef struct ABF_ADCInfo
     int32_t lADCUnitsIndex;
 
     int8_t sUnused[46];          // size = 128 bytes
-} ABF_ADCInfo;
+};
 
-typedef struct ABF_DACInfo
+struct abf2_dacinfo
 {
     // The DAC this struct is describing.
     int16_t nDACNum;
@@ -290,11 +234,11 @@ typedef struct ABF_DACInfo
     float fDACCalibrationFactor;
     float fDACCalibrationOffset;
 
-    int32_t  lDACChannelNameIndex;
-    int32_t  lDACChannelUnitsIndex;
+    int32_t lDACChannelNameIndex;
+    int32_t lDACChannelUnitsIndex;
 
-    int32_t  lDACFilePtr;
-    int32_t  lDACFileNumEpisodes;
+    int32_t lDACFilePtr;
+    int32_t lDACFileNumEpisodes;
 
     int16_t nWaveformEnable;
     int16_t nWaveformSource;
@@ -302,11 +246,11 @@ typedef struct ABF_DACInfo
 
     float fDACFileScale;
     float fDACFileOffset;
-    int32_t  lDACFileEpisodeNum;
+    int32_t lDACFileEpisodeNum;
     int16_t nDACFileADCNum;
 
     int16_t nConditEnable;
-    int32_t  lConditNumPulses;
+    int32_t lConditNumPulses;
     float fBaselineDuration;
     float fBaselineLevel;
     float fStepDuration;
@@ -327,17 +271,17 @@ typedef struct ABF_DACInfo
     int16_t nLTPUsageOfDAC;
     int16_t nLTPPresynapticPulses;
 
-    int32_t  lDACFilePathIndex;
+    int32_t lDACFilePathIndex;
 
     float fMembTestPreSettlingTimeMS;
     float fMembTestPostSettlingTimeMS;
 
     int16_t nLeakSubtractADCIndex;
 
-    int8_t  sUnused[124];     // size = 256 bytes
-} ABF_DACInfo;
+    int8_t sUnused[124];     // size = 256 bytes
+};
 
-typedef struct ABF_EpochInfoPerDAC
+struct abf2_epochinfoperdac
 {
     // The Epoch / DAC this struct is describing.
     int16_t nEpochNum;
@@ -353,9 +297,9 @@ typedef struct ABF_EpochInfoPerDAC
     int32_t lEpochPulseWidth;
 
     int8_t sUnused[18];      // size = 48 bytes
-} ABF_EpochInfoPerDAC;
+};
 
-typedef struct ABF_EpochInfo
+struct abf2_epochinfo
 {
     // The Epoch this struct is describing.
     int16_t nEpochNum;
@@ -365,12 +309,12 @@ typedef struct ABF_EpochInfo
     int16_t nDigitalTrainValue;
     int16_t nAlternateDigitalValue;
     int16_t nAlternateDigitalTrainValue;
-    t_BOOL  bEpochCompression;   // Compress the data from this epoch using uFileCompressionRatio
+    t_BOOL bEpochCompression;   // Compress the data from this epoch using uFileCompressionRatio
 
-    int8_t  sUnused[21];      // size = 32 bytes
+    int8_t sUnused[21];      // size = 32 bytes
 } ABF_EpochInfo;
 
-typedef struct ABF_StatsRegionInfo
+struct abf2_statsregioninfo
 {
     // The stats region this struct is describing.
     int16_t nRegionNum;
@@ -382,13 +326,13 @@ typedef struct ABF_StatsRegionInfo
     int16_t nStatsSmoothing;
     int16_t nStatsSmoothingEnable;
     int16_t nStatsBaseline;
-    int32_t  lStatsBaselineStart;
-    int32_t  lStatsBaselineEnd;
+    int32_t lStatsBaselineStart;
+    int32_t lStatsBaselineEnd;
 
     // Describes one stats region
-    int32_t  lStatsMeasurements;
-    int32_t  lStatsStart;
-    int32_t  lStatsEnd;
+    int32_t lStatsMeasurements;
+    int32_t lStatsStart;
+    int32_t lStatsEnd;
     int16_t nRiseBottomPercentile;
     int16_t nRiseTopPercentile;
     int16_t nDecayBottomPercentile;
@@ -397,10 +341,10 @@ typedef struct ABF_StatsRegionInfo
     int16_t nStatsSearchDAC;
     int16_t nStatsBaselineDAC;
 
-    int8_t  sUnused[78];   // size = 128 bytes
-} ABF_StatsRegionInfo;
+    int8_t sUnused[78];   // size = 128 bytes
+};
 
-typedef struct ABF_UserListInfo
+struct abf2_userlistinfo
 {
     // The user list this struct is describing.
     int16_t nListNum;
@@ -412,10 +356,6 @@ typedef struct ABF_UserListInfo
     int32_t lULParamValueListIndex;
 
     int8_t sUnused[52];   // size = 64 bytes
-} ABF_UserListInfo;
-
-#ifdef PACK_STRUCT
-#pragma pack(pop)
-#endif
+};
 
 #endif

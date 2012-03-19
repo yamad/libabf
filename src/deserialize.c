@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <limits.h>
+#include <string.h>
 
 #include "deserialize.h"
 #include "swap.h"
@@ -47,6 +48,15 @@ uint32_t read_uint32(const char *buffer, size_t offset, bool swap)
     return result;
 }
 
+uint32_t read_uint32_2(const char *buffer, size_t offset, bool swap)
+{
+    uint32_t result;
+    memcpy(&result, (buffer+offset), sizeof(uint32_t));
+    if (swap)
+        result = _swap32(result);
+    return result;
+}
+ 
 uint64_t read_uint64(const char *buffer, size_t offset, bool swap)
 {
     uint8_t b1 = read_uint8(buffer, offset);

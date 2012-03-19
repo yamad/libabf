@@ -1,10 +1,6 @@
 #ifndef ABF2_STRUCT_H
 #define ABF2_STRUCT_H
 
-#ifdef PACK_STRUCT
-#pragma pack(push, 1)
-#endif
-
 #include <stdint.h>
 
 typedef int8_t t_BOOL;
@@ -13,7 +9,7 @@ typedef int8_t t_BOOL;
 typedef enum { FALSE, TRUE } Boolean;
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
-typedef struct _GUID
+typedef struct guid
 {
     uint32_t Data1;
     uint16_t Data2;
@@ -29,111 +25,59 @@ typedef struct _GUID
 #define ABF2_FILESIGNATURE   0x32464241      /* "ABF2" in little-endian ASCII */
                                              /* "2FBA" in big-endian ASCII */
 
-typedef struct ABF_Section
+struct abf2_section
 {
     uint32_t uBlockIndex;        // ABF block number of the first entry
     uint32_t uBytes;             // size in bytes of of each entry
     int64_t llNumEntries;        // number of entries in this section
-} ABF_Section;
+};
 
-typedef struct ABF_FileInfo
+struct abf2_fileinfo
 {
-    uint32_t  uFileSignature;
-    uint32_t  uFileVersionNumber;
+    uint32_t uFileSignature;
+    uint32_t uFileVersionNumber;
 
-    // After this point there is no need to be the same as the ABF 1 equivalent.
-    uint32_t  uFileInfoSize;
-
-    uint32_t  uActualEpisodes;
-    uint32_t  uFileStartDate;
-    uint32_t  uFileStartTimeMS;
-    uint32_t  uStopwatchTime;
+    uint32_t uFileInfoSize;
+    uint32_t uActualEpisodes;
+    uint32_t uFileStartDate;
+    uint32_t uFileStartTimeMS;
+    uint32_t uStopwatchTime;
     int16_t nFileType;
     int16_t nDataFormat;
     int16_t nSimultaneousScan;
     int16_t nCRCEnable;
-    uint32_t  uFileCRC;
-    GUID  FileGUID;
-    uint32_t  uCreatorVersion;
-    uint32_t  uCreatorNameIndex;
-    uint32_t  uModifierVersion;
-    uint32_t  uModifierNameIndex;
-    uint32_t  uProtocolPathIndex;
+    uint32_t uFileCRC;
+    struct guid FileGUID;
+    uint32_t uCreatorVersion;
+    uint32_t uCreatorNameIndex;
+    uint32_t uModifierVersion;
+    uint32_t uModifierNameIndex;
+    uint32_t uProtocolPathIndex;
 
     // New sections in ABF 2 - protocol stuff ...
-    ABF_Section ProtocolSection;           // the protocol
-    ABF_Section ADCSection;                // one for each ADC channel
-    ABF_Section DACSection;                // one for each DAC channel
-    ABF_Section EpochSection;              // one for each epoch
-    ABF_Section ADCPerDACSection;          // one for each ADC for each DAC
-    ABF_Section EpochPerDACSection;        // one for each epoch for each DAC
-    ABF_Section UserListSection;           // one for each user list
-    ABF_Section StatsRegionSection;        // one for each stats region
-    ABF_Section MathSection;
-    ABF_Section StringsSection;
+    struct abf2_section ProtocolSection;           // the protocol
+    struct abf2_section ADCSection;                // one for each ADC channel
+    struct abf2_section DACSection;                // one for each DAC channel
+    struct abf2_section EpochSection;              // one for each epoch
+    struct abf2_section ADCPerDACSection;          // one for each ADC for each DAC
+    struct abf2_section EpochPerDACSection;        // one for each epoch for each DAC
+    struct abf2_section UserListSection;           // one for each user list
+    struct abf2_section StatsRegionSection;        // one for each stats region
+    struct abf2_section MathSection;
+    struct abf2_section StringsSection;
 
     // ABF 1 sections ...
-    ABF_Section DataSection;            // Data
-    ABF_Section TagSection;             // Tags
-    ABF_Section ScopeSection;           // Scope config
-    ABF_Section DeltaSection;           // Deltas
-    ABF_Section VoiceTagSection;        // Voice Tags
-    ABF_Section SynchArraySection;      // Synch Array
-    ABF_Section AnnotationSection;      // Annotations
-    ABF_Section StatsSection;           // Stats config
+    struct abf2_section DataSection;            // Data
+    struct abf2_section TagSection;             // Tags
+    struct abf2_section ScopeSection;           // Scope config
+    struct abf2_section DeltaSection;           // Deltas
+    struct abf2_section VoiceTagSection;        // Voice Tags
+    struct abf2_section SynchArraySection;      // Synch Array
+    struct abf2_section AnnotationSection;      // Annotations
+    struct abf2_section StatsSection;           // Stats config
 
     int8_t  sUnused[148];     // size = 512 bytes
-} ABF_FileInfo;
-
-typedef struct ABF_FileInfo22
-{
-    GUID  FileGUID;
-    uint32_t  uFileSignature;
-    uint32_t  uFileVersionNumber;
-
-    // After this point there is no need to be the same as the ABF 1 equivalent.
-    uint32_t  uFileInfoSize;
-
-    uint32_t  uActualEpisodes;
-    uint32_t  uFileStartDate;
-    uint32_t  uFileStartTimeMS;
-    uint32_t  uStopwatchTime;
-    uint32_t  uFileCRC;
-    uint32_t  uCreatorVersion;
-    uint32_t  uCreatorNameIndex;
-    uint32_t  uModifierVersion;
-    uint32_t  uModifierNameIndex;
-    uint32_t  uProtocolPathIndex;
-
-    int16_t nFileType;
-    int16_t nDataFormat;
-    int16_t nSimultaneousScan;
-    int16_t nCRCEnable;
-
-    // New sections in ABF 2 - protocol stuff ...
-    ABF_Section ProtocolSection;           // the protocol
-    ABF_Section ADCSection;                // one for each ADC channel
-    ABF_Section DACSection;                // one for each DAC channel
-    ABF_Section EpochSection;              // one for each epoch
-    ABF_Section ADCPerDACSection;          // one for each ADC for each DAC
-    ABF_Section EpochPerDACSection;        // one for each epoch for each DAC
-    ABF_Section UserListSection;           // one for each user list
-    ABF_Section StatsRegionSection;        // one for each stats region
-    ABF_Section MathSection;
-    ABF_Section StringsSection;
-
-    // ABF 1 sections ...
-    ABF_Section DataSection;            // Data
-    ABF_Section TagSection;             // Tags
-    ABF_Section ScopeSection;           // Scope config
-    ABF_Section DeltaSection;           // Deltas
-    ABF_Section VoiceTagSection;        // Voice Tags
-    ABF_Section SynchArraySection;      // Synch Array
-    ABF_Section AnnotationSection;      // Annotations
-    ABF_Section StatsSection;           // Stats config
-
-    int8_t  sUnused[148];     // size = 512 bytes
-} ABF_FileInfo22;
+};
 
 typedef struct ABF_ProtocolInfo
 {
@@ -413,9 +357,5 @@ typedef struct ABF_UserListInfo
 
     int8_t sUnused[52];   // size = 64 bytes
 } ABF_UserListInfo;
-
-#ifdef PACK_STRUCT
-#pragma pack(pop)
-#endif
 
 #endif

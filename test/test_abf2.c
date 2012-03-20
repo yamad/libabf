@@ -18,15 +18,21 @@ void test_get_repeated_string(void)
 void test_abf2_read_section(void)
 {
     char bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-                    0x08, 0X09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+                      0x08, 0X09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
     char *buf = bytes;
     bool to_swap = 0;
 
     struct abf2_section sec;
     abf2_read_sectionp(buf, &sec, to_swap);
-    TEST_ASSERT_EQUAL_HEX32(0x00010203, sec.uBlockIndex);
-    TEST_ASSERT_EQUAL_HEX32(0x04050607, sec.uBytes);
-    TEST_ASSERT_EQUAL_HEX64(0x08090A0B0C0D0E0F, sec.llNumEntries);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0x03020100, sec.uBlockIndex);
+        TEST_ASSERT_EQUAL_HEX32(0x07060504, sec.uBytes);
+        TEST_ASSERT_EQUAL_HEX64(0x0F0E0D0C0B0A0908, sec.llNumEntries);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0x00010203, sec.uBlockIndex);
+        TEST_ASSERT_EQUAL_HEX32(0x04050607, sec.uBytes);
+        TEST_ASSERT_EQUAL_HEX64(0x08090A0B0C0D0E0F, sec.llNumEntries);
+    }
 }
 
 void test_abf2_read_section_swapped(void)
@@ -40,9 +46,15 @@ void test_abf2_read_section_swapped(void)
     struct abf2_section sec;
     buf = abf2_read_sectionp(buf, &sec, to_swap);
     TEST_ASSERT_EQUAL_INT(16, (buf - head));
-    TEST_ASSERT_EQUAL_HEX32(0x03020100, sec.uBlockIndex);
-    TEST_ASSERT_EQUAL_HEX32(0x07060504, sec.uBytes);
-    TEST_ASSERT_EQUAL_HEX64(0x0F0E0D0C0B0A0908, sec.llNumEntries);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0x00010203, sec.uBlockIndex);
+        TEST_ASSERT_EQUAL_HEX32(0x04050607, sec.uBytes);
+        TEST_ASSERT_EQUAL_HEX64(0x08090A0B0C0D0E0F, sec.llNumEntries);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0x03020100, sec.uBlockIndex);
+        TEST_ASSERT_EQUAL_HEX32(0x07060504, sec.uBytes);
+        TEST_ASSERT_EQUAL_HEX64(0x0F0E0D0C0B0A0908, sec.llNumEntries);
+    }
 }
 
 void test_abf2_read_guid(void)
@@ -60,9 +72,15 @@ void test_abf2_read_guid(void)
     struct guid guid;
     buf = abf2_read_guidp(buf, &guid, to_swap);
     TEST_ASSERT_EQUAL_INT(16, (buf - head)); /* returned pointer moves to next unread byte */
-    TEST_ASSERT_EQUAL_HEX64(0x6B29FC40, guid.Data1);
-    TEST_ASSERT_EQUAL_HEX32(0xCA47, guid.Data2);
-    TEST_ASSERT_EQUAL_HEX32(0x1067, guid.Data3);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0x40FC296B, guid.Data1);
+        TEST_ASSERT_EQUAL_HEX16(0x47CA, guid.Data2);
+        TEST_ASSERT_EQUAL_HEX16(0x6710, guid.Data3);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0x6B29FC40, guid.Data1);
+        TEST_ASSERT_EQUAL_HEX16(0xCA47, guid.Data2);
+        TEST_ASSERT_EQUAL_HEX16(0x1067, guid.Data3);
+    }
     TEST_ASSERT_EQUAL_HEX8(0xB3, guid.Data4[0]);
     TEST_ASSERT_EQUAL_HEX8(0x1D, guid.Data4[1]);
     TEST_ASSERT_EQUAL_HEX8(0x00, guid.Data4[2]);
@@ -140,17 +158,13 @@ void test_abf2_read_fileinfo(void)
                        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
                        0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
     char *buf = bytes;
-    bool to_swap = 1;
+    bool to_swap = 0;
     char *head = buf;
     struct abf2_fileinfo finfo;
     abf2_read_fileinfo(buf, &finfo, to_swap);
-    TEST_ASSERT_EQUAL_HEX32(0x32464241, finfo.uFileSignature);
-}
-
-void test_abf2_need_swap(void)
-{
-    uint32_t fsig = ABF2_FILESIGNATURE;
-    uint32_t fsig_swap = _swap32(ABF2_FILESIGNATURE);
-//    TEST_ASSERT_EQUAL_HEX32(0x32464241, fsig_swap);
-    TEST_ASSERT_EQUAL_INT(ENDIAN_LITTLE, get_endian());
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0x32464241, finfo.uFileSignature);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0x41424632, finfo.uFileSignature);
+    }
 }

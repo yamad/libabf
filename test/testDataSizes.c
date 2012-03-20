@@ -64,31 +64,31 @@ void test_ABF_FileInfo_is_512bytes(void)
 void test_ABF_ProtocolInfo_is_512bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(512, ABF_ProtocolInfo);
+    BYTE_SIZE_EQUAL(512, struct abf2_protocolinfo);
 }
 
 void test_ABF_MathInfo_is_128bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(128, ABF_MathInfo);
+    BYTE_SIZE_EQUAL(128, struct abf2_mathinfo);
 }
 
 void test_ABF_ADCInfo_is_128bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(128, ABF_ADCInfo);
+    BYTE_SIZE_EQUAL(128, struct abf2_adcinfo);
 }
 
 void test_ABF_DACInfo_is_256bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(256, ABF_DACInfo);
+    BYTE_SIZE_EQUAL(256, struct abf2_dacinfo);
 }
 
 void test_ABF_EpochInfoPerDAC_is_48bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(48, ABF_EpochInfoPerDAC);
+    BYTE_SIZE_EQUAL(48, struct abf2_epochinfoperdac);
 }
 
 void test_ABF_EpochInfo_is_32bytes(void)
@@ -100,11 +100,11 @@ void test_ABF_EpochInfo_is_32bytes(void)
 void test_ABF_StatsRegionInfo_is_128bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(128, ABF_StatsRegionInfo);
+    BYTE_SIZE_EQUAL(128, struct abf2_statsregioninfo);
 }
 
 void test_ABF_UserListInfo_is_64bytes(void)
 {
     TEST_IGNORE();
-    BYTE_SIZE_EQUAL(64, ABF_UserListInfo);
+    BYTE_SIZE_EQUAL(64, struct abf2_userlistinfo);
 }

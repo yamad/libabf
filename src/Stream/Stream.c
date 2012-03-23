@@ -23,24 +23,25 @@ StreamError Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, siz
 }
 
 
-StreamError Stream_write_uint8(Stream stream, const uint8_t *from)
+StreamError Stream_write_uint8(Stream stream, const uint8_t from)
 {
-    return Stream_writeChunk(stream, from, sizeof(uint8_t));
+    return Stream_writeChunk(stream, &from, sizeof(uint8_t));
 }
 
-StreamError Stream_write_int8(Stream stream, const int8_t *from)
+StreamError Stream_write_int8(Stream stream, const int8_t from)
 {
-    return Stream_writeChunk(stream, from, sizeof(int8_t));
+    return Stream_writeChunk(stream, &from, sizeof(int8_t));
 }
 
-StreamError Stream_write_uint16(Stream stream, const uint16_t *from, bool swap)
+StreamError Stream_write_uint16(Stream stream, const uint16_t from, bool swap)
 {
-    return Stream_writeChunk(stream, from, sizeof(uint16_t));
+    uint16_t from_endian = swap ? _swap16(from) : from;       
+    return Stream_writeChunk(stream, &from_endian, sizeof(uint16_t));
 }
 
-StreamError Stream_write_int16(Stream stream, const int16_t *from, bool swap)
+StreamError Stream_write_int16(Stream stream, const int16_t from, bool swap)
 {
-    return Stream_writeChunk(stream, from, sizeof(int16_t));
+    return Stream_writeChunk(stream, &from, sizeof(int16_t));
 }
 
 StreamError Stream_read_uint8(Stream stream, uint8_t *to)

@@ -131,8 +131,7 @@ void test_MemStream_WriteMultipleChunks(void)
 void test_MemStream_ReadChunk(void)
 {
     int8_t byteToWrite = 0xCA;
-    Stream_writeChunk(stream, &byteToWrite, sizeof(int8_t));
-    Stream_seekToStart(stream);
+    MemStream_fillData((MemStream)stream, &byteToWrite, 1);
 
     int8_t byteFromStream;
     err = Stream_readChunk(stream, &byteFromStream, sizeof(int8_t));
@@ -158,21 +157,21 @@ void test_MemStream_ReadMultipleChunks(void)
 void test_MemStream_read_uint8(void)
 {
     uint8_t byteToWrite = 0xCA;
-    Stream_write_uint8(stream, &byteToWrite);
-
+    Stream_write_uint8(stream, byteToWrite);
     Stream_seekToStart(stream);
-    uint8_t rec;
-    err = Stream_read_uint8(stream, &rec);
+    
+    uint8_t to;
+    err = Stream_read_uint8(stream, &to);
     if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint8 did not succeed");
-    TEST_ASSERT_EQUAL_HEX8(byteToWrite, rec);
+    TEST_ASSERT_EQUAL_HEX8(byteToWrite, to);
 }
 
 void test_Stream_write_uint16_advances_pos(void)
 {
     uint16_t bytesToWrite = 0xCAFE;
     bool to_swap = false;
-    err = Stream_write_uint16(stream, &bytesToWrite, to_swap);
+    err = Stream_write_uint16(stream, bytesToWrite, to_swap);
     if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: write_uint16 did not succeed");
     streamPositionIs(2);
@@ -180,15 +179,15 @@ void test_Stream_write_uint16_advances_pos(void)
 
 void test_MemStream_fillData_writes_directly_to_buffer(void)
 {
-    uint8_t from_buf[2] = {0xCA, 0xFE};
+    uint8_t from_buf[2] = { 0xCA, 0xFE };
     MemStream_fillData((MemStream)stream, from_buf, 2);
     TEST_ASSERT_EQUAL_HEX8(0xCA, MemStream_getByteAt(stream, 0));
     TEST_ASSERT_EQUAL_HEX8(0xFE, MemStream_getByteAt(stream, 1));
 }
 
-void test_Stream_read_uint16_gets_good_data(void)
+void test_Stream_read_uint16_gets_expected_value(void)
 {
-    uint8_t from_buf[2] = {0xCA, 0xFE};
+    uint8_t from_buf[2] = { 0xCA, 0xFE };
     bool to_swap = false;
     MemStream_fillData((MemStream)stream, from_buf, sizeof(uint16_t));
 
@@ -196,17 +195,16 @@ void test_Stream_read_uint16_gets_good_data(void)
     err = Stream_read_uint16(stream, &to, to_swap);
     if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
+    
     if (ENDIAN_LITTLE == get_endian())
         TEST_ASSERT_EQUAL_HEX16(0xFECA, to);
-    else if (ENDIAN_BIG == get_endian())
-        TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
     else
-        TEST_FAIL_MESSAGE("Unhandled endian");
+        TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
 }
 
 void test_Stream_read_uint16_swapped(void)
 {
-    uint8_t from_buf[2] = {0xFE, 0xCA};
+    uint8_t from_buf[2] = { 0xFE, 0xCA };
     bool to_swap = true;
     MemStream_fillData((MemStream)stream, from_buf, sizeof(uint16_t));
 
@@ -217,8 +215,6 @@ void test_Stream_read_uint16_swapped(void)
     
     if (ENDIAN_LITTLE == get_endian())
         TEST_ASSERT_EQUAL_HEX16(0xFECA, to);
-    else if (ENDIAN_BIG == get_endian())
-        TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
     else
-        TEST_FAIL_MESSAGE("Unhandled endian");
+        TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
 }

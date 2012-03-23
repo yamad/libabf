@@ -43,16 +43,16 @@ Boolean Stream_isOpenForWrite(Stream stream);
 Boolean Stream_isPositionIn(Stream stream, streamPosition position);
 Boolean Stream_hasSpace(Stream stream, size_t size);
 
-StreamError Stream_write_uint8(Stream stream, const uint8_t *from);
-StreamError Stream_write_int8(Stream stream, const int8_t *from);
-StreamError Stream_write_uint16(Stream stream, const uint16_t *from, bool swap);
-StreamError Stream_write_int16(Stream stream, const int16_t *from, bool swap);
-StreamError Stream_write_uint32(Stream stream, const uint32_t *from, bool swap);
-StreamError Stream_write_int32(Stream stream, const int32_t *from, bool swap);
-StreamError Stream_write_uint64(Stream stream, const uint64_t *from, bool swap);
-StreamError Stream_write_int64(Stream stream, const int64_t *from, bool swap);
-StreamError Stream_write_float(Stream stream, const float *from, bool swap);
-StreamError Stream_write_double(Stream stream, const double *from, bool swap);
+StreamError Stream_write_uint8(Stream stream, const uint8_t from);
+StreamError Stream_write_int8(Stream stream, const int8_t from);
+StreamError Stream_write_uint16(Stream stream, const uint16_t from, bool swap);
+StreamError Stream_write_int16(Stream stream, const int16_t from, bool swap);
+StreamError Stream_write_uint32(Stream stream, const uint32_t from, bool swap);
+StreamError Stream_write_int32(Stream stream, const int32_t from, bool swap);
+StreamError Stream_write_uint64(Stream stream, const uint64_t from, bool swap);
+StreamError Stream_write_int64(Stream stream, const int64_t from, bool swap);
+StreamError Stream_write_float(Stream stream, const float from, bool swap);
+StreamError Stream_write_double(Stream stream, const double from, bool swap);
 
 StreamError Stream_read_uint8(Stream stream, uint8_t *to);
 StreamError Stream_read_int8(Stream stream, int8_t *to);

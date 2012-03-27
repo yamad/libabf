@@ -6,6 +6,9 @@
 #define SAFE_STREAM_SIZE 512
 #define BAD_STREAM_SIZE -5
 
+stream_dt *memstream;
+STREAMERROR err;
+
 void setUp(void) 
 {
 }
@@ -16,23 +19,20 @@ void tearDown(void)
 
 void test_MemStream_Creation_CreateSafeSize(void)
 {
-    Stream memstream;
-    StreamError err = MemStream_Create(SAFE_STREAM_SIZE, &memstream);
-    TEST_ASSERT_EQUAL_INT(err, StreamError_Success);
+    err = memstream_create(SAFE_STREAM_SIZE, &memstream);
+    TEST_ASSERT_EQUAL_INT(err, STREAMERROR_SUCCESS);
 }
 
 void test_MemStream_Creation_CreateBadStreamReturnsMemoryError(void)
 {
-    Stream memstream;
-    StreamError err = MemStream_Create(BAD_STREAM_SIZE, &memstream);
-    TEST_ASSERT_EQUAL_INT(err, StreamError_NoMemory);
+    err = memstream_create(BAD_STREAM_SIZE, &memstream);
+    TEST_ASSERT_EQUAL_INT(err, STREAMERROR_NOMEMORY);
     TEST_ASSERT_NULL(memstream);
 }
 
 void test_MemStream_Creation_CreateEnormousStreamReturnsMemoryError(void)
 {
-    Stream memstream;
-    StreamError err = MemStream_Create(UINT_MAX, &memstream);
-    TEST_ASSERT_EQUAL_INT(err, StreamError_NoMemory);
+    err = memstream_create(UINT_MAX, &memstream);
+    TEST_ASSERT_EQUAL_INT(err, STREAMERROR_NOMEMORY);
     TEST_ASSERT_NULL(memstream);
 }

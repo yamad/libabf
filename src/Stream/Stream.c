@@ -1,58 +1,82 @@
 #include "Stream.h"
 
-StreamError Stream_seekToStart(Stream stream)
+STREAMERROR stream_seekToStart(stream_dt *stream)
 {
-    return Stream_seekFromStart(stream, 0);
+    return stream_seekFromStart(stream, 0);
 }
 
-StreamError Stream_seekToEnd(Stream stream)
+STREAMERROR stream_seekToEnd(stream_dt *stream)
 {
-    return Stream_seekFromEnd(stream, 0);
+    return stream_seekFromEnd(stream, 0);
 }
 
-StreamError Stream_writeMultipleChunks(Stream stream, const void *ptr, size_t size, size_t count)
-{
-    size_t totalSize = size * count;
-    return Stream_writeChunk(stream, ptr, totalSize);
-}
-
-StreamError Stream_readMultipleChunks(Stream stream, void *ptr, size_t size, size_t count)
+STREAMERROR stream_writen(stream_dt *stream, const void *ptr, size_t size, size_t count)
 {
     size_t totalSize = size * count;
-    return Stream_readChunk(stream, ptr, totalSize);
+    return stream_write(stream, ptr, totalSize);
 }
 
-
-StreamError Stream_write_uint8(Stream stream, const uint8_t from)
+STREAMERROR stream_readn(stream_dt *stream, void *ptr, size_t size, size_t count)
 {
-    return Stream_writeChunk(stream, &from, sizeof(uint8_t));
+    size_t totalSize = size * count;
+    return stream_read(stream, ptr, totalSize);
 }
 
-StreamError Stream_write_int8(Stream stream, const int8_t from)
+STREAMERROR stream_write_uint8(stream_dt *stream, const uint8_t from)
 {
-    return Stream_writeChunk(stream, &from, sizeof(int8_t));
+    return stream_write(stream, &from, sizeof(uint8_t));
 }
 
-StreamError Stream_write_uint16(Stream stream, const uint16_t from, bool swap)
+STREAMERROR stream_write_int8(stream_dt *stream, const int8_t from)
+{
+    return stream_write(stream, &from, sizeof(int8_t));
+}
+
+STREAMERROR stream_write_uint16(stream_dt *stream, const uint16_t from, bool swap)
 {
     uint16_t from_endian = swap ? _swap16(from) : from;       
-    return Stream_writeChunk(stream, &from_endian, sizeof(uint16_t));
+    return stream_write(stream, &from_endian, sizeof(uint16_t));
 }
 
-StreamError Stream_write_int16(Stream stream, const int16_t from, bool swap)
+STREAMERROR stream_write_int16(stream_dt *stream, const int16_t from, bool swap)
 {
-    return Stream_writeChunk(stream, &from, sizeof(int16_t));
+    int16_t from_endian = swap ? _swap16(from) : from;
+    return stream_write(stream, &from_endian, sizeof(int16_t));
 }
 
-StreamError Stream_read_uint8(Stream stream, uint8_t *to)
+STREAMERROR stream_write_uint32(stream_dt *stream, const uint32_t from, bool swap)
 {
-    return Stream_readChunk(stream, to, sizeof(uint8_t));
+    uint32_t from_endian = swap ? _swap32(from) : from;       
+    return stream_write(stream, &from_endian, sizeof(uint32_t));
 }
 
-StreamError Stream_read_uint16(Stream stream, uint16_t *to, bool swap)
+STREAMERROR stream_write_int32(stream_dt *stream, const int32_t from, bool swap)
 {
-    StreamError err;
-    err = Stream_readChunk(stream, to, sizeof(uint16_t));
+    int32_t from_endian = swap ? _swap32(from) : from;       
+    return stream_write(stream, &from_endian, sizeof(int32_t));
+}
+
+STREAMERROR stream_write_uint64(stream_dt *stream, const uint64_t from, bool swap)
+{
+    uint64_t from_endian = swap ? _swap64(from) : from;       
+    return stream_write(stream, &from_endian, sizeof(uint64_t));
+}
+
+STREAMERROR stream_write_int64(stream_dt *stream, const int64_t from, bool swap)
+{
+    int64_t from_endian = swap ? _swap64(from) : from;       
+    return stream_write(stream, &from_endian, sizeof(int64_t));
+}
+
+STREAMERROR stream_read_uint8(stream_dt *stream, uint8_t *to)
+{
+    return stream_read(stream, to, sizeof(uint8_t));
+}
+
+STREAMERROR stream_read_uint16(stream_dt *stream, uint16_t *to, bool swap)
+{
+    STREAMERROR err;
+    err = stream_read(stream, to, sizeof(uint16_t));
     if (swap)
         *to = _swap16(*to);
     return err;

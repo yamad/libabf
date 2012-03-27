@@ -35,17 +35,19 @@ format ATF.
 Portability
 ===========
 
-To maintain maximum portability, `libabf` aims to support any compiler
-supporting standard C89.
+`libabf` aims to support any compiler supporting standard C89, subject
+to the following assumptions about the host compiler and architecture:
 
-An exception to standard C89 compatibility is that floating-point
-values are assumed to be represented by IEEE-754 standard. However, I
-don't know of any system that could make productive use of `libabf`
-that does not use the IEEE-754 standard.
+ * 8-, 16-, 32-, and 64-bit type sizes are exactly representable
+ * IEEE-754 standard floating-point values are supported
 
-Useful features of C99, such as specific-width integer types and the
-boolean type, are only used if backports in standard C89 are
-available.
+These assumptions are not required by the C standard. However, almost
+all modern systems on which `libabf` is conceivably useful will
+fulfill these requirements.
+
+Features of C99, such as exact-width integer types (```stdint.h```)
+and the boolean type (```stdbool.h```), are backported to standard C89
+when they are not available natively.
 
 Useful features of specific operating systems not included in the C
 standard may be used to enhance performance. However, all user-facing
@@ -57,22 +59,30 @@ systems that do not have memory-mapped files will still be able to use
 Structure packing
 -----------------
 
-An important consequence of standard C compatibility is that the code
-may make no assumptions about structure packing and type sizes.  This
-assumption requires `libabf` to manually write and access structure
-members, which is the only known way of avoiding structure packing and
-endian issues in a portable way. This architecture adds complexity for
-the sake of compatibility.
+To remain optimally portable, `libabf` makes no assumptions about
+structure packing, data alignment, byte order, or type sizes. Safe
+reading and writing to the appropriate data layout must be done
+through the serialization and deserialization routines.
 
-All other ABF code this author has seen to date depends on the
-non-standard :inline:`#pragma pack` directive (supported by Visual
-Studio and gcc).
+`libabf`-defined structures are more portable versions of the
+structures defined in the header files supplied by Axon
+Instruments. The `libabf` structures are explicit about the expected
+size of each data member, and the order of data members is preserved.
+
+Portable C code cannot guarantee that the memory layout of the
+structures is the same as the data layout in the file itself. However,
+all other ABF reading/writing code this author has seen to date
+depends on the non-standard :inline:`#pragma pack` directive
+(supported by Visual Studio and gcc). The data layout of a structure
+as stored in an ABF file is the memory layout of the structure when
+the :inline:`#pragma pack(1)` option is active.
 
 Endian
 ------
 
-ABF files are written in the native byte-order of the computer that
-wrote the file. 
+ABF files are written in the native byte order of the computer that
+wrote the file. The byte order of the file can be determined from the
+order of the file signature, which is stored in the first four bytes.
 
 Other software
 ==============

@@ -5,16 +5,16 @@
 
 #include "Stream.h"
 
-typedef struct MemStreamStruct * MemStream;
+typedef struct memstream memstream_dt;
 
 void *calloc_safe(int numberElements, size_t elementSize);
 void *allocateByteArray(int numberBytes);
 
-StreamError MemStream_Create(size_t numberBytes, Stream *stream);
-StreamError MemStream_Destroy(Stream stream);
+STREAMERROR memstream_create(size_t numberBytes, stream_dt **stream);
+STREAMERROR memstream_destroy(stream_dt *stream);
 
 /* For testing only */
-int8_t MemStream_getByteAt(Stream stream, streamPosition index);
-StreamError MemStream_fillData(MemStream memstream, const uint8_t *from, size_t size);
+int8_t memstream_getByteAt(stream_dt *stream, streamPosition index);
+STREAMERROR memstream_fillData(memstream_dt *memstream, const uint8_t *from, size_t size);
 
 #endif

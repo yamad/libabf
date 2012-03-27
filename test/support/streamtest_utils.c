@@ -3,7 +3,7 @@
 void streamPositionIs(streamPosition expected)
 {
     streamPosition curr_pos;
-    if (StreamError_Success == Stream_getCurrentPosition(stream, &curr_pos))
+    if (STREAMERROR_SUCCESS == stream_getCurrentPosition(test_stream, &curr_pos))
         TEST_ASSERT_EQUAL_INT(expected, curr_pos);
     else
         TEST_FAIL_MESSAGE("Stream error");
@@ -12,7 +12,7 @@ void streamPositionIs(streamPosition expected)
 void streamPositionIsNot(streamPosition expected)
 {
     streamPosition actual;
-    if (StreamError_Success == Stream_getCurrentPosition(stream, &actual)) {
+    if (STREAMERROR_SUCCESS == stream_getCurrentPosition(test_stream, &actual)) {
         if (expected == actual) {
             char fail_string[256];
             sprintf(fail_string,

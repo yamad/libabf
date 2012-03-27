@@ -8,192 +8,182 @@
 
 void setUp(void)
 {
-    MemStream_Create(STREAM_SIZE, &stream);
-    err = StreamError_Unknown;
+    memstream_create(STREAM_SIZE, &test_stream);
+    err = STREAMERROR_UNKNOWN;
 }
 
 void tearDown(void)
 {
-    MemStream_Destroy(stream);
+    memstream_destroy(test_stream);
 }
 
-void test_MemStream_BasicSeekToStart(void)
+void test_memstream_BasicSeekToStart(void)
 {
-    Stream_seek(stream, 20, 0);
-    Stream_seek(stream, 0, 0);
+    stream_seek(test_stream, 20, 0);
+    stream_seek(test_stream, 0, 0);
     streamPositionIs(0);
 }
 
-void test_MemStream_BasicSeekToEnd(void)
+void test_memstream_BasicSeekToEnd(void)
 {
-    Stream_seek(stream, STREAM_SIZE - 1, 0);
+    stream_seek(test_stream, STREAM_SIZE - 1, 0);
     streamPositionIs(STREAM_SIZE - 1);
 }
 
-void test_MemStream_SeekPastStreamEndDoesNothing(void)
+void test_memstream_SeekPastStreamEndDoesNothing(void)
 {
-    Stream_seek(stream, 0, 0);
-    Stream_seek(stream, STREAM_SIZE, 0);
+    stream_seek(test_stream, 0, 0);
+    stream_seek(test_stream, STREAM_SIZE, 0);
     streamPositionIs(0);
 }
 
-void test_MemStream_SeekPastStreamStartDoesNothing(void)
+void test_memstream_SeekPastStreamStartDoesNothing(void)
 {
-    Stream_seek(stream, 0, 0);
-    Stream_seek(stream, -5, 0);
+    stream_seek(test_stream, 0, 0);
+    stream_seek(test_stream, -5, 0);
     streamPositionIs(0);
 }
 
-void test_MemStream_GetPosition(void)
+void test_memstream_GetPosition(void)
 {
     streamPositionIs(0);
 }
 
-void test_MemStream_SeekToLocation(void)
+void test_memstream_SeekToLocation(void)
 {
-    Stream_seek(stream, 5, 0);
+    stream_seek(test_stream, 5, 0);
     streamPositionIs(5);
 }
 
-void test_MemStream_SeekFromStart(void)
+void test_memstream_SeekFromStart(void)
 {
-    Stream_seekFromStart(stream, 10);
+    stream_seekFromStart(test_stream, 10);
     streamPositionIs(10);
 }
 
-void test_MemStream_SeekFromCurrent(void)
+void test_memstream_SeekFromCurrent(void)
 {
-    Stream_seek(stream, 10, 0);
-    Stream_seekFromCurrent(stream, 10);
+    stream_seek(test_stream, 10, 0);
+    stream_seekFromCurrent(test_stream, 10);
     streamPositionIs(20);
 }
 
-void test_MemStream_SeekFromEnd(void)
+void test_memstream_SeekFromEnd(void)
 {
-    Stream_seekFromEnd(stream, 10);
+    stream_seekFromEnd(test_stream, 10);
     streamPosition lastByte = STREAM_SIZE - 1;
     streamPositionIs(lastByte - 10);
 }
 
-void test_MemStream_SeekToStart(void)
+void test_memstream_SeekToStart(void)
 {
-    Stream_seek(stream, 10, 0);
+    stream_seek(test_stream, 10, 0);
     streamPositionIsNot(0);
-    Stream_seekToStart(stream);
+    stream_seekToStart(test_stream);
     streamPositionIs(0);
 }
 
-void test_MemStream_SeekToEnd(void)
+void test_memstream_SeekToEnd(void)
 {
     streamPosition lastByte = STREAM_SIZE - 1;
-    Stream_seek(stream, 0, 0);
+    stream_seek(test_stream, 0, 0);
     streamPositionIsNot(lastByte);
 
-    Stream_seekToEnd(stream);
+    stream_seekToEnd(test_stream);
     streamPositionIs(lastByte);
 }
 
-void test_MemStream_WriteSingleChunk(void)
+void test_memstream_WriteSingleChunk(void)
 {
     int8_t byteToWrite = 0xFF;
-    err = Stream_writeChunk(stream, &byteToWrite, sizeof(byteToWrite));
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: writeChunk did not succeed");
+    err = stream_write(test_stream, &byteToWrite, sizeof(byteToWrite));
+    if (STREAMERROR_SUCCESS != err)
+        TEST_FAIL_MESSAGE("Stream error: write did not succeed");
     streamPositionIs(1);
-    TEST_ASSERT_EQUAL_HEX(byteToWrite, MemStream_getByteAt(stream, 0));
+    TEST_ASSERT_EQUAL_HEX(byteToWrite, memstream_getByteAt(test_stream, 0));
 }
 
-void test_MemStream_WriteTooBigChunkFails(void)
+void test_memstream_WriteTooBigChunkFails(void)
 {
     /* write array of ones that is larger than space in stream */
     int8_t chunkToWrite[STREAM_SIZE + 1];
     memset(chunkToWrite, 1, sizeof(chunkToWrite));
 
-    err = Stream_writeChunk(stream, chunkToWrite, sizeof(chunkToWrite));
-    TEST_ASSERT_EQUAL_INT(StreamError_NoSpace, err);
+    err = stream_write(test_stream, chunkToWrite, sizeof(chunkToWrite));
+    TEST_ASSERT_EQUAL_INT(STREAMERROR_NOSPACE, err);
 
     /* 1s not written to the stream */
     streamPositionIs(0);
-    TEST_ASSERT_EQUAL_HEX(0, MemStream_getByteAt(stream, 0));
+    TEST_ASSERT_EQUAL_HEX(0, memstream_getByteAt(test_stream, 0));
 }
 
-void test_MemStream_WriteMultipleChunks(void)
+void test_memstream_writen(void)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
-    err = Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: writeMultipleChunks did not succeed");
+    err = stream_writen(test_stream, bytesToWrite, sizeof(int8_t), 2);
+    if (STREAMERROR_SUCCESS != err)
+        TEST_FAIL_MESSAGE("Stream error: writendid not succeed");
     streamPositionIs(2);
-    TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], MemStream_getByteAt(stream, 0));
-    TEST_ASSERT_EQUAL_HEX8(0xFE, MemStream_getByteAt(stream, 1));
+    TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], memstream_getByteAt(test_stream, 0));
+    TEST_ASSERT_EQUAL_HEX8(0xFE, memstream_getByteAt(test_stream, 1));
 }
 
-void test_MemStream_ReadChunk(void)
+void test_memstream_read(void)
 {
     int8_t byteToWrite = 0xCA;
-    MemStream_fillData((MemStream)stream, &byteToWrite, 1);
+    memstream_fillData((memstream_dt*)test_stream, &byteToWrite, 1);
 
     int8_t byteFromStream;
-    err = Stream_readChunk(stream, &byteFromStream, sizeof(int8_t));
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: readChunk did not succeed");
+    err = stream_read(test_stream, &byteFromStream, sizeof(int8_t));
+    if (STREAMERROR_SUCCESS != err)
+        TEST_FAIL_MESSAGE("Stream error: read did not succeed");
     TEST_ASSERT_EQUAL_HEX8(0xCA, byteFromStream);
 }
 
-void test_MemStream_ReadMultipleChunks(void)
+void test_memstream_readn(void)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
-    Stream_writeMultipleChunks(stream, bytesToWrite, sizeof(int8_t), 2);
-    Stream_seekToStart(stream);
+    stream_writen(test_stream, bytesToWrite, sizeof(int8_t), 2);
+    stream_seekToStart(test_stream);
 
     int8_t bytesFromStream[2];
-    err = Stream_readMultipleChunks(stream, bytesFromStream, sizeof(int8_t), 2);
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: readMultipleChunks did not succeed");
+    err = stream_readn(test_stream, bytesFromStream, sizeof(int8_t), 2);
+    if (STREAMERROR_SUCCESS != err)
+        TEST_FAIL_MESSAGE("Stream error: readn did not succeed");
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], bytesFromStream[0]);
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[1], bytesFromStream[1]);
 }
 
-void test_MemStream_read_uint8(void)
+void test_memstream_read_uint8(void)
 {
     uint8_t byteToWrite = 0xCA;
-    Stream_write_uint8(stream, byteToWrite);
-    Stream_seekToStart(stream);
+    stream_write_uint8(test_stream, byteToWrite);
+    stream_seekToStart(test_stream);
     
     uint8_t to;
-    err = Stream_read_uint8(stream, &to);
-    if (StreamError_Success != err)
+    err = stream_read_uint8(test_stream, &to);
+    if (STREAMERROR_SUCCESS != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint8 did not succeed");
     TEST_ASSERT_EQUAL_HEX8(byteToWrite, to);
 }
 
-void test_Stream_write_uint16_advances_pos(void)
-{
-    uint16_t bytesToWrite = 0xCAFE;
-    bool to_swap = false;
-    err = Stream_write_uint16(stream, bytesToWrite, to_swap);
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: write_uint16 did not succeed");
-    streamPositionIs(2);
-}
-
-void test_MemStream_fillData_writes_directly_to_buffer(void)
+void test_memstream_fillData_writes_directly_to_buffer(void)
 {
     uint8_t from_buf[2] = { 0xCA, 0xFE };
-    MemStream_fillData((MemStream)stream, from_buf, 2);
-    TEST_ASSERT_EQUAL_HEX8(0xCA, MemStream_getByteAt(stream, 0));
-    TEST_ASSERT_EQUAL_HEX8(0xFE, MemStream_getByteAt(stream, 1));
+    memstream_fillData((memstream_dt*)test_stream, from_buf, 2);
+    TEST_ASSERT_EQUAL_HEX8(0xCA, memstream_getByteAt(test_stream, 0));
+    TEST_ASSERT_EQUAL_HEX8(0xFE, memstream_getByteAt(test_stream, 1));
 }
 
-void test_Stream_read_uint16_gets_expected_value(void)
+void test_stream_read_uint16_gets_expected_value(void)
 {
     uint8_t from_buf[2] = { 0xCA, 0xFE };
     bool to_swap = false;
-    MemStream_fillData((MemStream)stream, from_buf, sizeof(uint16_t));
+    memstream_fillData((memstream_dt*)test_stream, from_buf, sizeof(uint16_t));
 
     uint16_t to;
-    err = Stream_read_uint16(stream, &to, to_swap);
-    if (StreamError_Success != err)
+    err = stream_read_uint16(test_stream, &to, to_swap);
+    if (STREAMERROR_SUCCESS != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
     
     if (ENDIAN_LITTLE == get_endian())
@@ -202,15 +192,15 @@ void test_Stream_read_uint16_gets_expected_value(void)
         TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
 }
 
-void test_Stream_read_uint16_swapped(void)
+void test_stream_read_uint16_swapped(void)
 {
     uint8_t from_buf[2] = { 0xFE, 0xCA };
     bool to_swap = true;
-    MemStream_fillData((MemStream)stream, from_buf, sizeof(uint16_t));
+    memstream_fillData((memstream_dt*)test_stream, from_buf, sizeof(uint16_t));
 
     uint16_t to;
-    err = Stream_read_uint16(stream, &to, to_swap);
-    if (StreamError_Success != err)
+    err = stream_read_uint16(test_stream, &to, to_swap);
+    if (STREAMERROR_SUCCESS != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
     
     if (ENDIAN_LITTLE == get_endian())

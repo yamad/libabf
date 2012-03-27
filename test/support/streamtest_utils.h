@@ -3,11 +3,12 @@
 
 #include "unity.h"
 #include "Stream.h"
+#include "swap.h"
 
 #define STREAM_SIZE 512
 
-Stream stream;
-StreamError err;
+stream_dt *test_stream;
+STREAMERROR err;
 
 void streamPositionIs(streamPosition expected);
 void streamPositionIsNot(streamPosition expected);

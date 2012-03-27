@@ -4,7 +4,7 @@
 #include "platform.h"
 #include "swap.h"
 
-typedef struct stream stream_dt;
+typedef struct st stream_dt;
 
 typedef off_t streamPosition;
 

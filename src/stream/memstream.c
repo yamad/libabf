@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "Stream.h"
-#include "MemStream.h"
+#include "stream.h"
+#include "memstream.h"
 
 #include "memory.c"
 

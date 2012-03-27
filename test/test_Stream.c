@@ -1,6 +1,6 @@
 #include "unity.h"
-#include "Stream.h"
-#include "MemStream.h"
+#include "stream.h"
+#include "memstream.h"
 
 #include "streamtest_utils.h"
 #include "swap.h"

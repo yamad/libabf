@@ -2,7 +2,7 @@
 #define STREAMTEST_UTILS_H
 
 #include "unity.h"
-#include "Stream.h"
+#include "stream.h"
 #include "swap.h"
 
 #define STREAM_SIZE 512

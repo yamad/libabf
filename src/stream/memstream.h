@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "Stream.h"
+#include "stream.h"
 
 typedef struct memstream memstream_dt;
 

@@ -1,4 +1,4 @@
-#include "Stream.h"
+#include "stream.h"
 
 STREAMERROR stream_seekToStart(stream_dt *stream)
 {

@@ -1,5 +1,5 @@
 #include "unity.h"
-#include "MemStream.h"
+#include "memstream.h"
 
 #include <limits.h>
 

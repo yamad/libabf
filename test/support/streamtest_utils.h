@@ -10,7 +10,7 @@
 stream_dt *test_stream;
 STREAMERROR err;
 
-void streamPositionIs(streamPosition expected);
-void streamPositionIsNot(streamPosition expected);
+void streamPositionIs(streampos_dt expected);
+void streamPositionIsNot(streampos_dt expected);
 
 #endif

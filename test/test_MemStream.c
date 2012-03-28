@@ -70,7 +70,7 @@ void test_memstream_SeekFromCurrent(void)
 void test_memstream_SeekFromEnd(void)
 {
     stream_seekFromEnd(test_stream, 10);
-    streamPosition lastByte = STREAM_SIZE - 1;
+    streampos_dt lastByte = STREAM_SIZE - 1;
     streamPositionIs(lastByte - 10);
 }
 
@@ -84,7 +84,7 @@ void test_memstream_SeekToStart(void)
 
 void test_memstream_SeekToEnd(void)
 {
-    streamPosition lastByte = STREAM_SIZE - 1;
+    streampos_dt lastByte = STREAM_SIZE - 1;
     stream_seek(test_stream, 0, 0);
     streamPositionIsNot(lastByte);
 

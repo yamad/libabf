@@ -9,8 +9,8 @@
 
 struct memstream
 {
-    streamPosition data_length;
-    streamPosition position;
+    streampos_dt data_length;
+    streampos_dt position;
     uint8_t *data;
 };
 
@@ -41,7 +41,7 @@ STREAMERROR memstream_destroy(stream_dt *super)
     return STREAMERROR_SUCCESS;
 }
 
-int8_t memstream_getByteAt(stream_dt *stm, streamPosition index)
+int8_t memstream_getByteAt(stream_dt *stm, streampos_dt index)
 {
     memstream_dt* self = (memstream_dt*) stm;
     if (stream_isPositionIn((stream_dt*)self, index)) {
@@ -70,37 +70,37 @@ void *calloc_safe(int numberElements, size_t elementSize)
     return mem;
 }
 
-STREAMERROR stream_getCurrentPosition(stream_dt *stm, streamPosition *curr_pos)
+STREAMERROR stream_getCurrentPosition(stream_dt *stm, streampos_dt *curr_pos)
 {
     *curr_pos = ((memstream_dt*)stm)->position;
     return STREAMERROR_SUCCESS;
 }
 
-STREAMERROR stream_seek(stream_dt *stm, streamPosition offset, streamPosition origin)
+STREAMERROR stream_seek(stream_dt *stm, streampos_dt offset, streampos_dt origin)
 {
     memstream_dt* self = (memstream_dt*) stm;
-    streamPosition new_position = offset + origin;
+    streampos_dt new_position = offset + origin;
     if (stream_isPositionIn((stream_dt*)self, new_position)) {
         self->position = new_position;
     }
     return STREAMERROR_SUCCESS;
 }
 
-STREAMERROR stream_seekFromStart(stream_dt *stm, streamPosition offset)
+STREAMERROR stream_seekFromStart(stream_dt *stm, streampos_dt offset)
 {
     return stream_seek(stm, offset, 0);
 }
 
-STREAMERROR stream_seekFromCurrent(stream_dt *stm, streamPosition offset)
+STREAMERROR stream_seekFromCurrent(stream_dt *stm, streampos_dt offset)
 {
     memstream_dt *self = (memstream_dt*) stm;
     return stream_seek((stream_dt*)self, offset, self->position);
 }
 
-STREAMERROR stream_seekFromEnd(stream_dt *stm, streamPosition offset)
+STREAMERROR stream_seekFromEnd(stream_dt *stm, streampos_dt offset)
 {
     memstream_dt *self = (memstream_dt*) stm;
-    streamPosition lastByte = self->data_length - 1;
+    streampos_dt lastByte = self->data_length - 1;
     return stream_seekFromStart((stream_dt*)self, lastByte - offset);
 }
 
@@ -132,7 +132,7 @@ bool stream_hasSpace(stream_dt *st, size_t size)
     return false;
 }
 
-bool stream_isPositionIn(stream_dt *st, streamPosition position)
+bool stream_isPositionIn(stream_dt *st, streampos_dt position)
 {
     memstream_dt *self = (memstream_dt*) st;
     if (0 <= position && self->data_length > position) {

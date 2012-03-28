@@ -4,9 +4,21 @@
 #include "platform.h"
 #include "swap.h"
 
-typedef struct st stream_dt;
+typedef struct stream stream_dt;
 
-typedef off_t streamPosition;
+/**
+ * A position in a stream
+ *
+ * This type can portably represent any position in a stream, and
+ * should be used whenever a stream position is needed. The POSIX type
+ * off_t has an identical purpose. On supported systems, streampos_dt
+ * is a synonym for off_t.
+ *
+ * fpos_t is a standard type that serves a similar purpose, but
+ * is only useful with fgetpos and fsetpos becasue it has an opaque,
+ * system-dependent representation.
+ */
+typedef uint64_t streampos_dt;
 
 /* Stream error states */
 typedef enum STREAMERROR {
@@ -28,18 +40,18 @@ STREAMERROR stream_readn(stream_dt *stream, void *ptr, size_t size, size_t count
 STREAMERROR stream_write(stream_dt *stream, const void *ptr, size_t size);
 STREAMERROR stream_writen(stream_dt *stream, const void *ptr, size_t size, size_t count);
 
-STREAMERROR stream_seek(stream_dt *stream, streamPosition offset, streamPosition origin);
-STREAMERROR stream_seekFromStart(stream_dt *stream, streamPosition offset);
-STREAMERROR stream_seekFromCurrent(stream_dt *stream, streamPosition offset);
-STREAMERROR stream_seekFromEnd(stream_dt *stream, streamPosition offset);
+STREAMERROR stream_seek(stream_dt *stream, streampos_dt offset, streampos_dt origin);
+STREAMERROR stream_seekFromStart(stream_dt *stream, streampos_dt offset);
+STREAMERROR stream_seekFromCurrent(stream_dt *stream, streampos_dt offset);
+STREAMERROR stream_seekFromEnd(stream_dt *stream, streampos_dt offset);
 STREAMERROR stream_seekToStart(stream_dt *stream);
 STREAMERROR stream_seekToEnd(stream_dt *stream);
 
-STREAMERROR stream_getCurrentPosition(stream_dt *stream, streamPosition *curr_pos);
+STREAMERROR stream_getCurrentPosition(stream_dt *stream, streampos_dt *curr_pos);
 bool stream_isOpenForRead(stream_dt *stream);
 bool stream_isOpenForWrite(stream_dt *stream);
 
-bool stream_isPositionIn(stream_dt *stream, streamPosition position);
+bool stream_isPositionIn(stream_dt *stream, streampos_dt position);
 bool stream_hasSpace(stream_dt *stream, size_t size);
 
 STREAMERROR stream_write_uint8(stream_dt *stream, const uint8_t from);

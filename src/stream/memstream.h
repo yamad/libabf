@@ -14,7 +14,7 @@ STREAMERROR memstream_create(size_t numberBytes, stream_dt **stream);
 STREAMERROR memstream_destroy(stream_dt *stream);
 
 /* For testing only */
-int8_t memstream_getByteAt(stream_dt *stream, streamPosition index);
+int8_t memstream_getByteAt(stream_dt *stream, streampos_dt index);
 STREAMERROR memstream_fillData(memstream_dt *memstream, const uint8_t *from, size_t size);
 
 #endif

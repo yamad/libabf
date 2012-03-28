@@ -4,6 +4,25 @@
 #include "platform.h"
 #include "swap.h"
 
+/**
+ * Base stream type
+ *
+ * This is the central type underlying the stream API, which can
+ * handle generic streams of data. The stream API abstracts and
+ * reimplements most functions acting on the FILE type in standard
+ * C.
+ *
+ * This abstraction allows client code to work with streams from
+ * arbitrary data sources. Functions that work on streams do not have
+ * to know about where the actual data comes from. This feature is
+ * particularly useful for testing purposes.
+ *
+ * The GNU libc extension fmemopen is similar, but is non-portable. In
+ * theory, the FILE type is already an abstraction for
+ * streams. However, platform differences and the inaccessibility of
+ * the type for client extension made FILE an impractical place to
+ * hang one's hat.
+ */
 typedef struct stream stream_dt;
 
 /**
@@ -20,14 +39,20 @@ typedef struct stream stream_dt;
  */
 typedef uint64_t streampos_dt;
 
-/* Stream error states */
+
+/**
+ * Return codes for the stream API
+ *
+ * Functions in the stream API will return one of these codes to
+ * indicate error status.
+ */
 typedef enum STREAMERROR {
-    STREAMERROR_UNKNOWN = -2,   /* unknown/undefined outcome */
-    STREAMERROR_FAILURE = -1,   /* non-specific failure */
-    STREAMERROR_SUCCESS = 0,    /* non-specific success */
-    STREAMERROR_NOMEMORY,       /* insufficient memory */
-    STREAMERROR_NOSPACE,        /* insufficient space */
-    STREAMERROR_NOOP            /* no effect/operation. *not an error* */
+    STREAMERROR_UNKNOWN = -2,   /**< unknown/undefined outcome */
+    STREAMERROR_FAILURE = -1,   /**< non-specific failure */
+    STREAMERROR_SUCCESS = 0,    /**< non-specific success */
+    STREAMERROR_NOMEMORY,       /**< insufficient memory */
+    STREAMERROR_NOSPACE,        /**< insufficient space */
+    STREAMERROR_NOOP            /**< no effect/operation. *not an error* */
 } STREAMERROR;
 
 STREAMERROR stream_create(size_t size, stream_dt *stream);

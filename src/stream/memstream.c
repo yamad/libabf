@@ -14,31 +14,31 @@ struct memstream
     uint8_t *data;
 };
 
-STREAMERROR memstream_create(size_t numberBytes, stream_dt **stream)
+StreamError memstream_create(size_t numberBytes, stream_dt **stream)
 {
     *stream = NULL;
     memstream_dt *self = NEW(memstream_dt);
     if (self == NULL) {
-        return STREAMERROR_FAILURE;
+        return StreamError_Failure;
     }
     self->data = allocateByteArray(numberBytes);
     if (self->data == NULL) {
         memstream_destroy((stream_dt*)self);
-        return STREAMERROR_NOMEMORY;
+        return StreamError_NoMemory;
     }
 
     self->data_length = (size_t)numberBytes;
     self->position = 0;
     *stream = (stream_dt*)self;
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }
 
-STREAMERROR memstream_destroy(stream_dt *super)
+StreamError memstream_destroy(stream_dt *super)
 {
     memstream_dt* self = (memstream_dt*)super;
     FREE(self->data);
     FREE(self);
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }
 
 int8_t memstream_getByteAt(stream_dt *stm, streampos_dt index)
@@ -70,57 +70,57 @@ void *calloc_safe(int numberElements, size_t elementSize)
     return mem;
 }
 
-STREAMERROR stream_getCurrentPosition(stream_dt *stm, streampos_dt *curr_pos)
+StreamError stream_getCurrentPosition(stream_dt *stm, streampos_dt *curr_pos)
 {
     *curr_pos = ((memstream_dt*)stm)->position;
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }
 
-STREAMERROR stream_seek(stream_dt *stm, streampos_dt offset, streampos_dt origin)
+StreamError stream_seek(stream_dt *stm, streampos_dt offset, streampos_dt origin)
 {
     memstream_dt* self = (memstream_dt*) stm;
     streampos_dt new_position = offset + origin;
     if (stream_isPositionIn((stream_dt*)self, new_position)) {
         self->position = new_position;
     }
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }
 
-STREAMERROR stream_seekFromStart(stream_dt *stm, streampos_dt offset)
+StreamError stream_seekFromStart(stream_dt *stm, streampos_dt offset)
 {
     return stream_seek(stm, offset, 0);
 }
 
-STREAMERROR stream_seekFromCurrent(stream_dt *stm, streampos_dt offset)
+StreamError stream_seekFromCurrent(stream_dt *stm, streampos_dt offset)
 {
     memstream_dt *self = (memstream_dt*) stm;
     return stream_seek((stream_dt*)self, offset, self->position);
 }
 
-STREAMERROR stream_seekFromEnd(stream_dt *stm, streampos_dt offset)
+StreamError stream_seekFromEnd(stream_dt *stm, streampos_dt offset)
 {
     memstream_dt *self = (memstream_dt*) stm;
     streampos_dt lastByte = self->data_length - 1;
     return stream_seekFromStart((stream_dt*)self, lastByte - offset);
 }
 
-STREAMERROR stream_write(stream_dt *stm, const void *ptr, size_t size)
+StreamError stream_write(stream_dt *stm, const void *ptr, size_t size)
 {
     memstream_dt* self = (memstream_dt*) stm;
     if (!stream_hasSpace((stream_dt*)self, size)) {
-        return STREAMERROR_NOSPACE;
+        return StreamError_NoSpace;
     }
     memcpy(self->data, ptr, size);
     stream_seekFromCurrent((stream_dt*)self, size);
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }
 
-STREAMERROR stream_read(stream_dt *stm, void *ptr, size_t size)
+StreamError stream_read(stream_dt *stm, void *ptr, size_t size)
 {
     memstream_dt *self = (memstream_dt*) stm;
     memcpy(ptr, self->data, size);
     stream_seekFromCurrent((stream_dt*)self, size);
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }
 
 bool stream_hasSpace(stream_dt *st, size_t size)
@@ -141,10 +141,10 @@ bool stream_isPositionIn(stream_dt *st, streampos_dt position)
     return false;
 }
 
-STREAMERROR memstream_fillData(memstream_dt *ms, const uint8_t *from, size_t size)
+StreamError memstream_fillData(memstream_dt *ms, const uint8_t *from, size_t size)
 {
     if (!stream_hasSpace((stream_dt *)ms, size))
-        return STREAMERROR_NOSPACE;
+        return StreamError_NoSpace;
     memcpy(ms->data, from, size);
-    return STREAMERROR_SUCCESS;
+    return StreamError_Success;
 }

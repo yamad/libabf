@@ -8,7 +8,7 @@
 #define STREAM_SIZE 512
 
 stream_dt *test_stream;
-STREAMERROR err;
+StreamError err;
 
 void streamPositionIs(streampos_dt expected);
 void streamPositionIsNot(streampos_dt expected);

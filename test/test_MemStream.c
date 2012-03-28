@@ -8,7 +8,7 @@
 void setUp(void)
 {
     memstream_create(STREAM_SIZE, &test_stream);
-    err = STREAMERROR_UNKNOWN;
+    err = StreamError_Unknown;
 }
 
 void tearDown(void)
@@ -96,7 +96,7 @@ void test_memstream_WriteSingleChunk(void)
 {
     int8_t byteToWrite = 0xFF;
     err = stream_write(test_stream, &byteToWrite, sizeof(byteToWrite));
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: write did not succeed");
     streamPositionIs(1);
     TEST_ASSERT_EQUAL_HEX(byteToWrite, memstream_getByteAt(test_stream, 0));
@@ -109,7 +109,7 @@ void test_memstream_WriteTooBigChunkFails(void)
     memset(chunkToWrite, 1, sizeof(chunkToWrite));
 
     err = stream_write(test_stream, chunkToWrite, sizeof(chunkToWrite));
-    TEST_ASSERT_EQUAL_INT(STREAMERROR_NOSPACE, err);
+    TEST_ASSERT_EQUAL_INT(StreamError_NoSpace, err);
 
     /* 1s not written to the stream */
     streamPositionIs(0);
@@ -120,7 +120,7 @@ void test_memstream_writen(void)
 {
     int8_t bytesToWrite[2] = {0xCA, 0xFE};
     err = stream_writen(test_stream, bytesToWrite, sizeof(int8_t), 2);
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: writendid not succeed");
     streamPositionIs(2);
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], memstream_getByteAt(test_stream, 0));
@@ -134,7 +134,7 @@ void test_memstream_read(void)
 
     int8_t byteFromStream;
     err = stream_read(test_stream, &byteFromStream, sizeof(int8_t));
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read did not succeed");
     TEST_ASSERT_EQUAL_HEX8(0xCA, byteFromStream);
 }
@@ -147,7 +147,7 @@ void test_memstream_readn(void)
 
     int8_t bytesFromStream[2];
     err = stream_readn(test_stream, bytesFromStream, sizeof(int8_t), 2);
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: readn did not succeed");
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], bytesFromStream[0]);
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[1], bytesFromStream[1]);
@@ -161,7 +161,7 @@ void test_memstream_read_uint8(void)
     
     uint8_t to;
     err = stream_read_uint8(test_stream, &to);
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint8 did not succeed");
     TEST_ASSERT_EQUAL_HEX8(byteToWrite, to);
 }
@@ -182,7 +182,7 @@ void test_stream_read_uint16_gets_expected_value(void)
 
     uint16_t to;
     err = stream_read_uint16(test_stream, &to, to_swap);
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
     
     if (ENDIAN_LITTLE == get_endian())
@@ -199,7 +199,7 @@ void test_stream_read_uint16_swapped(void)
 
     uint16_t to;
     err = stream_read_uint16(test_stream, &to, to_swap);
-    if (STREAMERROR_SUCCESS != err)
+    if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
     
     if (ENDIAN_LITTLE == get_endian())

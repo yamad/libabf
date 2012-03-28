@@ -11,7 +11,7 @@ which stands for *data type*. This scheme is a variation of the
 ```*_t``` suffix cannot be used directly because POSIX reserves it for
 implementations.
 
-If the type represents a struct, the strut tag should be the same as
+If the type represents a struct, the struct tag should be the same as
 the type but without the ```*_dt``` suffix. For a example::
 
     typedef struct foo foo_dt;
@@ -26,11 +26,19 @@ not be hidden by typedefs.
 enums
 =====
 
-Enumeration members are all uppercase and prefixed with the name of
-the enumeration type. The enumeration tag is lowercase. If defined (as
-recommended), the typedef is all uppercase. For example::
+Enumeration types are in CamelCase. Enumeration members are also in
+CamelCase and are prefixed with the enum tag separated by an
+underscore. If defined, which is recommended, an enum typedef should
+be identical to the enum tag.
 
-   typedef enum bar {
-       BAR_A,
-       BAR_B
-   } BAR;
+For example::
+
+   typedef enum Foo {
+       Foo_Bar,
+       Foo_BazMoo
+   } Foo;
+
+enums are the only construct named in CamelCase. Because they act as
+constants, one could argue that an uppercase naming convention is
+appropriate. However, enum member names can become long and CamelCase
+is less "noisy" and more readable for such long names.

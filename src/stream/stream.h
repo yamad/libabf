@@ -1,3 +1,7 @@
+/**
+ * @file stream.h
+ * @brief generic data stream interface
+ */
 #ifndef STREAM_H
 #define STREAM_H
 
@@ -17,24 +21,25 @@
  * to know about where the actual data comes from. This feature is
  * particularly useful for testing purposes.
  *
- * The GNU libc extension fmemopen is similar, but is non-portable. In
- * theory, the FILE type is already an abstraction for
- * streams. However, platform differences and the inaccessibility of
- * the type for client extension made FILE an impractical place to
+ * The GNU libc extension fmemopen() is similar, but is
+ * non-portable. In theory, the FILE type is already an abstraction
+ * for streams. However, platform differences and the inaccessibility
+ * of the type for client extension made FILE an impractical place to
  * hang one's hat.
  */
 typedef struct stream stream_dt;
+
 
 /**
  * A position in a stream
  *
  * This type can portably represent any position in a stream, and
  * should be used whenever a stream position is needed. The POSIX type
- * off_t has an identical purpose. On supported systems, streampos_dt
- * is a synonym for off_t.
+ * `off_t` has an identical purpose. On supported systems, streampos_dt
+ * is a synonym for `off_t`.
  *
- * fpos_t is a standard type that serves a similar purpose, but
- * is only useful with fgetpos and fsetpos becasue it has an opaque,
+ * `fpos_t` is a standard type that serves a similar purpose, but is
+ * only useful with fgetpos() and fsetpos() becasue it has an opaque,
  * system-dependent representation.
  */
 typedef uint64_t streampos_dt;

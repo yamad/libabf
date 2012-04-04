@@ -65,10 +65,51 @@ StreamError stream_openForRead(const char *path, stream_dt *stream);
 StreamError stream_openForWrite(const char *path, stream_dt *stream);
 StreamError stream_close(stream_dt *stream);
 
+/**
+ * Read `size` bytes from a stream into the memory area `ptr`.
+ *
+ * `ptr` must be large enough to hold `size`
+ * bytes. StreamError_NoSpace is returned if the stream does not have
+ * enough data remaining. The stream position is advanced by `size`.
+ *
+ * @see stream_write()
+ */
 StreamError stream_read(stream_dt *stream, void *ptr, size_t size);
-StreamError stream_readn(stream_dt *stream, void *ptr, size_t size, size_t count);
+
+/**
+ * Read `n` elements of `size` bytes each from a stream into the
+ * memory area `ptr`.
+ *
+ * `ptr` must be large enough to hold `size`*`n`
+ * bytes. StreamError_NoSpace is returned if the stream does not have
+ * enough data. The stream position is advanced by `size`*`n`.
+ *
+ * @see stream_read()
+ */
+StreamError stream_readn(stream_dt *stream, void *ptr, size_t size, size_t n);
+
+/**
+ * Write `size` bytes from memory `ptr` to stream `stream`.
+ *
+ * `ptr` must have at least `size` bytes of data. StreamError_NoSpace
+ * is returned if the stream does not have sufficient space to hold
+ * `size` bytes. The stream position is advanced by `size` bytes.
+ *
+ * @see stream_read(), stream_writen()
+ **/
 StreamError stream_write(stream_dt *stream, const void *ptr, size_t size);
-StreamError stream_writen(stream_dt *stream, const void *ptr, size_t size, size_t count);
+
+/**
+ * Write `n` elements of `size` bytes each from memory `ptr` to `stream`.
+ *
+ * `ptr` must have at least `size`*`n` bytes of
+ * data. StreamError_NoSpace is returned if the stream does not have
+ * sufficient space to hold `size`*`n` bytes. The stream position is
+ * advanced by `size`*`n` bytes.
+ *
+ * @see stream_write(), stream_readn()
+ **/
+StreamError stream_writen(stream_dt *stream, const void *ptr, size_t size, size_t n);
 
 StreamError stream_seek(stream_dt *stream, streampos_dt offset, streampos_dt origin);
 StreamError stream_seekFromStart(stream_dt *stream, streampos_dt offset);
@@ -83,6 +124,7 @@ bool stream_isOpenForWrite(stream_dt *stream);
 
 bool stream_isPositionIn(stream_dt *stream, streampos_dt position);
 bool stream_hasSpace(stream_dt *stream, size_t size);
+
 
 StreamError stream_write_uint8(stream_dt *stream, const uint8_t from);
 StreamError stream_write_int8(stream_dt *stream, const int8_t from);

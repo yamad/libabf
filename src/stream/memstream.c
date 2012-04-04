@@ -52,7 +52,7 @@ int8_t memstream_getByteAt(stream_dt *stm, streampos_dt index)
 
 void *allocateByteArray(int numberBytes)
 {
-    int8_t * ptr_mem = calloc_safe(numberBytes, sizeof(int8_t));
+    int8_t *ptr_mem = calloc_safe(numberBytes, sizeof(int8_t));
     if (ptr_mem == NULL) {
         return NULL;
     }
@@ -118,6 +118,9 @@ StreamError stream_write(stream_dt *stm, const void *ptr, size_t size)
 StreamError stream_read(stream_dt *stm, void *ptr, size_t size)
 {
     memstream_dt *self = (memstream_dt*) stm;
+    if (!stream_hasSpace((stream_dt*)self, size)) {
+        return StreamError_NoSpace;
+    }
     memcpy(ptr, self->data, size);
     stream_seekFromCurrent((stream_dt*)self, size);
     return StreamError_Success;

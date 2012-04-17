@@ -383,6 +383,26 @@ void test_stream_write_int64_advances_pos(void)
     streamPositionIs(8);
 }
 
+void test_stream_read_uint8_gets_expected_value(void)
+{
+    uint8_t byteToWrite = 0xCA;
+    memstream_fillData((memstream_dt*)test_stream, &byteToWrite, 1);
+
+    uint8_t result;
+    err = stream_read_uint8(test_stream, &result);
+    TEST_ASSERT_EQUAL_HEX8(0xCA, result);
+}
+
+void test_stream_read_int8_gets_expected_value(void)
+{
+    uint8_t byteToWrite = 0xCA;
+    memstream_fillData((memstream_dt*)test_stream, &byteToWrite, 1);
+
+    int8_t result;
+    err = stream_read_int8(test_stream, &result);
+    TEST_ASSERT_EQUAL_HEX8(0xCA, result);
+}
+
 void test_stream_read_uint16_gets_expected_value(void)
 {
     uint8_t bytesToWrite[2] = { 0xCA, 0xFE };
@@ -396,7 +416,7 @@ void test_stream_read_uint16_gets_expected_value(void)
     if (ENDIAN_LITTLE == get_endian()) {
         TEST_ASSERT_EQUAL_HEX16(0xFECA, result);
     } else {
-        TEST_ASSERT_EQUAL_HEX16(0xCAFE, result);        
+        TEST_ASSERT_EQUAL_HEX16(0xCAFE, result);
     }
 }
 
@@ -413,6 +433,176 @@ void test_stream_read_uint16_gets_swapped_value(void)
     if (ENDIAN_LITTLE == get_endian()) {
         TEST_ASSERT_EQUAL_HEX16(0xCAFE, result);
     } else {
-        TEST_ASSERT_EQUAL_HEX16(0xFECA, result);        
+        TEST_ASSERT_EQUAL_HEX16(0xFECA, result);
+    }
+}
+
+void test_stream_read_int16_gets_expected_value(void)
+{
+    uint8_t bytesToWrite[2] = { 0xCA, 0xFE };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 2);
+    bool to_swap = false;
+
+    int16_t result;
+    err = stream_read_int16(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_int16 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX16(0xFECA, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX16(0xCAFE, result);
+    }
+}
+
+void test_stream_read_int16_gets_swapped_value(void)
+{
+    uint8_t bytesToWrite[2] = { 0xCA, 0xFE };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 2);
+    bool to_swap = true;
+
+    int16_t result;
+    err = stream_read_int16(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_int16 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX16(0xCAFE, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX16(0xFECA, result);
+    }
+}
+
+void test_stream_read_uint32_gets_expected_value(void)
+{
+    uint8_t bytesToWrite[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 4);
+    bool to_swap = false;
+
+    uint32_t result;
+    err = stream_read_uint32(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_uint32 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, result);
+    }
+}
+
+void test_stream_read_uint32_gets_swapped_value(void)
+{
+    uint8_t bytesToWrite[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 4);
+    bool to_swap = true;
+
+    uint32_t result;
+    err = stream_read_uint32(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_uint32 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, result);
+    }
+}
+
+void test_stream_read_int32_gets_expected_value(void)
+{
+    uint8_t bytesToWrite[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 4);
+    bool to_swap = false;
+
+    int32_t result;
+    err = stream_read_int32(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_int32 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, result);
+    }
+}
+
+void test_stream_read_int32_gets_swapped_value(void)
+{
+    uint8_t bytesToWrite[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 4);
+    bool to_swap = true;
+
+    int32_t result;
+    err = stream_read_int32(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_int32 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, result);
+    }
+}
+
+void test_stream_read_uint64_gets_expected_value(void)
+{
+    uint8_t bytesToWrite[8] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 8);
+    bool to_swap = false;
+
+    uint64_t result;
+    err = stream_read_uint64(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_uint64 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX64(0x0706050403020100, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX64(0x0001020304050607, result);
+    }
+}
+
+void test_stream_read_uint64_gets_swapped_value(void)
+{
+    uint8_t bytesToWrite[8] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 8);
+    bool to_swap = true;
+
+    uint64_t result;
+    err = stream_read_uint64(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_uint64 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX64(0x0001020304050607, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX64(0x0706050403020100, result);
+    }
+}
+
+void test_stream_read_int64_gets_expected_value(void)
+{
+    uint8_t bytesToWrite[8] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 8);
+    bool to_swap = false;
+
+    int64_t result;
+    err = stream_read_int64(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_int64 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX64(0x0706050403020100, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX64(0x0001020304050607, result);
+    }
+}
+
+void test_stream_read_int64_gets_swapped_value(void)
+{
+    uint8_t bytesToWrite[8] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 8);
+    bool to_swap = true;
+
+    int64_t result;
+    err = stream_read_int64(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_int64 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX64(0x0001020304050607, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX64(0x0706050403020100, result);
     }
 }

@@ -155,8 +155,8 @@ void test_memstream_readn(void)
 
 void test_memstream_read_uint8(void)
 {
-    uint8_t byteToWrite = 0xCA;
-    stream_write_uint8(test_stream, byteToWrite);
+    uint8_t byteToWrite = 0x02;
+    memstream_fillData((memstream_dt*)test_stream, &byteToWrite, 1);
     stream_seekToStart(test_stream);
 
     uint8_t to;

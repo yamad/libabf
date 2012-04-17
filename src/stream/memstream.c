@@ -52,7 +52,7 @@ int8_t memstream_getByteAt(stream_dt *stm, streampos_dt index)
 
 void *allocateByteArray(int numberBytes)
 {
-    int8_t *ptr_mem = calloc_safe(numberBytes, sizeof(int8_t));
+    int8_t *ptr_mem = calloc_safe(numberBytes, sizeof(uint8_t));
     if (ptr_mem == NULL) {
         return NULL;
     }

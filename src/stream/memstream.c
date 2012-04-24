@@ -70,7 +70,7 @@ void *calloc_safe(int numberElements, size_t elementSize)
     return mem;
 }
 
-StreamError stream_getCurrentPosition(stream_dt *stm, streampos_dt *curr_pos)
+StreamError stream_tell(stream_dt *stm, streampos_dt *curr_pos)
 {
     *curr_pos = ((memstream_dt*)stm)->position;
     return StreamError_Success;

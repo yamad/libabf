@@ -118,7 +118,8 @@ StreamError stream_seekFromEnd(stream_dt *stream, streampos_dt offset);
 StreamError stream_seekToStart(stream_dt *stream);
 StreamError stream_seekToEnd(stream_dt *stream);
 
-StreamError stream_getCurrentPosition(stream_dt *stream, streampos_dt *curr_pos);
+StreamError stream_tell(stream_dt *stream, streampos_dt *curr_pos);
+
 bool stream_isOpenForRead(stream_dt *stream);
 bool stream_isOpenForWrite(stream_dt *stream);
 

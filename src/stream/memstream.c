@@ -15,6 +15,29 @@ struct memstream
     uint8_t *data;
 };
 
+StreamError memstream_create(size_t numberBytes, stream_dt **stream)
+{
+    *stream = NULL;
+    memstream_dt *self = NEW(memstream_dt);
+    if (self == NULL) {
+        return StreamError_Failure;
+    }
+
+    self->base.type = "MemStream";
+    self->base.ops = &memstream_ops;
+
+    self->data = allocateByteArray(numberBytes);
+    if (self->data == NULL) {
+        memstream_destroy((stream_dt*)self);
+        return StreamError_NoMemory;
+    }
+
+    self->data_length = (size_t)numberBytes;
+    self->position = 0;
+    *stream = (stream_dt*)self;
+    return StreamError_Success;
+}
+
 StreamError memstream_destroy(stream_dt *super)
 {
     memstream_dt* self = (memstream_dt*)super;
@@ -58,20 +81,14 @@ StreamError memstream_tell(stream_dt *stream, streampos_dt *curr_pos)
     return StreamError_Success;
 }
 
-StreamError memstream_seek(stream_dt *stm, streampos_dt offset, streampos_dt origin)
+StreamError memstream_seek(stream_dt *stream, streampos_dt offset, streampos_dt origin)
 {
-    memstream_dt* self = (memstream_dt*) stm;
+    memstream_dt* self = (memstream_dt*)stream;
     streampos_dt new_position = offset + origin;
     if (stream_posfits((stream_dt*)self, new_position)) {
         self->position = new_position;
     }
     return StreamError_Success;
-}
-
-StreamError stream_seekFromCurrent(stream_dt *stm, streampos_dt offset)
-{
-    memstream_dt *self = (memstream_dt*) stm;
-    return memstream_seek((stream_dt*)self, offset, self->position);
 }
 
 StreamError stream_seekFromEnd(stream_dt *stm, streampos_dt offset)
@@ -81,21 +98,21 @@ StreamError stream_seekFromEnd(stream_dt *stm, streampos_dt offset)
     return memstream_seek((stream_dt*)self, -offset, lastByte);
 }
 
-StreamError memstream_write(stream_dt *stm, const void *ptr, size_t size)
+StreamError memstream_write(stream_dt *stream, const void *ptr, size_t size)
 {
-    memstream_dt* self = (memstream_dt*) stm;
-    if (!stream_sizefits((stream_dt*)self, size)) {
+    memstream_dt* self = (memstream_dt*) stream;
+    if (!memstream_sizefits((stream_dt*)self, size)) {
         return StreamError_NoSpace;
     }
     memcpy(self->data, ptr, size);
-    stream_seekFromCurrent((stream_dt*)self, size);
+    memstream_seek((stream_dt*)self, size, self->position);
     return StreamError_Success;
 }
 
 StreamError memstream_read(stream_dt *stream, void *ptr, size_t size)
 {
     memstream_dt *self = (memstream_dt*)stream;
-    if (!stream_sizefits((stream_dt*)self, size)) {
+    if (!memstream_sizefits((stream_dt*)self, size)) {
         return StreamError_NoSpace;
     }
     memcpy(ptr, self->data, size);
@@ -103,19 +120,19 @@ StreamError memstream_read(stream_dt *stream, void *ptr, size_t size)
     return StreamError_Success;
 }
 
-bool stream_sizefits(stream_dt *st, size_t size)
+bool memstream_posfits(stream_dt *stream, streampos_dt position)
 {
-    memstream_dt *self = (memstream_dt*) st;
-    if (stream_posfits((stream_dt*)self, self->position + size)) {
+    memstream_dt *self = (memstream_dt*) stream;
+    if (0 <= position && self->data_length > position) {
         return true;
     }
     return false;
 }
 
-bool stream_posfits(stream_dt *st, streampos_dt position)
+bool memstream_sizefits(stream_dt *stream, size_t size)
 {
-    memstream_dt *self = (memstream_dt*) st;
-    if (0 <= position && self->data_length > position) {
+    memstream_dt *self = (memstream_dt*) stream;
+    if (memstream_posfits((stream_dt*)self, self->position + size)) {
         return true;
     }
     return false;
@@ -128,34 +145,3 @@ StreamError memstream_fillData(memstream_dt *ms, const uint8_t *from, size_t siz
     memcpy(ms->data, from, size);
     return StreamError_Success;
 }
-
-struct stream_operations memstream_ops = {
-    .read = memstream_read,
-    .write = memstream_write,
-    .seek = memstream_seek,
-    .tell = memstream_tell
-};
-
-StreamError memstream_create(size_t numberBytes, stream_dt **stream)
-{
-    *stream = NULL;
-    memstream_dt *self = NEW(memstream_dt);
-    if (self == NULL) {
-        return StreamError_Failure;
-    }
-
-    self->base.type = "MemStream";
-    self->base.ops = &memstream_ops;
-
-    self->data = allocateByteArray(numberBytes);
-    if (self->data == NULL) {
-        memstream_destroy((stream_dt*)self);
-        return StreamError_NoMemory;
-    }
-
-    self->data_length = (size_t)numberBytes;
-    self->position = 0;
-    *stream = (stream_dt*)self;
-    return StreamError_Success;
-}
-

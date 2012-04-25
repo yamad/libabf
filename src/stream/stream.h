@@ -67,7 +67,7 @@ struct stream_operations {
     StreamError (*seek)(stream_dt *stream, streampos_dt offset, streampos_dt origin);
     StreamError (*tell)(stream_dt *stream, streampos_dt *pos);
     bool (*posfits)(stream_dt *stream, streampos_dt pos); /**< checks if position fits in stream */
-    bool (*spacefits)(stream_dt *stream, size_t size);     /**< checks if remaining space fits size bytes */
+    bool (*sizefits)(stream_dt *stream, size_t size);     /**< checks if remaining space fits size bytes */
 };
 
 struct stream {

@@ -20,6 +20,16 @@ StreamError stream_tell(stream_dt *stream, streampos_dt *curr_pos)
     return stream->ops->tell(stream, curr_pos);
 }
 
+bool stream_sizefits(stream_dt *stream, size_t size)
+{
+    return stream->ops->sizefits(stream, size);
+}
+
+bool stream_posfits(stream_dt *stream, streampos_dt position)
+{
+    return stream->ops->posfits(stream, position);
+}
+
 StreamError stream_seekToStart(stream_dt *stream)
 {
     return stream_seekFromStart(stream, 0);
@@ -33,6 +43,15 @@ StreamError stream_seekToEnd(stream_dt *stream)
 StreamError stream_seekFromStart(stream_dt *stream, streampos_dt offset)
 {
     return stream_seek(stream, offset, 0);
+}
+
+StreamError stream_seekFromCurrent(stream_dt *stream, streampos_dt offset)
+{
+    StreamError err;
+    streampos_dt curr_pos;
+    if (StreamError_Success != stream_tell(stream, &curr_pos))
+        return err;
+    return stream_seek(stream, offset, curr_pos);
 }
 
 StreamError stream_writen(stream_dt *stream, const void *ptr, size_t size, size_t count)

@@ -1,5 +1,25 @@
 #include "stream.h"
 
+StreamError stream_read(stream_dt *stream, void *ptr, size_t size)
+{
+    return stream->ops->read(stream, ptr, size);
+}
+
+StreamError stream_write(stream_dt *stream, const void *ptr, size_t size)
+{
+    return stream->ops->write(stream, ptr, size);
+}
+
+StreamError stream_seek(stream_dt *stream, streampos_dt offset, streampos_dt origin)
+{
+    return stream->ops->seek(stream, offset, origin);
+}
+
+StreamError stream_tell(stream_dt *stream, streampos_dt *curr_pos)
+{
+    return stream->ops->tell(stream, curr_pos);
+}
+
 StreamError stream_seekToStart(stream_dt *stream)
 {
     return stream_seekFromStart(stream, 0);
@@ -8,6 +28,11 @@ StreamError stream_seekToStart(stream_dt *stream)
 StreamError stream_seekToEnd(stream_dt *stream)
 {
     return stream_seekFromEnd(stream, 0);
+}
+
+StreamError stream_seekFromStart(stream_dt *stream, streampos_dt offset)
+{
+    return stream_seek(stream, offset, 0);
 }
 
 StreamError stream_writen(stream_dt *stream, const void *ptr, size_t size, size_t count)

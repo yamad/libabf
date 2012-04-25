@@ -60,6 +60,21 @@ typedef enum StreamError {
     StreamError_NoOp            /**< no effect/operation. *not an error* */
 } StreamError;
 
+
+struct stream_operations {
+    StreamError (*read)(stream_dt *stream, void *ptr, size_t size);
+    StreamError (*write)(stream_dt *stream, const void *ptr, size_t size);
+    StreamError (*seek)(stream_dt *stream, streampos_dt offset, streampos_dt origin);
+    StreamError (*tell)(stream_dt *stream, streampos_dt *pos);
+    bool (*posfits)(stream_dt *stream, streampos_dt pos); /**< checks if position fits in stream */
+    bool (*spacefits)(stream_dt *stream, size_t size);     /**< checks if remaining space fits size bytes */
+};
+
+struct stream {
+    struct stream_operations *ops;
+    const char *type;
+};
+
 StreamError stream_create(size_t size, stream_dt *stream);
 StreamError stream_openForRead(const char *path, stream_dt *stream);
 StreamError stream_openForWrite(const char *path, stream_dt *stream);
@@ -123,9 +138,10 @@ StreamError stream_tell(stream_dt *stream, streampos_dt *curr_pos);
 bool stream_isOpenForRead(stream_dt *stream);
 bool stream_isOpenForWrite(stream_dt *stream);
 
-bool stream_isPositionIn(stream_dt *stream, streampos_dt position);
-bool stream_hasSpace(stream_dt *stream, size_t size);
-
+/** Return true if `position` fits within `stream` */
+bool stream_posfits(stream_dt *stream, streampos_dt position);
+/** Return true if `stream` has `size` bytes or more of remaining memory/data */
+bool stream_sizefits(stream_dt *stream, size_t size);
 
 StreamError stream_write_uint8(stream_dt *stream, const uint8_t from);
 StreamError stream_write_int8(stream_dt *stream, const int8_t from);

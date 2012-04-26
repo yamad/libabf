@@ -15,6 +15,15 @@ struct memstream
     uint8_t *data;
 };
 
+struct stream_operations memstream_ops = {
+    .read = memstream_read,
+    .write = memstream_write,
+    .seek = memstream_seek,
+    .tell = memstream_tell,
+    .sizefits = memstream_sizefits,
+    .posfits = memstream_posfits
+};
+
 StreamError memstream_create(size_t numberBytes, stream_dt **stream)
 {
     *stream = NULL;
@@ -49,7 +58,7 @@ StreamError memstream_destroy(stream_dt *super)
 int8_t memstream_getByteAt(stream_dt *stm, streampos_dt index)
 {
     memstream_dt* self = (memstream_dt*) stm;
-    if (stream_posfits((stream_dt*)self, index)) {
+    if (memstream_posfits((stream_dt*)self, index)) {
         return self->data[index];
     }
     return false;
@@ -85,7 +94,7 @@ StreamError memstream_seek(stream_dt *stream, streampos_dt offset, streampos_dt 
 {
     memstream_dt* self = (memstream_dt*)stream;
     streampos_dt new_position = offset + origin;
-    if (stream_posfits((stream_dt*)self, new_position)) {
+    if (memstream_posfits((stream_dt*)self, new_position)) {
         self->position = new_position;
     }
     return StreamError_Success;
@@ -116,7 +125,7 @@ StreamError memstream_read(stream_dt *stream, void *ptr, size_t size)
         return StreamError_NoSpace;
     }
     memcpy(ptr, self->data, size);
-    stream_seekFromCurrent((stream_dt*)self, size);
+    memstream_seek((stream_dt*)self, size, self->position);
     return StreamError_Success;
 }
 
@@ -140,7 +149,7 @@ bool memstream_sizefits(stream_dt *stream, size_t size)
 
 StreamError memstream_fillData(memstream_dt *ms, const uint8_t *from, size_t size)
 {
-    if (!stream_sizefits((stream_dt *)ms, size))
+    if (!memstream_sizefits((stream_dt *)ms, size))
         return StreamError_NoSpace;
     memcpy(ms->data, from, size);
     return StreamError_Success;

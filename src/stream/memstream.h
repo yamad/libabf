@@ -14,15 +14,6 @@ StreamError memstream_tell(stream_dt *stream, streampos_dt *pos);
 bool memstream_posfits(stream_dt *stream, streampos_dt pos); /**< checks if position fits in stream */
 bool memstream_sizefits(stream_dt *stream, size_t size);     /**< checks if remaining space fits size byte */
 
-struct stream_operations memstream_ops = {
-    .read = memstream_read,
-    .write = memstream_write,
-    .seek = memstream_seek,
-    .tell = memstream_tell,
-    .sizefits = memstream_sizefits,
-    .posfits = memstream_posfits
-};
-
 void *calloc_safe(int numberElements, size_t elementSize);
 void *allocateByteArray(int numberBytes);
 

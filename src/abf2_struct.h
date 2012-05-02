@@ -76,7 +76,7 @@ struct abf2_fileinfo
     struct abf2_section AnnotationSection;      // Annotations
     struct abf2_section StatsSection;           // Stats config
 
-    int8_t sUnused[148];     // size = 512 bytes
+    int8_t  sUnused[148];     // size = 512 bytes
 };
 
 struct abf2_protocolinfo
@@ -91,7 +91,6 @@ struct abf2_protocolinfo
     float fSecondsPerRun;
     int32_t lNumSamplesPerEpisode;
     int32_t lPreTriggerSamples;
-    int32_t lEpisodesPerRun;
     int32_t lRunsPerTrial;
     int32_t lNumberOfTrials;
     int16_t nAveragingMode;

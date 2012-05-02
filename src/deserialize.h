@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 /* read_* functions
- * 
+ *
  * Each function reads the appropriate data type from the *buffer* at
  * the specified *offset*. For data sizes over one byte, if the *swap*
  * flag evaluates true, the returned value is byte-swapped. */

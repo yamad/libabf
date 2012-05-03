@@ -109,23 +109,29 @@ StreamError stream_seekFromEnd(stream_dt *stm, streampos_dt offset)
 
 StreamError memstream_write(stream_dt *stream, const void *ptr, size_t size)
 {
+    StreamError err;
     memstream_dt* self = (memstream_dt*) stream;
     if (!memstream_sizefits((stream_dt*)self, size)) {
         return StreamError_NoSpace;
     }
-    memcpy(self->data, ptr, size);
-    memstream_seek((stream_dt*)self, size, self->position);
+    memcpy(self->data + self->position, ptr, size);
+    err = memstream_seek((stream_dt*)self, size, self->position);
+    if (StreamError_Success != err)
+        return err;
     return StreamError_Success;
 }
 
 StreamError memstream_read(stream_dt *stream, void *ptr, size_t size)
 {
+    StreamError err;
     memstream_dt *self = (memstream_dt*)stream;
     if (!memstream_sizefits((stream_dt*)self, size)) {
         return StreamError_NoSpace;
     }
-    memcpy(ptr, self->data, size);
-    memstream_seek((stream_dt*)self, size, self->position);
+    memcpy(ptr, self->data + self->position, size);
+    err = memstream_seek((stream_dt*)self, size, self->position);
+    if (StreamError_Success != err)
+        return err;
     return StreamError_Success;
 }
 

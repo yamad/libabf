@@ -102,6 +102,20 @@ void test_memstream_write_writes_byte(void)
     TEST_ASSERT_EQUAL_HEX(byteToWrite, memstream_getByteAt(test_stream, 0));
 }
 
+void test_memstream_write_twocalls(void)
+{
+    int8_t bytesToWrite[2] = { 0xCA, 0xFE };
+    err = stream_write(test_stream, &bytesToWrite[0], sizeof(bytesToWrite[0]));
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: write did not succeed");
+    TEST_ASSERT_EQUAL_HEX8(bytesToWrite[0], memstream_getByteAt(test_stream, 0));
+
+    err = stream_write(test_stream, &bytesToWrite[1], sizeof(bytesToWrite[1]));
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: write did not succeed");
+    TEST_ASSERT_EQUAL_HEX8(bytesToWrite[1], memstream_getByteAt(test_stream, 1));
+}
+
 void test_memstream_write_toolarge_failure(void)
 {
     /* write array of ones that is larger than space in stream */
@@ -137,6 +151,25 @@ void test_memstream_read(void)
     if (StreamError_Success != err)
         TEST_FAIL_MESSAGE("Stream error: read did not succeed");
     TEST_ASSERT_EQUAL_HEX8(0xCA, byteFromStream);
+}
+
+void test_memstream_read_twocalls(void)
+{
+    int8_t bytesToWrite[2] = { 0xCA, 0xFE };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 2);
+
+    int8_t byteFromStream;
+    err = stream_read(test_stream, &byteFromStream, sizeof(int8_t));
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read did not succeed");
+    streamPositionIs(1);
+    TEST_ASSERT_EQUAL_HEX8(0xCA, byteFromStream);
+
+    err = stream_read(test_stream, &byteFromStream, sizeof(int8_t));
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read did not succeed");
+    streamPositionIs(2);
+    TEST_ASSERT_EQUAL_HEX8(0xFE, byteFromStream);
 }
 
 void test_memstream_readn(void)

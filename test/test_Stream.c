@@ -488,6 +488,33 @@ void test_stream_read_uint32_gets_expected_value(void)
     }
 }
 
+void test_stream_read_uint32_gets_ordered_values(void)
+{
+    uint8_t bytesToWrite[8] = { 0x00, 0x01, 0x02, 0x03,
+                                0x04, 0x05, 0x06, 0x07 };
+    memstream_fillData((memstream_dt*)test_stream, bytesToWrite, 8);
+    bool to_swap = false;
+
+    uint32_t result;
+    err = stream_read_uint32(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_uint32 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0x03020100, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0x00010203, result);
+    }
+
+    err = stream_read_uint32(test_stream, &result, to_swap);
+    if (StreamError_Success != err)
+        TEST_FAIL_MESSAGE("Stream error: read_uint32 failed");
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0x07060504, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0x04050607, result);
+    }
+}
+
 void test_stream_read_uint32_gets_swapped_value(void)
 {
     uint8_t bytesToWrite[4] = { 0xCA, 0xFE, 0xBE, 0xEF };

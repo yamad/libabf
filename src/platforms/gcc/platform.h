@@ -22,16 +22,16 @@
 #if C99
 #include <stdbool.h>
 #else
+#ifndef __bool_true_false_are_defined
 #define bool int8_t
 #define true 1
 #define false 0
 #define __bool_true_false_are_defined 1
 #endif
+#endif
+
 /* Ensure that booleans in filedata are 8-bit */
 typedef int8_t t_BOOL;
-
-/* FALSE = 0, TRUE = 1 */
-typedef enum { FALSE, TRUE } Boolean;
 
 typedef int32_t INT;
 typedef uint32_t UINT;

@@ -2,20 +2,18 @@
 #define ABF2_STRUCT_H
 
 #include <stdint.h>
+#include "platform.h"
 
-typedef int8_t t_BOOL;
-
-/* FALSE = 0, TRUE = 1 */
-typedef enum { FALSE, TRUE } Boolean;
-#ifndef GUID_DEFINED
-#define GUID_DEFINED
-typedef struct guid
+struct guid
 {
     uint32_t Data1;
     uint16_t Data2;
     uint16_t Data3;
     uint8_t Data4[8];
-} GUID;
+};
+#ifndef GUID_DEFINED
+#define GUID_DEFINED
+typedef struct guid GUID;
 #endif /* GUID_DEFINED */
 
 // Structure definitions for Axon Binary File v2 (ABF2) format

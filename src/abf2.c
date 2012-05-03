@@ -151,7 +151,7 @@ char *get_repeated_string(char c, int repeats) {
     return dest;
 }
 
-/* /\* sloppy test function to print fileinfo struct *\/ */
+/* sloppy test function to print fileinfo struct */
 /* int main(int argc, char *argv[]) */
 /* { */
 /*     FILE *f; */
@@ -178,10 +178,7 @@ char *get_repeated_string(char c, int repeats) {
 /*     finfo = (struct abf2_fileinfo *) malloc(sizeof(struct abf2_fileinfo)); */
 /*     int to_swap = 0; */
 
-/*     char **bufp = &buf; */
-/*     struct abf2_fileinfo **finfop = &finfo; */
-
-/*     abf2_read_fileinfo(bufp, &finfop, to_swap); */
+/*     abf2_read_fileinfo(buf, finfo, to_swap); */
 /*     abf2_print_fileinfo(finfo, 0); */
 
 /*     fclose(f); */

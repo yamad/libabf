@@ -186,57 +186,10 @@ void test_memstream_readn(void)
     TEST_ASSERT_EQUAL_HEX8(bytesToWrite[1], bytesFromStream[1]);
 }
 
-void test_memstream_read_uint8(void)
-{
-    uint8_t byteToWrite = 0x02;
-    memstream_fillData((memstream_dt*)test_stream, &byteToWrite, 1);
-    stream_seekToStart(test_stream);
-
-    uint8_t to;
-    err = stream_read_uint8(test_stream, &to);
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: read_uint8 did not succeed");
-    TEST_ASSERT_EQUAL_HEX8(byteToWrite, to);
-}
-
 void test_memstream_fillData_writes_directly_to_buffer(void)
 {
     uint8_t from_buf[2] = { 0xCA, 0xFE };
     memstream_fillData((memstream_dt*)test_stream, from_buf, 2);
     TEST_ASSERT_EQUAL_HEX8(0xCA, memstream_getByteAt(test_stream, 0));
     TEST_ASSERT_EQUAL_HEX8(0xFE, memstream_getByteAt(test_stream, 1));
-}
-
-void test_stream_read_uint16_gets_expected_value(void)
-{
-    uint8_t from_buf[2] = { 0xCA, 0xFE };
-    bool to_swap = false;
-    memstream_fillData((memstream_dt*)test_stream, from_buf, sizeof(uint16_t));
-
-    uint16_t to;
-    err = stream_read_uint16(test_stream, &to, to_swap);
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
-
-    if (ENDIAN_LITTLE == get_endian())
-        TEST_ASSERT_EQUAL_HEX16(0xFECA, to);
-    else
-        TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
-}
-
-void test_stream_read_uint16_swapped(void)
-{
-    uint8_t from_buf[2] = { 0xFE, 0xCA };
-    bool to_swap = true;
-    memstream_fillData((memstream_dt*)test_stream, from_buf, sizeof(uint16_t));
-
-    uint16_t to;
-    err = stream_read_uint16(test_stream, &to, to_swap);
-    if (StreamError_Success != err)
-        TEST_FAIL_MESSAGE("Stream error: read_uint16 did not succeed");
-
-    if (ENDIAN_LITTLE == get_endian())
-        TEST_ASSERT_EQUAL_HEX16(0xFECA, to);
-    else
-        TEST_ASSERT_EQUAL_HEX16(0xCAFE, to);
 }

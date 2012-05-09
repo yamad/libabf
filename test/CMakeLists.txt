@@ -1,9 +1,7 @@
 include_directories(${libabf_SOURCE_DIR}/src)
 include_directories(${libabf_SOURCE_DIR}/src/stream)
 
-add_subdirectory(support)
 include_directories(support)
-
 add_library(streamtest_utils STATIC support/streamtest_utils.c)
 
 set(UNITY_ROOT_DIR ${libabf_SOURCE_DIR}/vendor/ceedling/vendor/unity)

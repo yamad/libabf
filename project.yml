@@ -55,6 +55,8 @@
 :unity:
   :defines:
     - UNITY_SUPPORT_64
+    - UNITY_INCLUDE_DOUBLE
+    - UNITY_FLOAT_VERBOSE
 
 #:tools:
 # Ceedling defaults to using gcc for compiling, linking, etc.

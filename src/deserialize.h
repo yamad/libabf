@@ -40,6 +40,7 @@ char *read_int16p(char *buf, int16_t *to, bool swap);
 char *read_uint32p(char *buf, uint32_t *to, bool swap);
 char *read_int32p(char *buf, int32_t *to, bool swap);
 char *read_uint64p(char *buf, uint64_t *to, bool swap);
+char *read_int64p(char *buf, int64_t *to, bool swap);
 char *read_float32p(char *buf, float *to, bool swap);
 char *read_float64p(char *buf, double *to, bool swap);
 

@@ -110,41 +110,47 @@ char *read_int8p(char *buf, int8_t *to)
 char *read_uint16p(char *buf, uint16_t *to, bool swap)
 {
     *to = read_uint16(buf, 0, swap);
-    return (buf + sizeof(uint16_t));
+    return (buf + sizeof(*to));
 }
 
 char *read_int16p(char *buf, int16_t *to, bool swap)
 {
     *to = read_int16(buf, 0, swap);
-    return (buf + sizeof(int16_t));
+    return (buf + sizeof(*to));
 }
 
 char *read_uint32p(char *buf, uint32_t *to, bool swap)
 {
     *to = read_uint32(buf, 0, swap);
-    return (buf + sizeof(uint32_t));
+    return (buf + sizeof(*to));
 }
 
 char *read_int32p(char *buf, int32_t *to, bool swap)
 {
     *to = read_int32(buf, 0, swap);
-    return (buf + sizeof(int32_t));
+    return (buf + sizeof(*to));
 }
 
 char *read_uint64p(char *buf, uint64_t *to, bool swap)
 {
     *to = read_uint64(buf, 0, swap);
-    return (buf + sizeof(uint64_t));
+    return (buf + sizeof(*to));
 }
 
 char *read_int64p(char *buf, int64_t *to, bool swap)
 {
     *to = read_int64(buf, 0, swap);
-    return (buf + sizeof(int64_t));
+    return (buf + sizeof(*to));
 }
 
 char *read_float32p(char *buf, float *to, bool swap)
 {
     *to = read_float32(buf, 0, swap);
-    return (buf + sizeof(uint32_t));
+    return (buf + sizeof(*to));
+}
+
+char *read_float64p(char *buf, double *to, bool swap)
+{
+    *to = read_float64(buf, 0, swap);
+    return (buf + sizeof(*to));
 }

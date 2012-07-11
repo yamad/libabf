@@ -142,3 +142,9 @@ char *read_int64p(char *buf, int64_t *to, bool swap)
     *to = read_int64(buf, 0, swap);
     return (buf + sizeof(int64_t));
 }
+
+char *read_float32p(char *buf, float *to, bool swap)
+{
+    *to = read_float32(buf, 0, swap);
+    return (buf + sizeof(uint32_t));
+}

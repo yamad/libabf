@@ -382,3 +382,20 @@ void test_read_int64p_reads_int64(void)
         TEST_ASSERT_EQUAL_HEX64(0x0703040608142054, i2);
     }
 }
+
+void test_read_float32p_reads_single_floats(void)
+{
+    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    char *buf = bytes;
+    float f1, f2;
+    bool swap = false;
+    buf = read_float32p(buf, &f1, swap);
+    buf = read_float32p(buf, &f2, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_INTj(0xCAFEBEEF, f1);
+        TEST_ASSERT_EQUAL_HEX32(0xBAADCAAF, f2);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, f1);
+        TEST_ASSERT_EQUAL_HEX32(0xAFCAADBA, f2);
+    }
+}

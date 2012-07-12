@@ -178,6 +178,175 @@ int abf2_print_protocolinfo(const struct abf2_protocolinfo *pinfo, int indent)
     return 0;
 }
 
+int abf2_print_mathinfo(const struct abf2_mathinfo *minfo, int indent)
+{
+    int i;
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nMathEnable", minfo->nMathEnable);
+    printf("%s%-20s: %d\n", spaces, "nMathExpression", minfo->nMathExpression);
+    printf("%s%-20s: %ud\n", spaces, "uMathOperatorIndex", minfo->uMathOperatorIndex);
+    printf("%s%-20s: %ud\n", spaces, "uMathUnitsIndex", minfo->uMathUnitsIndex);
+    printf("%s%-20s: %f\n", spaces, "fMathUpperLimit", minfo->fMathUpperLimit);
+    printf("%s%-20s: %f\n", spaces, "fMathLowerLimit", minfo->fMathLowerLimit);
+    for (i=0; i<2; i++)
+        printf("%snMathADCNum[%d]%-6s: %d\n", spaces, i, " ", minfo->nMathADCNum[i]);
+    for (i=0; i<6; i++)
+        printf("%sfMathK[%d]%-11s: %f\n", spaces, i, " ", minfo->fMathK[i]);
+    free(spaces);
+    return 0;
+};
+
+int abf2_print_adcinfo(const struct abf2_adcinfo *ainfo, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nADCNum", ainfo->nADCNum);
+    printf("%s%-20s: %d\n", spaces, "nTelegraphEnable", ainfo->nTelegraphEnable);
+    printf("%s%-20s: %d\n", spaces, "nTelegraphInstrument", ainfo->nTelegraphInstrument);
+    printf("%s%-20s: %f\n", spaces, "fTelegraphAdditGain", ainfo->fTelegraphAdditGain);
+    printf("%s%-20s: %f\n", spaces, "fTelegraphFilter", ainfo->fTelegraphFilter);
+    printf("%s%-20s: %f\n", spaces, "fTelegraphMembraneCap", ainfo->fTelegraphMembraneCap);
+    printf("%s%-20s: %d\n", spaces, "nTelegraphMode", ainfo->nTelegraphMode);
+    printf("%s%-20s: %f\n", spaces, "fTelegraphAccessResistance", ainfo->fTelegraphAccessResistance);
+    printf("%s%-20s: %d\n", spaces, "nADCPtoLChannelMap", ainfo->nADCPtoLChannelMap);
+    printf("%s%-20s: %d\n", spaces, "nADCSamplingSeq", ainfo->nADCSamplingSeq);
+    printf("%s%-20s: %f\n", spaces, "fADCProgrammableGain", ainfo->fADCProgrammableGain);
+    printf("%s%-20s: %f\n", spaces, "fADCDisplayAmplification", ainfo->fADCDisplayAmplification);
+    printf("%s%-20s: %f\n", spaces, "fADCDisplayOffset", ainfo->fADCDisplayOffset);
+    printf("%s%-20s: %f\n", spaces, "fInstrumentScaleFactor", ainfo->fInstrumentScaleFactor);
+    printf("%s%-20s: %f\n", spaces, "fInstrumentOffset", ainfo->fInstrumentOffset);
+    printf("%s%-20s: %f\n", spaces, "fSignalGain", ainfo->fSignalGain);
+    printf("%s%-20s: %f\n", spaces, "fSignalOffset", ainfo->fSignalOffset);
+    printf("%s%-20s: %f\n", spaces, "fSignalLowpassFilter", ainfo->fSignalLowpassFilter);
+    printf("%s%-20s: %f\n", spaces, "fSignalHighpassFilter", ainfo->fSignalHighpassFilter);
+    printf("%s%-20s: %d\n", spaces, "nLowpassFilterType", ainfo->nLowpassFilterType);
+    printf("%s%-20s: %d\n", spaces, "nHighpassFilterType", ainfo->nHighpassFilterType);
+    printf("%s%-20s: %f\n", spaces, "fPostProcessLowpassFilter", ainfo->fPostProcessLowpassFilter);
+    printf("%s%-20s: %d\n", spaces, "nPostProcessLowpassFilterType", ainfo->nPostProcessLowpassFilterType);
+    printf("%s%-20s: %d\n", spaces, "bEnabledDuringPN", ainfo->bEnabledDuringPN);
+    printf("%s%-20s: %d\n", spaces, "nStatsChannelPolarity", ainfo->nStatsChannelPolarity);
+    printf("%s%-20s: %d\n", spaces, "lADCChannelNameIndex", ainfo->lADCChannelNameIndex);
+    printf("%s%-20s: %d\n", spaces, "lADCUnitsIndex", ainfo->lADCUnitsIndex);
+    free(spaces);
+    return 0;
+};
+
+int abf2_print_dacinfo(const struct abf2_dacinfo *dinfo, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nDACNum", dinfo->nDACNum);
+    printf("%s%-20s: %d\n", spaces, "nTelegraphDACScaleFactorEnable", dinfo->nTelegraphDACScaleFactorEnable);
+    printf("%s%-20s: %f\n", spaces, "fInstrumentHoldingLevel", dinfo->fInstrumentHoldingLevel);
+    printf("%s%-20s: %f\n", spaces, "fDACScaleFactor", dinfo->fDACScaleFactor);
+    printf("%s%-20s: %f\n", spaces, "fDACHoldingLevel", dinfo->fDACHoldingLevel);
+    printf("%s%-20s: %f\n", spaces, "fDACCalibrationFactor", dinfo->fDACCalibrationFactor);
+    printf("%s%-20s: %f\n", spaces, "fDACCalibrationOffset", dinfo->fDACCalibrationOffset);
+    printf("%s%-20s: %d\n", spaces, "lDACChannelNameIndex", dinfo->lDACChannelNameIndex);
+    printf("%s%-20s: %d\n", spaces, "lDACChannelUnitsIndex", dinfo->lDACChannelUnitsIndex);
+    printf("%s%-20s: %d\n", spaces, "lDACFilePtr", dinfo->lDACFilePtr);
+    printf("%s%-20s: %d\n", spaces, "lDACFileNumEpisodes", dinfo->lDACFileNumEpisodes);
+    printf("%s%-20s: %d\n", spaces, "nWaveformEnable", dinfo->nWaveformEnable);
+    printf("%s%-20s: %d\n", spaces, "nWaveformSource", dinfo->nWaveformSource);
+    printf("%s%-20s: %d\n", spaces, "nInterEpisodeLevel", dinfo->nInterEpisodeLevel);
+    printf("%s%-20s: %f\n", spaces, "fDACFileScale", dinfo->fDACFileScale);
+    printf("%s%-20s: %f\n", spaces, "fDACFileOffset", dinfo->fDACFileOffset);
+    printf("%s%-20s: %d\n", spaces, "lDACFileEpisodeNum", dinfo->lDACFileEpisodeNum);
+    printf("%s%-20s: %d\n", spaces, "nDACFileADCNum", dinfo->nDACFileADCNum);
+    printf("%s%-20s: %d\n", spaces, "nConditEnable", dinfo->nConditEnable);
+    printf("%s%-20s: %d\n", spaces, "lConditNumPulses", dinfo->lConditNumPulses);
+    printf("%s%-20s: %f\n", spaces, "fBaselineDuration", dinfo->fBaselineDuration);
+    printf("%s%-20s: %f\n", spaces, "fBaselineLevel", dinfo->fBaselineLevel);
+    printf("%s%-20s: %f\n", spaces, "fStepDuration", dinfo->fStepDuration);
+    printf("%s%-20s: %f\n", spaces, "fStepLevel", dinfo->fStepLevel);
+    printf("%s%-20s: %f\n", spaces, "fPostTrainPeriod", dinfo->fPostTrainPeriod);
+    printf("%s%-20s: %f\n", spaces, "fPostTrainLevel", dinfo->fPostTrainLevel);
+    printf("%s%-20s: %d\n", spaces, "nMembTestEnable", dinfo->nMembTestEnable);
+    printf("%s%-20s: %d\n", spaces, "nLeakSubtractType", dinfo->nLeakSubtractType);
+    printf("%s%-20s: %d\n", spaces, "nPNPolarity", dinfo->nPNPolarity);
+    printf("%s%-20s: %f\n", spaces, "fPNHoldingLevel", dinfo->fPNHoldingLevel);
+    printf("%s%-20s: %d\n", spaces, "nPNNumADCChannels", dinfo->nPNNumADCChannels);
+    printf("%s%-20s: %d\n", spaces, "nPNPosition", dinfo->nPNPosition);
+    printf("%s%-20s: %d\n", spaces, "nPNNumPulses", dinfo->nPNNumPulses);
+    printf("%s%-20s: %f\n", spaces, "fPNSettlingTime", dinfo->fPNSettlingTime);
+    printf("%s%-20s: %f\n", spaces, "fPNInterpulse", dinfo->fPNInterpulse);
+    printf("%s%-20s: %d\n", spaces, "nLTPUsageOfDAC", dinfo->nLTPUsageOfDAC);
+    printf("%s%-20s: %d\n", spaces, "nLTPPresynapticPulses", dinfo->nLTPPresynapticPulses);
+    printf("%s%-20s: %d\n", spaces, "lDACFilePathIndex", dinfo->lDACFilePathIndex);
+    printf("%s%-20s: %f\n", spaces, "fMembTestPreSettlingTimeMS", dinfo->fMembTestPreSettlingTimeMS);
+    printf("%s%-20s: %f\n", spaces, "fMembTestPostSettlingTimeMS", dinfo->fMembTestPostSettlingTimeMS);
+    printf("%s%-20s: %d\n", spaces, "nLeakSubtractADCIndex", dinfo->nLeakSubtractADCIndex);
+    free(spaces);
+    return 0;
+};
+
+int abf2_print_epochinfoperdac(const struct abf2_epochinfoperdac *einfo, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nEpochNum", einfo->nEpochNum);
+    printf("%s%-20s: %d\n", spaces, "nDACNum", einfo->nDACNum);
+    printf("%s%-20s: %d\n", spaces, "nEpochType", einfo->nEpochType);
+    printf("%s%-20s: %f\n", spaces, "fEpochInitLevel", einfo->fEpochInitLevel);
+    printf("%s%-20s: %f\n", spaces, "fEpochLevelInc", einfo->fEpochLevelInc);
+    printf("%s%-20s: %d\n", spaces, "lEpochInitDuration", einfo->lEpochInitDuration);
+    printf("%s%-20s: %d\n", spaces, "lEpochDurationInc", einfo->lEpochDurationInc);
+    printf("%s%-20s: %d\n", spaces, "lEpochPulsePeriod", einfo->lEpochPulsePeriod);
+    printf("%s%-20s: %d\n", spaces, "lEpochPulseWidth", einfo->lEpochPulseWidth);
+    free(spaces);
+    return 0;
+};
+
+int abf2_print_epochinfo(const struct abf2_epochinfo *einfo, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nEpochNum", einfo->nEpochNum);
+    printf("%s%-20s: %d\n", spaces, "nDigitalValue", einfo->nDigitalValue);
+    printf("%s%-20s: %d\n", spaces, "nDigitalTrainValue", einfo->nDigitalTrainValue);
+    printf("%s%-20s: %d\n", spaces, "nAlternateDigitalValue", einfo->nAlternateDigitalValue);
+    printf("%s%-20s: %d\n", spaces, "nAlternateDigitalTrainValue", einfo->nAlternateDigitalTrainValue);
+    printf("%s%-20s: %d\n", spaces, "bEpochCompression", einfo->bEpochCompression);
+    free(spaces);
+    return 0;
+}
+
+int abf2_print_statsregioninfo(const struct abf2_statsregioninfo *sinfo, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nRegionNum", sinfo->nRegionNum);
+    printf("%s%-20s: %d\n", spaces, "nADCNum", sinfo->nADCNum);
+    printf("%s%-20s: %d\n", spaces, "nStatsActiveChannels", sinfo->nStatsActiveChannels);
+    printf("%s%-20s: %d\n", spaces, "nStatsSearchRegionFlags", sinfo->nStatsSearchRegionFlags);
+    printf("%s%-20s: %d\n", spaces, "nStatsSelectedRegion", sinfo->nStatsSelectedRegion);
+    printf("%s%-20s: %d\n", spaces, "nStatsSmoothing", sinfo->nStatsSmoothing);
+    printf("%s%-20s: %d\n", spaces, "nStatsSmoothingEnable", sinfo->nStatsSmoothingEnable);
+    printf("%s%-20s: %d\n", spaces, "nStatsBaseline", sinfo->nStatsBaseline);
+    printf("%s%-20s: %d\n", spaces, "lStatsBaselineStart", sinfo->lStatsBaselineStart);
+    printf("%s%-20s: %d\n", spaces, "lStatsBaselineEnd", sinfo->lStatsBaselineEnd);
+    printf("%s%-20s: %d\n", spaces, "lStatsMeasurements", sinfo->lStatsMeasurements);
+    printf("%s%-20s: %d\n", spaces, "lStatsStart", sinfo->lStatsStart);
+    printf("%s%-20s: %d\n", spaces, "lStatsEnd", sinfo->lStatsEnd);
+    printf("%s%-20s: %d\n", spaces, "nRiseBottomPercentile", sinfo->nRiseBottomPercentile);
+    printf("%s%-20s: %d\n", spaces, "nRiseTopPercentile", sinfo->nRiseTopPercentile);
+    printf("%s%-20s: %d\n", spaces, "nDecayBottomPercentile", sinfo->nDecayBottomPercentile);
+    printf("%s%-20s: %d\n", spaces, "nDecayTopPercentile", sinfo->nDecayTopPercentile);
+    printf("%s%-20s: %d\n", spaces, "nStatsSearchMode", sinfo->nStatsSearchMode);
+    printf("%s%-20s: %d\n", spaces, "nStatsSearchDAC", sinfo->nStatsSearchDAC);
+    printf("%s%-20s: %d\n", spaces, "nStatsBaselineDAC", sinfo->nStatsBaselineDAC);
+    free(spaces);
+    return 0;
+};
+
+int abf2_print_userlistinfo(const struct abf2_userlistinfo *uinfo, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-20s: %d\n", spaces, "nListNum", uinfo->nListNum);
+    printf("%s%-20s: %d\n", spaces, "nULEnable", uinfo->nULEnable);
+    printf("%s%-20s: %d\n", spaces, "nULParamToVary", uinfo->nULParamToVary);
+    printf("%s%-20s: %d\n", spaces, "nULRepeat", uinfo->nULRepeat);
+    printf("%s%-20s: %d\n", spaces, "lULParamValueListIndex", uinfo->lULParamValueListIndex);
+    free(spaces);
+    return 0;
+};
+
+
 char *get_repeated_string(char c, int repeats) {
     char *dest = malloc(repeats + 1);
     if (dest == NULL) {

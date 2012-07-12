@@ -377,3 +377,129 @@ void test_abf2_read_protocolinfo(void)
     TEST_ASSERT_EQUAL_INT16(8, pinfo.nDigitizerSynchDigitalOuts);
     TEST_ASSERT_EQUAL_INT16(3, pinfo.nDigitizerType);
 }
+
+void test_abf2_read_mathinfo(void)
+{
+    char bytes[128];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_mathinfo minfo;
+    buf = abf2_read_mathinfo(buf, &minfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(128, buf - head);
+}
+
+void test_abf2_read_adcinfo(void)
+{
+    char bytes[128];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_adcinfo ainfo;
+    buf = abf2_read_adcinfo(buf, &ainfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(128, buf - head);
+}
+
+void test_abf2_read_dacinfo(void)
+{
+    char bytes[256];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_dacinfo dinfo;
+    buf = abf2_read_dacinfo(buf, &dinfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(256, buf - head);
+}
+
+void test_abf2_read_epochinfoperdacinfo(void)
+{
+    char bytes[48];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_epochinfoperdac einfo;
+    buf = abf2_read_epochinfoperdac(buf, &einfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(48, buf - head);
+}
+
+void test_abf2_read_epochinfo(void)
+{
+    char bytes[32];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_epochinfo einfo;
+    buf = abf2_read_epochinfo(buf, &einfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(32, buf - head);
+}
+
+void test_abf2_read_statsregioninfo(void)
+{
+    char bytes[128];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_statsregioninfo sinfo;
+    buf = abf2_read_statsregioninfo(buf, &sinfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(128, buf - head);
+}
+
+void test_abf2_read_userlistinfo(void)
+{
+    char bytes[64];
+    char *buf = bytes;
+    char *head = buf;
+
+    bool to_swap;
+    if (ENDIAN_LITTLE == get_endian()) {
+        to_swap = false;
+    } else {
+        to_swap = true;
+    }
+
+    struct abf2_userlistinfo uinfo;
+    buf = abf2_read_userlistinfo(buf, &uinfo, to_swap);
+    TEST_ASSERT_EQUAL_INT(64, buf - head);
+}

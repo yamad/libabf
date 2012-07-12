@@ -171,178 +171,168 @@ char *abf2_read_protocolinfo(char *buf, struct abf2_protocolinfo *pinfo, bool to
     buf = read_int16p(buf, &(pinfo->nDigitizerSynchDigitalOuts), to_swap);
     buf = read_int16p(buf, &(pinfo->nDigitizerType), to_swap);
     buf += 304;                 /* skip unused bytes */
-    return buf;
+    return buf;                 /* total = 512 bytes */
 }
 
-
-int abf2_print_fileinfo(const struct abf2_fileinfo *finfo, int indent)
-{
-    char *spaces = get_repeated_string(' ', indent);
-    printf("%s%-20s: %lu\n", spaces, "uFileSignature", finfo->uFileSignature);
-    printf("%s%-20s: %lu\n", spaces, "uFileVersionNumber", finfo->uFileVersionNumber);
-    printf("%s%-20s: %lu\n", spaces, "uFileInfoSize", finfo->uFileInfoSize);
-    printf("%s%-20s: %lu\n", spaces, "uActualEpisodes", finfo->uActualEpisodes);
-    printf("%s%-20s: %lu\n", spaces, "uFileStartDate", finfo->uFileStartDate);
-    printf("%s%-20s: %lu\n", spaces, "uFileStartTimeMS", finfo->uFileStartTimeMS);
-    printf("%s%-20s: %lu\n", spaces, "uStopwatchTime", finfo->uStopwatchTime);
-    printf("%s%-20s: %d\n", spaces, "nFileType", finfo->nFileType);
-    printf("%s%-20s: %d\n", spaces, "nDataFormat", finfo->nDataFormat);
-    printf("%s%-20s: %d\n", spaces, "nSimultaneousScan", finfo->nSimultaneousScan);
-    printf("%s%-20s: %d\n", spaces, "nCRCEnable", finfo->nCRCEnable);
-    printf("%s%-20s: %lu\n", spaces, "uFileCRC", finfo->uFileCRC);
-    printf("%s%-20s: %lu\n", spaces, "uCreatorVersion", finfo->uCreatorVersion);
-    printf("%s%-20s: %lu\n", spaces, "uCreatorNameIndex", finfo->uCreatorNameIndex);
-    printf("%s%-20s: %lu\n", spaces, "uModifierVersion", finfo->uModifierVersion);
-    printf("%s%-20s: %lu\n", spaces, "uModifierNameIndex", finfo->uModifierNameIndex);
-    printf("%s%-20s: %lu\n", spaces, "uProtocolPathIndex", finfo->uProtocolPathIndex);
-
-    printf("%s%-20s:\n", spaces, "ProtocolSection");
-    abf2_print_section(&(finfo->ProtocolSection), 4);
-    printf("%s%-20s:\n", spaces, "ADCSection");
-    abf2_print_section(&(finfo->ADCSection), 4);
-    printf("%s%-20s:\n", spaces, "DACSection");
-    abf2_print_section(&(finfo->DACSection), 4);
-    printf("%s%-20s:\n", spaces, "EpochSection");
-    abf2_print_section(&(finfo->EpochSection), 4);
-    printf("%s%-20s:\n", spaces, "ADCPerDACSection");
-    abf2_print_section(&(finfo->ADCPerDACSection), 4);
-    printf("%s%-20s:\n", spaces, "EpochPerDACSection");
-    abf2_print_section(&(finfo->EpochPerDACSection), 4);
-    printf("%s%-20s:\n", spaces, "UserListSection");
-    abf2_print_section(&(finfo->UserListSection), 4);
-    printf("%s%-20s:\n", spaces, "StatsRegionSection");
-    abf2_print_section(&(finfo->StatsRegionSection), 4);
-    printf("%s%-20s:\n", spaces, "MathSection");
-    abf2_print_section(&(finfo->MathSection), 4);
-    printf("%s%-20s:\n", spaces, "StringsSection");
-    abf2_print_section(&(finfo->StringsSection), 4);
-    printf("%s%-20s:\n", spaces, "DataSection");
-    abf2_print_section(&(finfo->DataSection), 4);
-    printf("%s%-20s:\n", spaces, "TagSection");
-    abf2_print_section(&(finfo->TagSection), 4);
-    printf("%s%-20s:\n", spaces, "ScopeSection");
-    abf2_print_section(&(finfo->ScopeSection), 4);
-    printf("%s%-20s:\n", spaces, "DeltaSection");
-    abf2_print_section(&(finfo->DeltaSection), 4);
-    printf("%s%-20s:\n", spaces, "VoiceTagSection");
-    abf2_print_section(&(finfo->VoiceTagSection), 4);
-    printf("%s%-20s:\n", spaces, "SynchArraySection");
-    abf2_print_section(&(finfo->SynchArraySection), 4);
-    printf("%s%-20s:\n", spaces, "AnnotationSection");
-    abf2_print_section(&(finfo->AnnotationSection), 4);
-    printf("%s%-20s:\n", spaces, "StatsSection");
-    abf2_print_section(&(finfo->StatsSection), 4);
-    free(spaces);
-    return 0;
-}
-
-int abf2_print_protocolinfo(const struct abf2_protocolinfo *pinfo, int indent)
+char *abf2_read_mathinfo(char *buf, struct abf2_mathinfo *minfo, bool to_swap)
 {
     int i;
-    char *spaces = get_repeated_string(' ', indent);
-    printf("%s%-28s: %d\n", spaces, "nOperationMode", pinfo->nOperationMode);
-    printf("%s%-28s: %f\n", spaces, "fADCSequenceInterval", pinfo->fADCSequenceInterval);
-    printf("%s%-28s: %d\n", spaces, "bEnableFileCompression", pinfo->bEnableFileCompression);
-    printf("%s%-28s: %d\n", spaces, "uFileCompressionRatio", pinfo->uFileCompressionRatio);
-    printf("%s%-28s: %f\n", spaces, "fSynchTimeUnit", pinfo->fSynchTimeUnit);
-    printf("%s%-28s: %f\n", spaces, "fSecondsPerRun", pinfo->fSecondsPerRun);
-    printf("%s%-28s: %d\n", spaces, "lNumSamplesPerEpisode", pinfo->lNumSamplesPerEpisode);
-    printf("%s%-28s: %d\n", spaces, "lPreTriggerSamples", pinfo->lPreTriggerSamples);
-    printf("%s%-28s: %d\n", spaces, "lEpisodesPerRun", pinfo->lEpisodesPerRun);
-    printf("%s%-28s: %d\n", spaces, "lRunsPerTrial", pinfo->lRunsPerTrial);
-    printf("%s%-28s: %d\n", spaces, "lNumberOfTrials", pinfo->lNumberOfTrials);
-    printf("%s%-28s: %d\n", spaces, "nAveragingMode", pinfo->nAveragingMode);
-    printf("%s%-28s: %d\n", spaces, "nUndoRunCount", pinfo->nUndoRunCount);
-    printf("%s%-28s: %d\n", spaces, "nFirstEpisodeInRun", pinfo->nFirstEpisodeInRun);
-    printf("%s%-28s: %f\n", spaces, "fTriggerThreshold", pinfo->fTriggerThreshold);
-    printf("%s%-28s: %d\n", spaces, "nTriggerSource", pinfo->nTriggerSource);
-    printf("%s%-28s: %d\n", spaces, "nTriggerAction", pinfo->nTriggerAction);
-    printf("%s%-28s: %d\n", spaces, "nTriggerPolarity", pinfo->nTriggerPolarity);
-    printf("%s%-28s: %f\n", spaces, "fScopeOutputInterval", pinfo->fScopeOutputInterval);
-    printf("%s%-28s: %f\n", spaces, "fEpisodeStartToStart", pinfo->fEpisodeStartToStart);
-    printf("%s%-28s: %f\n", spaces, "fRunStartToStart", pinfo->fRunStartToStart);
-    printf("%s%-28s: %d\n", spaces, "lAverageCount", pinfo-> lAverageCount);
-    printf("%s%-28s: %f\n", spaces, "fTrialStartToStart", pinfo->fTrialStartToStart);
-    printf("%s%-28s: %d\n", spaces, "nAutoTriggerStrategy", pinfo->nAutoTriggerStrategy);
-    printf("%s%-28s: %f\n", spaces, "fFirstRunDelayS", pinfo->fFirstRunDelayS);
+    buf = read_int16p(buf, &(minfo->nMathEnable), to_swap);
+    buf = read_int16p(buf, &(minfo->nMathExpression), to_swap);
+    buf = read_uint32p(buf, &(minfo->uMathOperatorIndex), to_swap);
+    buf = read_uint32p(buf, &(minfo->uMathUnitsIndex), to_swap);
+    buf = read_float32p(buf, &(minfo->fMathUpperLimit), to_swap);
+    buf = read_float32p(buf, &(minfo->fMathLowerLimit), to_swap);
+    for (i=0; i<2; i++)
+        buf = read_int16p(buf, &(minfo->nMathADCNum[i]), to_swap);
+    for (i=0; i<16; i++)
+        buf = read_int8p(buf, &(minfo->sUnused[i]));
+    for (i=0; i<6; i++)
+        buf = read_float32p(buf, &(minfo->fMathK[i]), to_swap);
+    buf += 64;                   /* skip unused bytes */
+    return buf;                  /* total = 128 bytes */
+};
 
-    printf("%s%-28s: %d\n", spaces, "nChannelStatsStrategy", pinfo->nChannelStatsStrategy);
-    printf("%s%-28s: %d\n", spaces, "lSamplesPerTrace", pinfo->lSamplesPerTrace);
-    printf("%s%-28s: %d\n", spaces, "lStartDisplayNum", pinfo->lStartDisplayNum);
-    printf("%s%-28s: %d\n", spaces, "lFinishDisplayNum", pinfo->lFinishDisplayNum);
-    printf("%s%-28s: %d\n", spaces, "nShowPNRawData", pinfo->nShowPNRawData);
-    printf("%s%-28s: %f\n", spaces, "fStatisticsPeriod", pinfo->fStatisticsPeriod);
-    printf("%s%-28s: %d\n", spaces, "lStatisticsMeasurements", pinfo->lStatisticsMeasurements);
-    printf("%s%-28s: %d\n", spaces, "nStatisticsSaveStrategy", pinfo->nStatisticsSaveStrategy);
-
-    printf("%s%-28s: %f\n", spaces, "fADCRange", pinfo->fADCRange);
-    printf("%s%-28s: %f\n", spaces, "fDACRange", pinfo->fDACRange);
-    printf("%s%-28s: %d\n", spaces, "lADCResolution", pinfo->lADCResolution);
-    printf("%s%-28s: %d\n", spaces, "lDACResolution", pinfo->lDACResolution);
-
-    printf("%s%-28s: %d\n", spaces, "nExperimentType", pinfo->nExperimentType);
-    printf("%s%-28s: %d\n", spaces, "nManualInfoStrategy", pinfo->nManualInfoStrategy);
-    printf("%s%-28s: %d\n", spaces, "nCommentsEnable", pinfo->nCommentsEnable);
-    printf("%s%-28s: %d\n", spaces, "lFileCommentIndex", pinfo->lFileCommentIndex);
-    printf("%s%-28s: %d\n", spaces, "nAutoAnalyseEnable", pinfo->nAutoAnalyseEnable);
-    printf("%s%-28s: %d\n", spaces, "nSignalType", pinfo->nSignalType);
-
-    printf("%s%-28s: %d\n", spaces, "nDigitalEnable", pinfo->nDigitalEnable);
-    printf("%s%-28s: %d\n", spaces, "nActiveDACChannel", pinfo->nActiveDACChannel);
-    printf("%s%-28s: %d\n", spaces, "nDigitalHolding", pinfo->nDigitalHolding);
-    printf("%s%-28s: %d\n", spaces, "nDigitalInterEpisode", pinfo->nDigitalInterEpisode);
-    printf("%s%-28s: %d\n", spaces, "nDigitalDACChannel", pinfo->nDigitalDACChannel);
-    printf("%s%-28s: %d\n", spaces, "nDigitalTrainActiveLogic", pinfo->nDigitalTrainActiveLogic);
-
-    printf("%s%-28s: %d\n", spaces, "nStatsEnable", pinfo->nStatsEnable);
-    printf("%s%-28s: %d\n", spaces, "nStatisticsClearStrategy", pinfo->nStatisticsClearStrategy);
-
-    printf("%s%-28s: %d\n", spaces, "nLevelHysteresis", pinfo->nLevelHysteresis);
-    printf("%s%-28s: %d\n", spaces, "lTimeHysteresis", pinfo->lTimeHysteresis);
-    printf("%s%-28s: %d\n", spaces, "nAllowExternalTags", pinfo->nAllowExternalTags);
-    printf("%s%-28s: %d\n", spaces, "nAverageAlgorithm", pinfo->nAverageAlgorithm);
-    printf("%s%-28s: %f\n", spaces, "fAverageWeighting", pinfo->fAverageWeighting);
-    printf("%s%-28s: %d\n", spaces, "nUndoPromptStrategy", pinfo->nUndoPromptStrategy);
-    printf("%s%-28s: %d\n", spaces, "nTrialTriggerSource", pinfo->nTrialTriggerSource);
-    printf("%s%-28s: %d\n", spaces, "nStatisticsDisplayStrategy", pinfo->nStatisticsDisplayStrategy);
-    printf("%s%-28s: %d\n", spaces, "nExternalTagType", pinfo->nExternalTagType);
-    printf("%s%-28s: %d\n", spaces, "nScopeTriggerOut", pinfo->nScopeTriggerOut);
-    printf("%s%-28s: %d\n", spaces, "nLTPType", pinfo->nLTPType);
-    printf("%s%-28s: %d\n", spaces, "nAlternateDACOutputState", pinfo->nAlternateDACOutputState);
-    printf("%s%-28s: %d\n", spaces, "nAlternateDigitalOutputState", pinfo->nAlternateDigitalOutputState);
-
-    for (i=0; i<3; i++) {
-        printf("%s%-28s: %f\n", spaces, "fCellID[]", pinfo->fCellID[i]);
-    }
-
-    printf("%s%-28s: %d\n", spaces, "nDigitizerADCs", pinfo->nDigitizerADCs);
-    printf("%s%-28s: %d\n", spaces, "nDigitizerDACs", pinfo->nDigitizerDACs);
-    printf("%s%-28s: %d\n", spaces, "nDigitizerTotalDigitalOuts", pinfo->nDigitizerTotalDigitalOuts);
-    printf("%s%-28s: %d\n", spaces, "nDigitizerSynchDigitalOuts", pinfo->nDigitizerSynchDigitalOuts);
-    printf("%s%-28s: %d\n", spaces, "nDigitizerType", pinfo->nDigitizerType);
-    free(spaces);
-    return 0;
-}
-
-int abf2_print_section(const struct abf2_section *sec, int indent)
+char *abf2_read_adcinfo(char *buf, struct abf2_adcinfo *ainfo, bool to_swap)
 {
-    char *spaces = get_repeated_string(' ', indent);
-    printf("%s%-12s: %lu\n", spaces, "uBlockIndex", sec->uBlockIndex);
-    printf("%s%-12s: %lu\n", spaces, "uBytes", sec->uBytes);
-    printf("%s%-12s: %llu\n", spaces, "llNumEntries", sec->llNumEntries);
-    free(spaces);
-    return 0;
+    buf = read_int16p(buf, &(ainfo->nADCNum), to_swap);
+    buf = read_int16p(buf, &(ainfo->nTelegraphEnable), to_swap);
+    buf = read_int16p(buf, &(ainfo->nTelegraphInstrument), to_swap);
+    buf = read_float32p(buf, &(ainfo->fTelegraphAdditGain), to_swap);
+    buf = read_float32p(buf, &(ainfo->fTelegraphFilter), to_swap);
+    buf = read_float32p(buf, &(ainfo->fTelegraphMembraneCap), to_swap);
+    buf = read_int16p(buf, &(ainfo->nTelegraphMode), to_swap);
+    buf = read_float32p(buf, &(ainfo->fTelegraphAccessResistance), to_swap);
+    buf = read_int16p(buf, &(ainfo->nADCPtoLChannelMap), to_swap);
+    buf = read_int16p(buf, &(ainfo->nADCSamplingSeq), to_swap);
+    buf = read_float32p(buf, &(ainfo->fADCProgrammableGain), to_swap);
+    buf = read_float32p(buf, &(ainfo->fADCDisplayAmplification), to_swap);
+    buf = read_float32p(buf, &(ainfo->fADCDisplayOffset), to_swap);
+    buf = read_float32p(buf, &(ainfo->fInstrumentScaleFactor), to_swap);
+    buf = read_float32p(buf, &(ainfo->fInstrumentOffset), to_swap);
+    buf = read_float32p(buf, &(ainfo->fSignalGain), to_swap);
+    buf = read_float32p(buf, &(ainfo->fSignalOffset), to_swap);
+    buf = read_float32p(buf, &(ainfo->fSignalLowpassFilter), to_swap);
+    buf = read_float32p(buf, &(ainfo->fSignalHighpassFilter), to_swap);
+    buf = read_int8p(buf, &(ainfo->nLowpassFilterType));
+    buf = read_int8p(buf, &(ainfo->nHighpassFilterType));
+    buf = read_float32p(buf, &(ainfo->fPostProcessLowpassFilter), to_swap);
+    buf = read_int8p(buf, &(ainfo->nPostProcessLowpassFilterType));
+    buf = read_uint8p(buf, (uint8_t*)&(ainfo->bEnabledDuringPN));
+    buf = read_int16p(buf, &(ainfo->nStatsChannelPolarity), to_swap);
+    buf = read_int32p(buf, &(ainfo->lADCChannelNameIndex), to_swap);
+    buf = read_int32p(buf, &(ainfo->lADCUnitsIndex), to_swap);
+    buf += 46;                      /* skip unused bytes */
+    return buf;                     /* total = 128 bytes */
+};
+
+char *abf2_read_dacinfo(char *buf, struct abf2_dacinfo *dinfo, bool to_swap)
+{
+    buf = read_int16p(buf, &(dinfo->nDACNum), to_swap);
+    buf = read_int16p(buf, &(dinfo->nTelegraphDACScaleFactorEnable), to_swap);
+    buf = read_float32p(buf, &(dinfo->fInstrumentHoldingLevel), to_swap);
+    buf = read_float32p(buf, &(dinfo->fDACScaleFactor), to_swap);
+    buf = read_float32p(buf, &(dinfo->fDACHoldingLevel), to_swap);
+    buf = read_float32p(buf, &(dinfo->fDACCalibrationFactor), to_swap);
+    buf = read_float32p(buf, &(dinfo->fDACCalibrationOffset), to_swap);
+    buf = read_int32p(buf, &(dinfo->lDACChannelNameIndex), to_swap);
+    buf = read_int32p(buf, &(dinfo->lDACChannelUnitsIndex), to_swap);
+    buf = read_int32p(buf, &(dinfo->lDACFilePtr), to_swap);
+    buf = read_int32p(buf, &(dinfo->lDACFileNumEpisodes), to_swap);
+    buf = read_int16p(buf, &(dinfo->nWaveformEnable), to_swap);
+    buf = read_int16p(buf, &(dinfo->nWaveformSource), to_swap);
+    buf = read_int16p(buf, &(dinfo->nInterEpisodeLevel), to_swap);
+    buf = read_float32p(buf, &(dinfo->fDACFileScale), to_swap);
+    buf = read_float32p(buf, &(dinfo->fDACFileOffset), to_swap);
+    buf = read_int32p(buf, &(dinfo->lDACFileEpisodeNum), to_swap);
+    buf = read_int16p(buf, &(dinfo->nDACFileADCNum), to_swap);
+    buf = read_int16p(buf, &(dinfo->nConditEnable), to_swap);
+    buf = read_int32p(buf, &(dinfo->lConditNumPulses), to_swap);
+    buf = read_float32p(buf, &(dinfo->fBaselineDuration), to_swap);
+    buf = read_float32p(buf, &(dinfo->fBaselineLevel), to_swap);
+    buf = read_float32p(buf, &(dinfo->fStepDuration), to_swap);
+    buf = read_float32p(buf, &(dinfo->fStepLevel), to_swap);
+    buf = read_float32p(buf, &(dinfo->fPostTrainPeriod), to_swap);
+    buf = read_float32p(buf, &(dinfo->fPostTrainLevel), to_swap);
+    buf = read_int16p(buf, &(dinfo->nMembTestEnable), to_swap);
+    buf = read_int16p(buf, &(dinfo->nLeakSubtractType), to_swap);
+    buf = read_int16p(buf, &(dinfo->nPNPolarity), to_swap);
+    buf = read_float32p(buf, &(dinfo->fPNHoldingLevel), to_swap);
+    buf = read_int16p(buf, &(dinfo->nPNNumADCChannels), to_swap);
+    buf = read_int16p(buf, &(dinfo->nPNPosition), to_swap);
+    buf = read_int16p(buf, &(dinfo->nPNNumPulses), to_swap);
+    buf = read_float32p(buf, &(dinfo->fPNSettlingTime), to_swap);
+    buf = read_float32p(buf, &(dinfo->fPNInterpulse), to_swap);
+    buf = read_int16p(buf, &(dinfo->nLTPUsageOfDAC), to_swap);
+    buf = read_int16p(buf, &(dinfo->nLTPPresynapticPulses), to_swap);
+    buf = read_int32p(buf, &(dinfo->lDACFilePathIndex), to_swap);
+    buf = read_float32p(buf, &(dinfo->fMembTestPreSettlingTimeMS), to_swap);
+    buf = read_float32p(buf, &(dinfo->fMembTestPostSettlingTimeMS), to_swap);
+    buf = read_int16p(buf, &(dinfo->nLeakSubtractADCIndex), to_swap);
+    buf += 124;                 /* skip unused bytes */
+    return buf;                 /* total = 256 bytes */
+};
+
+char *abf2_read_epochinfoperdac(char *buf, struct abf2_epochinfoperdac *einfo, bool to_swap)
+{
+    buf = read_int16p(buf, &(einfo->nEpochNum), to_swap);
+    buf = read_int16p(buf, &(einfo->nDACNum), to_swap);
+    buf = read_int16p(buf, &(einfo->nEpochType), to_swap);
+    buf = read_float32p(buf, &(einfo->fEpochInitLevel), to_swap);
+    buf = read_float32p(buf, &(einfo->fEpochLevelInc), to_swap);
+    buf = read_int32p(buf, &(einfo->lEpochInitDuration), to_swap);
+    buf = read_int32p(buf, &(einfo->lEpochDurationInc), to_swap);
+    buf = read_int32p(buf, &(einfo->lEpochPulsePeriod), to_swap);
+    buf = read_int32p(buf, &(einfo->lEpochPulseWidth), to_swap);
+    buf += 18;                  /* skip unused bytes */
+    return buf;                 /* total = 48 bytes */
+};
+
+char *abf2_read_epochinfo(char *buf, struct abf2_epochinfo *einfo, bool to_swap)
+{
+    buf = read_int16p(buf, &(einfo->nEpochNum), to_swap);
+    buf = read_int16p(buf, &(einfo->nDigitalValue), to_swap);
+    buf = read_int16p(buf, &(einfo->nDigitalTrainValue), to_swap);
+    buf = read_int16p(buf, &(einfo->nAlternateDigitalValue), to_swap);
+    buf = read_int16p(buf, &(einfo->nAlternateDigitalTrainValue), to_swap);
+    buf = read_uint8p(buf, (uint8_t*)&(einfo->bEpochCompression));
+    buf += 21;                  /* skip unused bytes */
+    return buf;                 /* total = 32 bytes */
 }
 
-char *get_repeated_string(char c, int repeats) {
-    char *dest = malloc(repeats + 1);
-    if (dest == NULL) {
-        printf("Memory failure.");
-        exit(1);
-    }
-    if (repeats > 0) {
-        memset(dest, c, repeats);
-        *(dest + repeats) = '\0';
-    }
-    return dest;
-}
+char *abf2_read_statsregioninfo(char *buf, struct abf2_statsregioninfo *sinfo, bool to_swap)
+{
+    buf = read_int16p(buf, &(sinfo->nRegionNum), to_swap);
+    buf = read_int16p(buf, &(sinfo->nADCNum), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsActiveChannels), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsSearchRegionFlags), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsSelectedRegion), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsSmoothing), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsSmoothingEnable), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsBaseline), to_swap);
+    buf = read_int32p(buf, &(sinfo->lStatsBaselineStart), to_swap);
+    buf = read_int32p(buf, &(sinfo->lStatsBaselineEnd), to_swap);
+    buf = read_int32p(buf, &(sinfo->lStatsMeasurements), to_swap);
+    buf = read_int32p(buf, &(sinfo->lStatsStart), to_swap);
+    buf = read_int32p(buf, &(sinfo->lStatsEnd), to_swap);
+    buf = read_int16p(buf, &(sinfo->nRiseBottomPercentile), to_swap);
+    buf = read_int16p(buf, &(sinfo->nRiseTopPercentile), to_swap);
+    buf = read_int16p(buf, &(sinfo->nDecayBottomPercentile), to_swap);
+    buf = read_int16p(buf, &(sinfo->nDecayTopPercentile), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsSearchMode), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsSearchDAC), to_swap);
+    buf = read_int16p(buf, &(sinfo->nStatsBaselineDAC), to_swap);
+    buf += 78;                  /* skip unused bytes */
+    return buf;                 /* total = 128 bytes */
+};
+
+char *abf2_read_userlistinfo(char *buf, struct abf2_userlistinfo *uinfo, bool to_swap)
+{
+    buf = read_int16p(buf, &(uinfo->nListNum), to_swap);
+    buf = read_int16p(buf, &(uinfo->nULEnable), to_swap);
+    buf = read_int16p(buf, &(uinfo->nULParamToVary), to_swap);
+    buf = read_int16p(buf, &(uinfo->nULRepeat), to_swap);
+    buf = read_int32p(buf, &(uinfo->lULParamValueListIndex), to_swap);
+    buf += 52;                                          /* skip unused bytes */
+    return buf;                                         /* total = 64 bytes */
+};

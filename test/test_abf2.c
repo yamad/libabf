@@ -15,6 +15,30 @@ void test_get_repeated_string(void)
     free(dest);
 }
 
+void test_abf2_needs_swap_littleendian(void)
+{
+    char bytes[4] = { 0x41, 0x42, 0x46, 0x32 };
+    char *buf = bytes;
+    int swap = abf2_needs_swap(buf);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_INT(0, swap);
+    } else {
+        TEST_ASSERT_EQUAL_INT(1, swap);
+    }
+}
+
+void test_abf2_needs_swap_bigendian(void)
+{
+    char bytes[4] = { 0x32, 0x46, 0x42, 0x41 };
+    char *buf = bytes;
+    int swap = abf2_needs_swap(buf);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_INT(1, swap);
+    } else {
+        TEST_ASSERT_EQUAL_INT(0, swap);
+    }
+}
+
 void test_abf2_read_section(void)
 {
     char bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,

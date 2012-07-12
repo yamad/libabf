@@ -1,7 +1,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "swap.h"
 #include "abf2.h"
+
+int abf2_needs_swap(const char *buf)
+{
+    uint32_t filesig = read_uint32(buf, 0, 0);
+    if (ABF2_FILESIGNATURE == filesig) {
+        return 0;
+    }
+    uint32_t abf2_revsig = _swap32(ABF2_FILESIGNATURE);
+    if (abf2_revsig == filesig) {
+        return 1;
+    }
+    return -1;
+}
 
 char *abf2_read_guidp(char *buf, struct guid *guid, bool to_swap)
 {

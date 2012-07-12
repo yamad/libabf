@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "abf2.h"
 
 /* sloppy test function to print fileinfo struct */
@@ -25,8 +26,8 @@ int main(int argc, char *argv[])
 
     struct abf2_fileinfo *finfo;
     finfo = (struct abf2_fileinfo *) malloc(sizeof(struct abf2_fileinfo));
-    int to_swap = 0;
 
+    int to_swap = abf2_needs_swap(buf);
     abf2_read_fileinfo(buf, finfo, to_swap);
     abf2_print_fileinfo(finfo, 0);
 

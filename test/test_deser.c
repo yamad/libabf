@@ -235,6 +235,19 @@ void test_read_charp_advances_pointer(void)
     TEST_ASSERT_EQUAL_HEX8(0xFE, b2);
 }
 
+void test_read_charnp_reads_n_bytes(void)
+{
+    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    char *buf = bytes;
+    char *head = buf;
+    char res[2];
+    buf = read_charnp(buf, res, 2);
+    TEST_ASSERT_EQUAL_INT(2, buf - head); /* pointer advances */
+    TEST_ASSERT_EQUAL_HEX8(0xCA, res[0]); /* can get data */
+    TEST_ASSERT_EQUAL_HEX8(0xFE, res[1]);
+    TEST_ASSERT_EQUAL_HEX8(0xBE, *buf); /* pointer points to unconsumed data */
+}
+
 void test_read_uint8p_reads_uint8s_inorder(void)
 {
     char bytes[2] = { 0xCA, 0xFE };

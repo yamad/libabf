@@ -33,6 +33,7 @@ double read_float64(const char *buffer, size_t offset, bool swap);
  *  this condition must be checked.
  */
 char *read_charp(char *buf, char *to);
+char *read_charnp(char *buf, char *to, size_t nbytes);
 char *read_uint8p(char *buf, uint8_t *to);
 char *read_int8p(char *buf, int8_t *to);
 char *read_uint16p(char *buf, uint16_t *to, bool swap);

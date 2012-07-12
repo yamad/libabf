@@ -95,6 +95,12 @@ char *read_charp(char *buf, char *to)
     return ++buf;
 }
 
+char *read_charnp(char *buf, char *to, size_t nbytes)
+{
+    memcpy(to, buf, nbytes);
+    return (buf + nbytes);
+}
+
 char *read_uint8p(char *buf, uint8_t *to)
 {
     *to = read_uint8(buf, 0);

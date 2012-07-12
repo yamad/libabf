@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "abf2.h"
+#include "abf2_print.h"
 
 /* sloppy test function to print fileinfo struct */
 int main(int argc, char *argv[])

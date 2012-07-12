@@ -6,8 +6,11 @@ include_directories(stream)
 add_library(abf2_stream abf2_stream.c)
 target_link_libraries(abf2_stream abf2 stream)
 
+add_library(abf2_print abf2_print.c)
+target_link_libraries(abf2_print abf2)
+
 add_executable(abf2_printfileinfo abf2_printfileinfo.c)
-target_link_libraries(abf2_printfileinfo abf2)
+target_link_libraries(abf2_printfileinfo abf2_print)
 
 add_executable(abf2_printprotocolinfo abf2_printprotocolinfo.c)
-target_link_libraries(abf2_printprotocolinfo abf2)
+target_link_libraries(abf2_printprotocolinfo abf2_print)

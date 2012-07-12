@@ -55,6 +55,7 @@
 :unity:
   :defines:
     - UNITY_SUPPORT_64
+    - UNITY_POINTER_WIDTH=64
     - UNITY_INCLUDE_DOUBLE
     - UNITY_FLOAT_VERBOSE
 

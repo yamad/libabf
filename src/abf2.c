@@ -14,6 +14,18 @@ int abf2_needs_swap(const char *buf)
     return -1;
 }
 
+/* get byte offset (location) of data for an abf2 section */
+size_t abf2_section_block_offset(const struct abf2_section *sec)
+{
+    return abf2_get_block_offset(sec->uBlockIndex);
+}
+
+/* get byte offset (location) of given block index */
+size_t abf2_get_block_offset(uint32_t block)
+{
+    return (size_t) (block * ABF2_BLOCKSIZE);
+}
+
 char *abf2_read_guidp(char *buf, struct guid *guid, bool to_swap)
 {
     int i;

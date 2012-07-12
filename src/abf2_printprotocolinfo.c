@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 
     abf2_read_fileinfo(buf, finfo, to_swap);
 
-    fseek(f, ABF2_BLOCKSIZE * finfo->ProtocolSection.uBlockIndex, SEEK_SET);
+    fseek(f, abf2_section_block_offset(&(finfo->ProtocolSection)), SEEK_SET);
     if (0 == fread(buf, finfo->ProtocolSection.uBytes, finfo->ProtocolSection.llNumEntries, f)) {
         printf("Read protocol info error\n");
         exit(1);

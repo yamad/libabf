@@ -8,6 +8,22 @@
 void setUp(void) {}
 void tearDown(void) {}
 
+void test_abf2_get_block_offset(void)
+{
+    uint32_t block_index = 1;
+    size_t result = abf2_get_block_offset(block_index);
+    TEST_ASSERT_EQUAL_UINT(ABF2_BLOCKSIZE, result);
+}
+
+void test_abf2_section_block_offset(void)
+{
+    struct abf2_section test_sec = {
+        .uBlockIndex = 1,
+        .uBytes = 512,
+        .llNumEntries = 1
+    };
+    TEST_ASSERT_EQUAL_UINT(ABF2_BLOCKSIZE, abf2_section_block_offset(&test_sec));
+}
 
 void test_abf2_needs_swap_littleendian(void)
 {

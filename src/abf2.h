@@ -15,6 +15,9 @@
 
 int abf2_needs_swap(const char *buf);
 
+size_t abf2_section_block_offset(const struct abf2_section *sec);
+size_t abf2_get_block_offset(uint32_t block);
+
 char *abf2_read_guidp(char *buf, struct guid *guid, bool to_swap);
 char *abf2_read_sectionp(char *buf, struct abf2_section *sec, bool to_swap);
 char *abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo, bool to_swap);

@@ -16,18 +16,19 @@ struct guid
 typedef struct guid GUID;
 #endif /* GUID_DEFINED */
 
-// Structure definitions for Axon Binary File v2 (ABF2) format
-//
-// Code was taken from ABFFIO/ProtocolStructs.h and modified from C++ to pure C
+/* Structure definitions for Axon Binary File v2 (ABF2) format
+ *
+ * Code was taken from ABFFIO/ProtocolStructs.h and modified from C++ to pure C
+ */
 
 #define ABF2_FILESIGNATURE   0x32464241      /* "ABF2" in little-endian ASCII */
                                              /* "2FBA" in big-endian ASCII */
 
 struct abf2_section
 {
-    uint32_t uBlockIndex;        // ABF block number of the first entry
-    uint32_t uBytes;             // size in bytes of of each entry
-    int64_t llNumEntries;        // number of entries in this section
+    uint32_t uBlockIndex;    /* ABF block number of the first entry */
+    uint32_t uBytes;         /* size in bytes of of each entry */
+    int64_t llNumEntries;    /* number of entries in this section */
 };
 
 struct abf2_fileinfo
@@ -52,29 +53,29 @@ struct abf2_fileinfo
     uint32_t uModifierNameIndex;
     uint32_t uProtocolPathIndex;
 
-    // New sections in ABF 2 - protocol stuff ...
-    struct abf2_section ProtocolSection;           // the protocol
-    struct abf2_section ADCSection;                // one for each ADC channel
-    struct abf2_section DACSection;                // one for each DAC channel
-    struct abf2_section EpochSection;              // one for each epoch
-    struct abf2_section ADCPerDACSection;          // one for each ADC for each DAC
-    struct abf2_section EpochPerDACSection;        // one for each epoch for each DAC
-    struct abf2_section UserListSection;           // one for each user list
-    struct abf2_section StatsRegionSection;        // one for each stats region
+    /* New sections in ABF 2 - protocol stuff ... */
+    struct abf2_section ProtocolSection;           /* the protocol */
+    struct abf2_section ADCSection;                /* one for each ADC channel */
+    struct abf2_section DACSection;                /* one for each DAC channel */
+    struct abf2_section EpochSection;              /* one for each epoch */
+    struct abf2_section ADCPerDACSection;          /* one for each ADC for each DAC */
+    struct abf2_section EpochPerDACSection;        /* one for each epoch for each DAC */
+    struct abf2_section UserListSection;           /* one for each user list */
+    struct abf2_section StatsRegionSection;        /* one for each stats region */
     struct abf2_section MathSection;
     struct abf2_section StringsSection;
 
-    // ABF 1 sections ...
-    struct abf2_section DataSection;            // Data
-    struct abf2_section TagSection;             // Tags
-    struct abf2_section ScopeSection;           // Scope config
-    struct abf2_section DeltaSection;           // Deltas
-    struct abf2_section VoiceTagSection;        // Voice Tags
-    struct abf2_section SynchArraySection;      // Synch Array
-    struct abf2_section AnnotationSection;      // Annotations
-    struct abf2_section StatsSection;           // Stats config
+    /* ABF 1 sections ... */
+    struct abf2_section DataSection;            /* Data */
+    struct abf2_section TagSection;             /* Tags */
+    struct abf2_section ScopeSection;           /* Scope config */
+    struct abf2_section DeltaSection;           /* Deltas */
+    struct abf2_section VoiceTagSection;        /* Voice Tags */
+    struct abf2_section SynchArraySection;      /* Synch Array */
+    struct abf2_section AnnotationSection;      /* Annotations */
+    struct abf2_section StatsSection;           /* Stats config */
 
-    int8_t  sUnused[148];     // size = 512 bytes
+    int8_t  sUnused[148];       /* size = 512 bytes */
 };
 
 struct abf2_protocolinfo
@@ -161,7 +162,7 @@ struct abf2_protocolinfo
     int16_t nDigitizerSynchDigitalOuts;
     int16_t nDigitizerType;
 
-    int8_t sUnused[304];     // size = 512 bytes
+    int8_t sUnused[304];        /* size = 512 bytes */
 };
 
 struct abf2_mathinfo
@@ -176,12 +177,12 @@ struct abf2_mathinfo
     int8_t  sUnused[16];
     float fMathK[6];
 
-    int8_t sUnused2[64];     // size = 128 bytes
+    int8_t sUnused2[64];        /* size = 128 bytes */
 };
 
 struct abf2_adcinfo
 {
-    // The ADC this struct is describing.
+    /* The ADC this struct is describing. */
     int16_t nADCNum;
 
     int16_t nTelegraphEnable;
@@ -216,12 +217,12 @@ struct abf2_adcinfo
     int32_t lADCChannelNameIndex;
     int32_t lADCUnitsIndex;
 
-    int8_t sUnused[46];          // size = 128 bytes
+    int8_t sUnused[46];         /* size = 128 bytes */
 };
 
 struct abf2_dacinfo
 {
-    // The DAC this struct is describing.
+    /* The DAC this struct is describing. */
     int16_t nDACNum;
 
     int16_t nTelegraphDACScaleFactorEnable;
@@ -276,16 +277,16 @@ struct abf2_dacinfo
 
     int16_t nLeakSubtractADCIndex;
 
-    int8_t sUnused[124];     // size = 256 bytes
+    int8_t sUnused[124];        /* size = 256 bytes */
 };
 
 struct abf2_epochinfoperdac
 {
-    // The Epoch / DAC this struct is describing.
+    /* The Epoch / DAC this struct is describing. */
     int16_t nEpochNum;
     int16_t nDACNum;
 
-    // One full set of epochs (ABF_EPOCHCOUNT) for each DAC channel ...
+    /* One full set of epochs (ABF_EPOCHCOUNT) for each DAC channel ... */
     int16_t nEpochType;
     float fEpochInitLevel;
     float fEpochLevelInc;
@@ -294,27 +295,27 @@ struct abf2_epochinfoperdac
     int32_t lEpochPulsePeriod;
     int32_t lEpochPulseWidth;
 
-    int8_t sUnused[18];      // size = 48 bytes
+    int8_t sUnused[18];         /* size = 48 bytes */
 };
 
 struct abf2_epochinfo
 {
-    // The Epoch this struct is describing.
+    /* The Epoch this struct is describing. */
     int16_t nEpochNum;
 
-    // Describes one epoch
+    /* Describes one epoch */
     int16_t nDigitalValue;
     int16_t nDigitalTrainValue;
     int16_t nAlternateDigitalValue;
     int16_t nAlternateDigitalTrainValue;
-    t_BOOL bEpochCompression;   // Compress the data from this epoch using uFileCompressionRatio
+    t_BOOL bEpochCompression;   /* Compress the data from this epoch using uFileCompressionRatio */
 
-    int8_t sUnused[21];      // size = 32 bytes
-} ABF_EpochInfo;
+    int8_t sUnused[21];         /* size = 32 bytes */
+};
 
 struct abf2_statsregioninfo
 {
-    // The stats region this struct is describing.
+    /* The stats region this struct is describing. */
     int16_t nRegionNum;
     int16_t nADCNum;
 
@@ -327,7 +328,7 @@ struct abf2_statsregioninfo
     int32_t lStatsBaselineStart;
     int32_t lStatsBaselineEnd;
 
-    // Describes one stats region
+    /* Describes one stats region */
     int32_t lStatsMeasurements;
     int32_t lStatsStart;
     int32_t lStatsEnd;
@@ -339,21 +340,21 @@ struct abf2_statsregioninfo
     int16_t nStatsSearchDAC;
     int16_t nStatsBaselineDAC;
 
-    int8_t sUnused[78];   // size = 128 bytes
+    int8_t sUnused[78];         /* size = 128 bytes */
 };
 
 struct abf2_userlistinfo
 {
-    // The user list this struct is describing.
+    /* The user list this struct is describing. */
     int16_t nListNum;
 
-    // Describes one user list
+    /* Describes one user list */
     int16_t nULEnable;
     int16_t nULParamToVary;
     int16_t nULRepeat;
     int32_t lULParamValueListIndex;
 
-    int8_t sUnused[52];   // size = 64 bytes
+    int8_t sUnused[52];         /* size = 64 bytes */
 };
 
 #endif

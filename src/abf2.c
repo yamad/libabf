@@ -37,7 +37,7 @@ char *abf2_read_sectionp(char *buf, struct abf2_section *sec, bool to_swap)
     return buf;
 }
 
-int abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo,  bool to_swap)
+char *abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo, bool to_swap)
 {
     /* deserialize structure members manually */
     buf = read_uint32p(buf, &(finfo->uFileSignature), to_swap);
@@ -77,9 +77,102 @@ int abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo,  bool to_swap)
     buf = abf2_read_sectionp(buf, &(finfo->SynchArraySection), to_swap);
     buf = abf2_read_sectionp(buf, &(finfo->AnnotationSection), to_swap);
     buf = abf2_read_sectionp(buf, &(finfo->StatsSection), to_swap);
-    /* ignore remaining 148 unused bytes read from buf */
-    return 0;
+    buf += 148;                 /* skip unused bytes */
+    return buf;
 }
+
+char *abf2_read_protocolinfo(char *buf, struct abf2_protocolinfo *pinfo, bool to_swap)
+{
+    int i;
+    buf = read_int16p(buf, &(pinfo->nOperationMode), to_swap);
+    buf = read_float32p(buf, &(pinfo->fADCSequenceInterval), to_swap);
+
+    buf = read_uint8p(buf, (uint8_t*)&(pinfo->bEnableFileCompression));
+    buf += 3;                   /* skip unused bytes */
+
+    buf = read_uint32p(buf, &(pinfo->uFileCompressionRatio), to_swap);
+
+    buf = read_float32p(buf, &(pinfo->fSynchTimeUnit), to_swap);
+    buf = read_float32p(buf, &(pinfo->fSecondsPerRun), to_swap);
+    buf = read_int32p(buf, &(pinfo->lNumSamplesPerEpisode), to_swap);
+    buf = read_int32p(buf, &(pinfo->lPreTriggerSamples), to_swap);
+    buf = read_int32p(buf, &(pinfo->lEpisodesPerRun), to_swap);
+    buf = read_int32p(buf, &(pinfo->lRunsPerTrial), to_swap);
+    buf = read_int32p(buf, &(pinfo->lNumberOfTrials), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAveragingMode), to_swap);
+    buf = read_int16p(buf, &(pinfo->nUndoRunCount), to_swap);
+    buf = read_int16p(buf, &(pinfo->nFirstEpisodeInRun), to_swap);
+    buf = read_float32p(buf, &(pinfo->fTriggerThreshold), to_swap);
+    buf = read_int16p(buf, &(pinfo->nTriggerSource), to_swap);
+    buf = read_int16p(buf, &(pinfo->nTriggerAction), to_swap);
+    buf = read_int16p(buf, &(pinfo->nTriggerPolarity), to_swap);
+    buf = read_float32p(buf, &(pinfo->fScopeOutputInterval), to_swap);
+    buf = read_float32p(buf, &(pinfo->fEpisodeStartToStart), to_swap);
+    buf = read_float32p(buf, &(pinfo->fRunStartToStart), to_swap);
+    buf = read_int32p(buf, &(pinfo-> lAverageCount), to_swap);
+    buf = read_float32p(buf, &(pinfo->fTrialStartToStart), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAutoTriggerStrategy), to_swap);
+    buf = read_float32p(buf, &(pinfo->fFirstRunDelayS), to_swap);
+
+    buf = read_int16p(buf, &(pinfo->nChannelStatsStrategy), to_swap);
+    buf = read_int32p(buf, &(pinfo->lSamplesPerTrace), to_swap);
+    buf = read_int32p(buf, &(pinfo->lStartDisplayNum), to_swap);
+    buf = read_int32p(buf, &(pinfo->lFinishDisplayNum), to_swap);
+    buf = read_int16p(buf, &(pinfo->nShowPNRawData), to_swap);
+    buf = read_float32p(buf, &(pinfo->fStatisticsPeriod), to_swap);
+    buf = read_int32p(buf, &(pinfo->lStatisticsMeasurements), to_swap);
+    buf = read_int16p(buf, &(pinfo->nStatisticsSaveStrategy), to_swap);
+
+    buf = read_float32p(buf, &(pinfo->fADCRange), to_swap);
+    buf = read_float32p(buf, &(pinfo->fDACRange), to_swap);
+    buf = read_int32p(buf, &(pinfo->lADCResolution), to_swap);
+    buf = read_int32p(buf, &(pinfo->lDACResolution), to_swap);
+
+    buf = read_int16p(buf, &(pinfo->nExperimentType), to_swap);
+    buf = read_int16p(buf, &(pinfo->nManualInfoStrategy), to_swap);
+    buf = read_int16p(buf, &(pinfo->nCommentsEnable), to_swap);
+    buf = read_int32p(buf, &(pinfo->lFileCommentIndex), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAutoAnalyseEnable), to_swap);
+    buf = read_int16p(buf, &(pinfo->nSignalType), to_swap);
+
+    buf = read_int16p(buf, &(pinfo->nDigitalEnable), to_swap);
+    buf = read_int16p(buf, &(pinfo->nActiveDACChannel), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitalHolding), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitalInterEpisode), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitalDACChannel), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitalTrainActiveLogic), to_swap);
+
+    buf = read_int16p(buf, &(pinfo->nStatsEnable), to_swap);
+    buf = read_int16p(buf, &(pinfo->nStatisticsClearStrategy), to_swap);
+
+    buf = read_int16p(buf, &(pinfo->nLevelHysteresis), to_swap);
+    buf = read_int32p(buf, &(pinfo->lTimeHysteresis), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAllowExternalTags), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAverageAlgorithm), to_swap);
+    buf = read_float32p(buf, &(pinfo->fAverageWeighting), to_swap);
+    buf = read_int16p(buf, &(pinfo->nUndoPromptStrategy), to_swap);
+    buf = read_int16p(buf, &(pinfo->nTrialTriggerSource), to_swap);
+    buf = read_int16p(buf, &(pinfo->nStatisticsDisplayStrategy), to_swap);
+    buf = read_int16p(buf, &(pinfo->nExternalTagType), to_swap);
+    buf = read_int16p(buf, &(pinfo->nScopeTriggerOut), to_swap);
+
+    buf = read_int16p(buf, &(pinfo->nLTPType), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAlternateDACOutputState), to_swap);
+    buf = read_int16p(buf, &(pinfo->nAlternateDigitalOutputState), to_swap);
+
+    for (i=0; i<3; i++) {
+        buf = read_float32p(buf, &(pinfo->fCellID[i]), to_swap);
+    }
+
+    buf = read_int16p(buf, &(pinfo->nDigitizerADCs), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitizerDACs), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitizerTotalDigitalOuts), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitizerSynchDigitalOuts), to_swap);
+    buf = read_int16p(buf, &(pinfo->nDigitizerType), to_swap);
+    buf += 304;                 /* skip unused bytes */
+    return buf;
+}
+
 
 int abf2_print_fileinfo(const struct abf2_fileinfo *finfo, int indent)
 {
@@ -138,6 +231,94 @@ int abf2_print_fileinfo(const struct abf2_fileinfo *finfo, int indent)
     abf2_print_section(&(finfo->AnnotationSection), 4);
     printf("%s%-20s:\n", spaces, "StatsSection");
     abf2_print_section(&(finfo->StatsSection), 4);
+    free(spaces);
+    return 0;
+}
+
+int abf2_print_protocolinfo(const struct abf2_protocolinfo *pinfo, int indent)
+{
+    int i;
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-28s: %d\n", spaces, "nOperationMode", pinfo->nOperationMode);
+    printf("%s%-28s: %f\n", spaces, "fADCSequenceInterval", pinfo->fADCSequenceInterval);
+    printf("%s%-28s: %d\n", spaces, "bEnableFileCompression", pinfo->bEnableFileCompression);
+    printf("%s%-28s: %d\n", spaces, "uFileCompressionRatio", pinfo->uFileCompressionRatio);
+    printf("%s%-28s: %f\n", spaces, "fSynchTimeUnit", pinfo->fSynchTimeUnit);
+    printf("%s%-28s: %f\n", spaces, "fSecondsPerRun", pinfo->fSecondsPerRun);
+    printf("%s%-28s: %d\n", spaces, "lNumSamplesPerEpisode", pinfo->lNumSamplesPerEpisode);
+    printf("%s%-28s: %d\n", spaces, "lPreTriggerSamples", pinfo->lPreTriggerSamples);
+    printf("%s%-28s: %d\n", spaces, "lEpisodesPerRun", pinfo->lEpisodesPerRun);
+    printf("%s%-28s: %d\n", spaces, "lRunsPerTrial", pinfo->lRunsPerTrial);
+    printf("%s%-28s: %d\n", spaces, "lNumberOfTrials", pinfo->lNumberOfTrials);
+    printf("%s%-28s: %d\n", spaces, "nAveragingMode", pinfo->nAveragingMode);
+    printf("%s%-28s: %d\n", spaces, "nUndoRunCount", pinfo->nUndoRunCount);
+    printf("%s%-28s: %d\n", spaces, "nFirstEpisodeInRun", pinfo->nFirstEpisodeInRun);
+    printf("%s%-28s: %f\n", spaces, "fTriggerThreshold", pinfo->fTriggerThreshold);
+    printf("%s%-28s: %d\n", spaces, "nTriggerSource", pinfo->nTriggerSource);
+    printf("%s%-28s: %d\n", spaces, "nTriggerAction", pinfo->nTriggerAction);
+    printf("%s%-28s: %d\n", spaces, "nTriggerPolarity", pinfo->nTriggerPolarity);
+    printf("%s%-28s: %f\n", spaces, "fScopeOutputInterval", pinfo->fScopeOutputInterval);
+    printf("%s%-28s: %f\n", spaces, "fEpisodeStartToStart", pinfo->fEpisodeStartToStart);
+    printf("%s%-28s: %f\n", spaces, "fRunStartToStart", pinfo->fRunStartToStart);
+    printf("%s%-28s: %d\n", spaces, "lAverageCount", pinfo-> lAverageCount);
+    printf("%s%-28s: %f\n", spaces, "fTrialStartToStart", pinfo->fTrialStartToStart);
+    printf("%s%-28s: %d\n", spaces, "nAutoTriggerStrategy", pinfo->nAutoTriggerStrategy);
+    printf("%s%-28s: %f\n", spaces, "fFirstRunDelayS", pinfo->fFirstRunDelayS);
+
+    printf("%s%-28s: %d\n", spaces, "nChannelStatsStrategy", pinfo->nChannelStatsStrategy);
+    printf("%s%-28s: %d\n", spaces, "lSamplesPerTrace", pinfo->lSamplesPerTrace);
+    printf("%s%-28s: %d\n", spaces, "lStartDisplayNum", pinfo->lStartDisplayNum);
+    printf("%s%-28s: %d\n", spaces, "lFinishDisplayNum", pinfo->lFinishDisplayNum);
+    printf("%s%-28s: %d\n", spaces, "nShowPNRawData", pinfo->nShowPNRawData);
+    printf("%s%-28s: %f\n", spaces, "fStatisticsPeriod", pinfo->fStatisticsPeriod);
+    printf("%s%-28s: %d\n", spaces, "lStatisticsMeasurements", pinfo->lStatisticsMeasurements);
+    printf("%s%-28s: %d\n", spaces, "nStatisticsSaveStrategy", pinfo->nStatisticsSaveStrategy);
+
+    printf("%s%-28s: %f\n", spaces, "fADCRange", pinfo->fADCRange);
+    printf("%s%-28s: %f\n", spaces, "fDACRange", pinfo->fDACRange);
+    printf("%s%-28s: %d\n", spaces, "lADCResolution", pinfo->lADCResolution);
+    printf("%s%-28s: %d\n", spaces, "lDACResolution", pinfo->lDACResolution);
+
+    printf("%s%-28s: %d\n", spaces, "nExperimentType", pinfo->nExperimentType);
+    printf("%s%-28s: %d\n", spaces, "nManualInfoStrategy", pinfo->nManualInfoStrategy);
+    printf("%s%-28s: %d\n", spaces, "nCommentsEnable", pinfo->nCommentsEnable);
+    printf("%s%-28s: %d\n", spaces, "lFileCommentIndex", pinfo->lFileCommentIndex);
+    printf("%s%-28s: %d\n", spaces, "nAutoAnalyseEnable", pinfo->nAutoAnalyseEnable);
+    printf("%s%-28s: %d\n", spaces, "nSignalType", pinfo->nSignalType);
+
+    printf("%s%-28s: %d\n", spaces, "nDigitalEnable", pinfo->nDigitalEnable);
+    printf("%s%-28s: %d\n", spaces, "nActiveDACChannel", pinfo->nActiveDACChannel);
+    printf("%s%-28s: %d\n", spaces, "nDigitalHolding", pinfo->nDigitalHolding);
+    printf("%s%-28s: %d\n", spaces, "nDigitalInterEpisode", pinfo->nDigitalInterEpisode);
+    printf("%s%-28s: %d\n", spaces, "nDigitalDACChannel", pinfo->nDigitalDACChannel);
+    printf("%s%-28s: %d\n", spaces, "nDigitalTrainActiveLogic", pinfo->nDigitalTrainActiveLogic);
+
+    printf("%s%-28s: %d\n", spaces, "nStatsEnable", pinfo->nStatsEnable);
+    printf("%s%-28s: %d\n", spaces, "nStatisticsClearStrategy", pinfo->nStatisticsClearStrategy);
+
+    printf("%s%-28s: %d\n", spaces, "nLevelHysteresis", pinfo->nLevelHysteresis);
+    printf("%s%-28s: %d\n", spaces, "lTimeHysteresis", pinfo->lTimeHysteresis);
+    printf("%s%-28s: %d\n", spaces, "nAllowExternalTags", pinfo->nAllowExternalTags);
+    printf("%s%-28s: %d\n", spaces, "nAverageAlgorithm", pinfo->nAverageAlgorithm);
+    printf("%s%-28s: %f\n", spaces, "fAverageWeighting", pinfo->fAverageWeighting);
+    printf("%s%-28s: %d\n", spaces, "nUndoPromptStrategy", pinfo->nUndoPromptStrategy);
+    printf("%s%-28s: %d\n", spaces, "nTrialTriggerSource", pinfo->nTrialTriggerSource);
+    printf("%s%-28s: %d\n", spaces, "nStatisticsDisplayStrategy", pinfo->nStatisticsDisplayStrategy);
+    printf("%s%-28s: %d\n", spaces, "nExternalTagType", pinfo->nExternalTagType);
+    printf("%s%-28s: %d\n", spaces, "nScopeTriggerOut", pinfo->nScopeTriggerOut);
+    printf("%s%-28s: %d\n", spaces, "nLTPType", pinfo->nLTPType);
+    printf("%s%-28s: %d\n", spaces, "nAlternateDACOutputState", pinfo->nAlternateDACOutputState);
+    printf("%s%-28s: %d\n", spaces, "nAlternateDigitalOutputState", pinfo->nAlternateDigitalOutputState);
+
+    for (i=0; i<3; i++) {
+        printf("%s%-28s: %f\n", spaces, "fCellID[]", pinfo->fCellID[i]);
+    }
+
+    printf("%s%-28s: %d\n", spaces, "nDigitizerADCs", pinfo->nDigitizerADCs);
+    printf("%s%-28s: %d\n", spaces, "nDigitizerDACs", pinfo->nDigitizerDACs);
+    printf("%s%-28s: %d\n", spaces, "nDigitizerTotalDigitalOuts", pinfo->nDigitizerTotalDigitalOuts);
+    printf("%s%-28s: %d\n", spaces, "nDigitizerSynchDigitalOuts", pinfo->nDigitizerSynchDigitalOuts);
+    printf("%s%-28s: %d\n", spaces, "nDigitizerType", pinfo->nDigitizerType);
     free(spaces);
     return 0;
 }

@@ -89,6 +89,7 @@ struct abf2_protocolinfo
     float fSecondsPerRun;
     int32_t lNumSamplesPerEpisode;
     int32_t lPreTriggerSamples;
+    int32_t lEpisodesPerRun;
     int32_t lRunsPerTrial;
     int32_t lNumberOfTrials;
     int16_t nAveragingMode;
@@ -101,7 +102,7 @@ struct abf2_protocolinfo
     float fScopeOutputInterval;
     float fEpisodeStartToStart;
     float fRunStartToStart;
-    int32_t  lAverageCount;
+    int32_t lAverageCount;
     float fTrialStartToStart;
     int16_t nAutoTriggerStrategy;
     float fFirstRunDelayS;

@@ -17,10 +17,12 @@ int abf2_needs_swap(const char *buf);
 
 char *abf2_read_guidp(char *buf, struct guid *guid, bool to_swap);
 char *abf2_read_sectionp(char *buf, struct abf2_section *sec, bool to_swap);
-int abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo, bool to_swap);
+char *abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo, bool to_swap);
+char *abf2_read_protocolinfo(char *buf, struct abf2_protocolinfo *pinfo, bool to_swap);
 
 int abf2_print_fileinfo(const struct abf2_fileinfo *finfo, int indent);
 int abf2_print_section(const struct abf2_section *sec, int indent);
+int abf2_print_protocolinfo(const struct abf2_protocolinfo *pinfo, int indent);
 char *get_repeated_string(char c, int repeats);
 
 #endif

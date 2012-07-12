@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "platform.h"
+#include "abf_struct.h"
 
 struct guid
 {

@@ -1,14 +1,31 @@
 #include "swap.h"
 #include "abf2.h"
 
+/* check that `buf` starts with a valid ABF2 file signature */
+int abf2_can_open(const char *buf)
+{
+    uint32_t filesig = read_uint32(buf, 0, 0);
+    return abf2_verify_filesignature(filesig);
+}
+
+/* verify `filesig` is a valid ABF2 file signature */
+int abf2_verify_filesignature(uint32_t filesig)
+{
+    if (ABF2_FILESIGNATURE == filesig || \
+        ABF2_REVFILESIGNATURE == filesig) {
+        return 1;
+    }
+    return 0;
+}
+
+/* return true if the file endian is different than the host endian*/
 int abf2_needs_swap(const char *buf)
 {
     uint32_t filesig = read_uint32(buf, 0, 0);
     if (ABF2_FILESIGNATURE == filesig) {
         return 0;
     }
-    uint32_t abf2_revsig = _swap32(ABF2_FILESIGNATURE);
-    if (abf2_revsig == filesig) {
+    if (ABF2_REVFILESIGNATURE == filesig) {
         return 1;
     }
     return -1;

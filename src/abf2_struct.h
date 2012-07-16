@@ -24,6 +24,8 @@ typedef struct guid GUID;
 
 #define ABF2_FILESIGNATURE   0x32464241      /* "ABF2" in little-endian ASCII */
                                              /* "2FBA" in big-endian ASCII */
+#define ABF2_REVFILESIGNATURE _swap32(ABF2_FILESIGNATURE)
+
 
 struct abf2_section
 {

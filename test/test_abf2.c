@@ -49,6 +49,30 @@ void test_abf2_needs_swap_bigendian(void)
     }
 }
 
+void test_abf2_can_open_tests_for_littleendian_ABF2_filesig(void)
+{
+    char bytes[4] = { 0x41, 0x42, 0x46, 0x32 };
+    char *buf = bytes;
+    int is_abf2_file = abf2_can_open(buf);
+    TEST_ASSERT_EQUAL_INT(1, is_abf2_file);
+}
+
+void test_abf2_can_open_tests_for_bigendian_ABF2_filesig(void)
+{
+    char bytes[4] = { 0x32, 0x46, 0x42, 0x41 };
+    char *buf = bytes;
+    int is_abf2_file = abf2_can_open(buf);
+    TEST_ASSERT_EQUAL_INT(1, is_abf2_file);
+}
+
+void test_abf2_can_open_fails_on_ABF1_filesig(void)
+{
+    char bytes[4] = { 0x20, 0x46, 0x42, 0x41 };
+    char *buf = bytes;
+    int is_abf2_file = abf2_can_open(buf);
+    TEST_ASSERT_EQUAL_INT(0, is_abf2_file);
+}
+
 void test_abf2_read_section(void)
 {
     char bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,

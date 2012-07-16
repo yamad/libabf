@@ -20,6 +20,7 @@
 #define ABF2_STATSREGIONINFOSIZE 128
 #define ABF2_USERLISTINFOSIZE 64
 
+int abf2_can_open(const char *buf);
 int abf2_needs_swap(const char *buf);
 
 size_t abf2_section_block_offset(const struct abf2_section *sec);
@@ -37,5 +38,7 @@ char *abf2_read_epochinfoperdac(char *buf, struct abf2_epochinfoperdac *einfo, b
 char *abf2_read_epochinfo(char *buf, struct abf2_epochinfo *einfo, bool to_swap);
 char *abf2_read_statsregioninfo(char *buf, struct abf2_statsregioninfo *sinfo, bool to_swap);
 char *abf2_read_userlistinfo(char *buf, struct abf2_userlistinfo *uinfo, bool to_swap);
+
+int abf2_verify_filesignature(uint32_t filesig);
 
 #endif

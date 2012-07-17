@@ -1,4 +1,6 @@
 #include <stdint.h>
+
+#include "memory.h"
 #include "abf_read.h"
 #include "abf_print.h"
 #include "abf2_print.h"
@@ -99,36 +101,81 @@ int abf2_seek_to_section_entry(FILE *f, const struct abf2_section *sec, char *se
     return eselect;
 }
 
+#define GETENTRY_TOOBIG 1
+#define GETENTRY_READERR 2
+
+/* seek file to the given entry */
+int abf2_section_seek_entry(FILE *f,
+                            const struct abf2_section *sec,
+                            int64_t entry_num)
+{
+    if (sec->llNumEntries < entry_num)
+        return GETENTRY_TOOBIG;
+    size_t block_offset = abf2_section_block_offset(sec);
+    size_t entry_offset = sec->uBytes * (entry_num);
+    fseek(f, block_offset + entry_offset, SEEK_SET);
+    return 0;
+}
+
+/* load data for given entry into `buf` */
+int abf2_section_load_entry(FILE *f,
+                            const struct abf2_section *sec,
+                            char *buf,
+                            int64_t entry_num)
+{
+    int err = 0;
+    size_t bytes_read;
+
+    err = abf2_section_seek_entry(f, sec, entry_num);
+    if (0 != err)
+        return err;
+
+    bytes_read = fread(buf, (size_t)sec->uBytes, 1, f);
+    if (0 == bytes_read)
+        return GETENTRY_READERR;
+
+    return err;
+}
+
+int abf2_display_cleanup(const struct abf2_section *sec, int64_t *eselect)
+{
+    if (sec->llNumEntries == 1)
+        *eselect = 0;
+    else {
+        *eselect = -1;
+        printf("---------------------------------------------\n");
+    }
+    return 0;
+}
+
 int abf2_display_protocolinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
 {
+    int err = 0;
+    int64_t eselect = -1;
+    struct abf2_protocolinfo *info;
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    info = malloc(sizeof(struct abf2_protocolinfo));
 
-    int64_t entry_select = -1;
-    while (entry_select != 0) {
-        entry_select = abf2_seek_to_section_entry(f, sec, "ProtocolInfo");
-        if (entry_select == 0)
+    while (eselect != 0) {
+        eselect = abf2_select_section_entry(sec, "ProtocolInfo");
+        if (eselect == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_protocolinfo *pinfo;
-        pinfo = (struct abf2_protocolinfo *) malloc(sizeof(struct abf2_protocolinfo));
-        if (0 == fread(buf, (size_t)sec->uBytes, 1, f)) {
-            printf("Read Protocol info error\n");
-            return -1;
+        err = abf2_section_load_entry(f, sec, buf, eselect);
+        if (0 != err) {
+            printf("Read entry error\n");
+            return err;
         }
-        abf2_read_protocolinfo(buf, pinfo, to_swap);
+        abf2_read_protocolinfo(buf, info, to_swap);
         printf("\n");
-        abf2_print_protocolinfo(pinfo, 0);
+        abf2_print_protocolinfo(info, 0);
         printf("\n");
-        if (sec->llNumEntries == 1)
-            entry_select = 0;
-        else {
-            entry_select = -1;
-            printf("---------------------------------------------\n");
-        }
+        abf2_display_cleanup(sec, &eselect);
     }
-    return 0;
+    free(info); info = NULL;
+    return err;
 }
 
 int abf2_display_adcinfo(FILE* f, const struct abf2_section *sec, bool to_swap)

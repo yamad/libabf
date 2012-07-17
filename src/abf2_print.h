@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
+#include "printutil.h"
 #include "abf2.h"
-
-char *get_repeated_string(char c, int repeats);
 
 int abf2_print_guid(const struct guid *guid, int indent);
 int abf2_print_section(const struct abf2_section *sec, int indent);

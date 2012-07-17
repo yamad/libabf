@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "unity.h"
 
+#include "printutil.h"
 #include "abf2.h"
 #include "abf2_print.h"
 #include "deserialize.h"

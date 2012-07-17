@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include "abf_read.h"
+#include "abf_print.h"
 #include "abf2_print.h"
 
 int abf2_check_section_data_exists(const struct abf2_section *sec);
@@ -11,7 +13,14 @@ int abf2_display_epochinfoperdac(FILE* f, const struct abf2_section *sec, bool t
 int abf2_display_epochinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_statsregioninfo(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_userlistinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
-int abf2_display_mathinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
+/* int abf2_display_strings(FILE* f, const struct abf2_section *sec, bool to_swap); */
+
+int abf2_display_scopeconfigs(FILE* f, const struct abf2_section *sec, bool to_swap);
+int abf2_display_tags(FILE* f, const struct abf2_section *sec, bool to_swap);
+int abf2_display_deltas(FILE* f, const struct abf2_section *sec, bool to_swap);
+int abf2_display_voicetags(FILE* f, const struct abf2_section *sec, bool to_swap);
+int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap);
+/* int abf_display_annotations(FILE* f, const struct abf2_section *sec, bool to_swap); */
 
 enum ABF2SELECT_OPTIONS {
     ABF2SELECT_FileInfo = 1,
@@ -20,8 +29,8 @@ enum ABF2SELECT_OPTIONS {
     ABF2SELECT_DACInfo = 4,
     ABF2SELECT_EpochInfoPerDAC = 5,
     ABF2SELECT_EpochInfo = 6,
-    ABF2SELECT_StatsRegionInfo = 7,
-    ABF2SELECT_UserListInfo = 8,
+    ABF2SELECT_UserListInfo = 7,
+    ABF2SELECT_StatsRegionInfo = 8,
     ABF2SELECT_MathInfo = 9,
     ABF2SELECT_Tags = 10,
     ABF2SELECT_Scopes = 11,
@@ -29,32 +38,23 @@ enum ABF2SELECT_OPTIONS {
     ABF2SELECT_VoiceTags = 13,
     ABF2SELECT_Synchs = 14,
     ABF2SELECT_Annotations = 15,
-    ABF2SELECT_Stats = 16
+    ABF2SELECT_Stats = 16,
+    ABF2SELECT_Strings = 17
 };
 
 char *ABF2_SELECTMENU = \
     "MAIN MENU\n\n"
     " ABF2 structs\n"
     " ----------------------\n"
-    " [1] FileInfo\n"
-    " [2] ProtocolInfo\n"
-    " [3] ADCInfo\n"
-    " [4] DACInfo\n"
-    " [5] EpochInfoPerDAC\n"
-    " [6] EpochInfo\n"
-    " [7] StatsRegionInfo\n"
-    " [8] UserListInfo\n"
-    " [9] MathInfo\n"
-    "\n ABF structs\n"
+    " [1] FileInfo        [2] ProtocolInfo     [3] ADCInfo\n"
+    " [4] DACInfo         [5] EpochInfo        [6] EpochInfoPerDAC\n"
+    " [7] UserListInfo    [8] StatsRegionInfo  [9] MathInfo\n\n"
+    " ABF structs\n"
     " ----------------------\n"
-    " [10] Tags\n"
-    " [11] Scopes\n"
-    " [12] Deltas\n"
-    " [13] VoiceTags\n"
-    " [14] Synchs\n"
-    " [15] Annotations\n"
-    " [16] Stats\n\n"
-    "Select a section to show [1-16] (or 0 to exit): ";
+    " [10] Tags           [11] Scopes          [12] Deltas\n"
+    " [13] VoiceTags      [14] Synchs          [15] Annotations\n"
+    " [16] StatsConfig    [17] Strings\n\n"
+    "Select a section to show [1-17] (or 0 to exit): ";
 
 char buf[1024];                 /* TODO: lazy alert -- global buffer */
 
@@ -355,6 +355,166 @@ int abf2_display_mathinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
     return 0;
 }
 
+int abf2_display_tags(FILE* f, const struct abf2_section *sec, bool to_swap)
+{
+    if (0 == abf2_check_section_data_exists(sec)) {
+        return 0;
+    }
+
+    int64_t entry_select = -1;
+    while (entry_select != 0) {
+        entry_select = abf2_seek_to_section_entry(f, sec, "Tags");
+        if (entry_select == 0)
+            return 0; /* exit on selecting 0 */
+
+        struct abf_tag *tag;
+        tag = (struct abf_tag *) malloc(sizeof(struct abf_tag));
+        if (0 == fread(buf, ABF_TAGSIZE, 1, f)) {
+            printf("Read Tags error\n");
+            return -1;
+        }
+        abf_read_tag(buf, tag, to_swap);
+        printf("\n");
+        abf_print_tag(tag, 0);
+        printf("\n");
+        if (sec->llNumEntries == 1)
+            entry_select = 0;
+        else {
+            entry_select = -1;
+            printf("---------------------------------------------\n");
+        }
+    }
+    return 0;
+}
+
+int abf2_display_scopeconfigs(FILE* f, const struct abf2_section *sec, bool to_swap)
+{
+    if (0 == abf2_check_section_data_exists(sec)) {
+        return 0;
+    }
+
+    int64_t entry_select = -1;
+    while (entry_select != 0) {
+        entry_select = abf2_seek_to_section_entry(f, sec, "Scope Configs");
+        if (entry_select == 0)
+            return 0; /* exit on selecting 0 */
+
+        struct abf_scopeconfig *sc;
+        sc = (struct abf_scopeconfig *) malloc(sizeof(struct abf_scopeconfig));
+        if (0 == fread(buf, ABF_SCOPECONFIGSIZE, 1, f)) {
+            printf("Read Scope Config error\n");
+            return -1;
+        }
+        abf_read_scopeconfig(buf, sc, to_swap);
+        printf("\n");
+        abf_print_scopeconfig(sc, 0);
+        printf("\n");
+        if (sec->llNumEntries == 1)
+            entry_select = 0;
+        else {
+            entry_select = -1;
+            printf("---------------------------------------------\n");
+        }
+    }
+    return 0;
+}
+
+int abf2_display_deltas(FILE* f, const struct abf2_section *sec, bool to_swap)
+{
+    if (0 == abf2_check_section_data_exists(sec)) {
+        return 0;
+    }
+
+    int64_t entry_select = -1;
+    while (entry_select != 0) {
+        entry_select = abf2_seek_to_section_entry(f, sec, "Deltas");
+        if (entry_select == 0)
+            return 0; /* exit on selecting 0 */
+
+        struct abf_delta *delta;
+        delta = (struct abf_delta *) malloc(sizeof(struct abf_delta));
+        if (0 == fread(buf, ABF_DELTASIZE, 1, f)) {
+            printf("Read Deltas error\n");
+            return -1;
+        }
+        abf_read_delta(buf, delta, to_swap);
+        printf("\n");
+        abf_print_delta(delta, 0);
+        printf("\n");
+        if (sec->llNumEntries == 1)
+            entry_select = 0;
+        else {
+            entry_select = -1;
+            printf("---------------------------------------------\n");
+        }
+    }
+    return 0;
+}
+
+int abf2_display_voicetags(FILE* f, const struct abf2_section *sec, bool to_swap)
+{
+    if (0 == abf2_check_section_data_exists(sec)) {
+        return 0;
+    }
+
+    int64_t entry_select = -1;
+    while (entry_select != 0) {
+        entry_select = abf2_seek_to_section_entry(f, sec, "Voice Tags");
+        if (entry_select == 0)
+            return 0; /* exit on selecting 0 */
+
+        struct abf_voicetaginfo *voicetag;
+        voicetag = (struct abf_voicetaginfo *) malloc(sizeof(struct abf_voicetaginfo));
+        if (0 == fread(buf, ABF_VOICETAGINFOSIZE, 1, f)) {
+            printf("Read Voice Tags error\n");
+            return -1;
+        }
+        abf_read_voicetaginfo(buf, voicetag, to_swap);
+        printf("\n");
+        abf_print_voicetaginfo(voicetag, 0);
+        printf("\n");
+        if (sec->llNumEntries == 1)
+            entry_select = 0;
+        else {
+            entry_select = -1;
+            printf("---------------------------------------------\n");
+        }
+    }
+    return 0;
+}
+
+int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap)
+{
+    if (0 == abf2_check_section_data_exists(sec)) {
+        return 0;
+    }
+
+    int64_t entry_select = -1;
+    while (entry_select != 0) {
+        entry_select = abf2_seek_to_section_entry(f, sec, "Synchs");
+        if (entry_select == 0)
+            return 0; /* exit on selecting 0 */
+
+        struct abf_synch *synch;
+        synch = (struct abf_synch *) malloc(sizeof(struct abf_synch));
+        if (0 == fread(buf, ABF_SYNCHSIZE, 1, f)) {
+            printf("Read Synchs error\n");
+            return -1;
+        }
+        abf_read_synch(buf, synch, to_swap);
+        printf("\n");
+        abf_print_synch(synch, 0);
+        printf("\n");
+        if (sec->llNumEntries == 1)
+            entry_select = 0;
+        else {
+            entry_select = -1;
+            printf("---------------------------------------------\n");
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     FILE *f;
@@ -461,26 +621,53 @@ int main(int argc, char *argv[])
             abf2_print_section(sec, 2);
             abf2_display_mathinfo(f, sec, to_swap);
             break;
-        /* case ABF2SELECT_Tags: */
-        /*     abf2_display_tags(f, finfo, to_swap); */
-        /*     break; */
-        /* case ABF2SELECT_Scopes: */
-        /*     abf2_display_scopes(f, finfo, to_swap); */
-        /*     break; */
-        /* case ABF2SELECT_Deltas: */
-        /*     abf2_display_deltas(f, finfo, to_swap); */
-        /*     break; */
-        /* case ABF2SELECT_VoiceTags: */
-        /*     abf2_display_voicetags(f, finfo, to_swap); */
-        /*     break; */
-        /* case ABF2SELECT_Synchs: */
-        /*     abf2_display_synchs(f, finfo, to_swap); */
-        /*     break; */
+        case ABF2SELECT_Tags:
+            sec = &(finfo->TagSection);
+            printf("TagSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_tags(f, sec, to_swap);
+            break;
+        case ABF2SELECT_Scopes:
+            sec = &(finfo->ScopeSection);
+            printf("ScopeSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_scopeconfigs(f, sec, to_swap);
+            break;
+        case ABF2SELECT_Deltas:
+            sec = &(finfo->DeltaSection);
+            printf("DeltaSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_deltas(f, sec, to_swap);
+            break;
+        case ABF2SELECT_VoiceTags:
+            sec = &(finfo->VoiceTagSection);
+            printf("VoiceTagSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_voicetags(f, sec, to_swap);
+            break;
+        case ABF2SELECT_Synchs:
+            sec = &(finfo->SynchArraySection);
+            printf("SynchArraySection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_synchs(f, sec, to_swap);
+            break;
         /* case ABF2SELECT_Annotations: */
-        /*     abf2_display_annotations(f, finfo, to_swap); */
+        /*     sec = &(finfo->AnnotationSection); */
+        /*     printf("AnnotationSection\n"); */
+        /*     abf2_print_section(sec, 2); */
+        /*     abf2_display_annotations(f, sec, to_swap); */
         /*     break; */
-        /* case ABF2SELECT_Stats: */
-        /*     abf2_display_stats(f, finfo, to_swap); */
+        case ABF2SELECT_Stats:
+            sec = &(finfo->StatsSection);
+            printf("StatsSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_scopeconfigs(f, sec, to_swap);
+            break;
+        /* case ABF2SELECT_Strings: */
+        /*     sec = &(finfo->StringsSection); */
+        /*     printf("StringsSection\n"); */
+        /*     abf2_print_section(sec, 2); */
+        /*     abf2_display_strings(f, sec, to_swap); */
         /*     break; */
         default:
             printf("Unknown option. Try again, please.\n\n");

@@ -43,15 +43,38 @@
 #define ABF_LASTCOLOR_EX       ABF_STOREDSWEEPCOLOR
 #define ABF_SCOPECOLORS_EX     (ABF_LASTCOLOR+1)
 
+enum ABF_FILETYPE {
+    ABF_FILETYPE_ABF = 1,
+    ABF_FILETYPE_FETCHEX = 2,
+    ABF_FILETYPE_CLAMPEX = 3
+};
+
+enum ABF_DATAFORMAT {
+    ABF_DATAFORMAT_INTEGER = 0,
+    ABF_DATAFORMAT_FLOAT = 1
+};
+
 /* Constants for nTagType in the ABFTag structure. */
-#define ABF_TIMETAG              0
-#define ABF_COMMENTTAG           1
-#define ABF_EXTERNALTAG          2
-#define ABF_VOICETAG             3
-#define ABF_NEWFILETAG           4
-#define ABF_ANNOTATIONTAG        5        /* Same as a comment tag except that nAnnotationIndex holds
-                                           * the index of the annotation that holds extra information
-                                           */
+enum ABF_TAGTYPE {
+    ABF_TAGTYPE_TIME = 0,
+    ABF_TAGTYPE_COMMENT = 1,
+    ABF_TAGTYPE_EXTERNAL = 2,
+    ABF_TAGTYPE_VOICE = 3,
+    ABF_TAGTYPE_NEWFILE = 4,
+    ABF_TAGTYPE_ANNOTATION = 5
+};
+
+/* aliases for compatibility with Axon's constants */
+#define ABF_TIMETAG              ABF_TAGTYPE_TIME
+#define ABF_COMMENTTAG           ABF_TAGTYPE_COMMENT
+#define ABF_EXTERNALTAG          ABF_TAGTYPE_EXTERNAL
+#define ABF_VOICETAG             ABF_TAGTYPE_VOICE
+#define ABF_NEWFILETAG           ABF_TAGTYPE_NEWFILE
+#define ABF_ANNOTATIONTAG        ABF_TAGTYPE_ANNOTATION
+
+#define ABF_INTEGERDATA          ABF_DATAFORMAT_INTEGER
+#define ABF_FLOATDATA            ABF_DATAFORMAT_FLOAT
+
 
 #define ABF_FACESIZE 32
 struct abf_logfont

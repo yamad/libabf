@@ -6,8 +6,16 @@
 #include "abf2_print.h"
 
 int abf2_check_section_data_exists(const struct abf2_section *sec);
-int64_t abf2_select_section_entry(const struct abf2_section *sec, char *sec_string);
-int abf2_seek_to_section_entry(FILE *f, const struct abf2_section *sec, char *sec_string);
+int64_t abf2_select_section_entry(const struct abf2_section *sec,
+                                  char *sec_string);
+int abf2_seek_to_section_entry(FILE *f, const struct abf2_section *sec,
+                               char *sec_string);
+int abf2_section_seek_entry(FILE *f, const struct abf2_section *sec,
+                            int64_t entry_num);
+int abf2_section_load_entry(FILE *f, const struct abf2_section *sec,
+                            char *buf, int64_t entry_num);
+int abf2_display_cleanup(const struct abf2_section *sec, int64_t *eselect);
+
 int abf2_display_protocolinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_adcinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_dacinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
@@ -58,8 +66,7 @@ char *ABF2_SELECTMENU = \
     " [16] StatsConfig    [17] Strings\n\n"
     "Select a section to show [1-17] (or 0 to exit): ";
 
-char buf[1024];                 /* TODO: lazy alert -- global buffer */
-
+char buf[2048];                 /* TODO: lazy alert -- global buffer */
 
 int abf2_check_section_data_exists(const struct abf2_section *sec)
 {
@@ -72,21 +79,24 @@ int abf2_check_section_data_exists(const struct abf2_section *sec)
 
 int64_t abf2_select_section_entry(const struct abf2_section *sec, char *sec_string)
 {
-    int64_t entry_count = sec->llNumEntries;
-    if (entry_count > 1) {
-        int64_t entry_select = -1;
-        while (entry_select == -1) {
-            printf("\nSelect an entry to show [1-%ld] (or 0 to exit): ",
-                   entry_count, sec_string, entry_count);
-            scanf("%ld", &entry_select); /* TODO: stop using scanf */
-            if (entry_select > entry_count) {/* error check */
-                entry_select = -1;
+    int64_t esel = -1;
+    int64_t nentries = sec->llNumEntries;
+    if (nentries < 1) {
+        return 0;               /* no entries, bail */
+    } else if (nentries == 1) {
+        return 1;               /* one entry, so it must be selected */
+    } else {
+        while (esel == -1) {
+            printf("\nSelect an entry to show [1-%lld] (or 0 to exit): ",
+                   nentries, sec_string, nentries);
+            scanf("%lld", &esel); /* TODO: stop using scanf */
+            if (esel < 0 || esel > nentries) {/* error check */
+                printf("\nOut of range. Select a number between 1 and %lld", nentries);
+                esel = -1;
             }
             printf("\n");
         }
-        return entry_select;
-    } else {
-        return 1;               /* only one entry, so select it! */
+        return esel;
     }
 }
 
@@ -94,10 +104,7 @@ int abf2_seek_to_section_entry(FILE *f, const struct abf2_section *sec, char *se
 {
     int64_t eselect = abf2_select_section_entry(sec, sec_string);
     if (eselect == 0) return 0;
-
-    int block_offset = abf2_section_block_offset(sec);
-    int entry_offset = sec->uBytes * (eselect-1);
-    fseek(f, block_offset + entry_offset, SEEK_SET);
+    abf2_section_seek_entry(f, sec, eselect);
     return eselect;
 }
 
@@ -163,7 +170,7 @@ int abf2_display_protocolinfo(FILE* f, const struct abf2_section *sec, bool to_s
         if (eselect == 0)
             return 0; /* exit on selecting 0 */
 
-        err = abf2_section_load_entry(f, sec, buf, eselect);
+        err = abf2_section_load_entry(f, sec, buf, eselect-1);
         if (0 != err) {
             printf("Read entry error\n");
             return err;
@@ -180,33 +187,31 @@ int abf2_display_protocolinfo(FILE* f, const struct abf2_section *sec, bool to_s
 
 int abf2_display_adcinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
 {
+    int err;
+    int64_t eselect = -1;
+    struct abf2_adcinfo *info;
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    info = malloc(sizeof(struct abf2_adcinfo));
 
-    int64_t entry_select = -1;
-    while (entry_select != 0) {
-        entry_select = abf2_seek_to_section_entry(f, sec, "ADCInfo");
-        if (entry_select == 0)
+    while (eselect != 0) {
+        eselect = abf2_select_section_entry(sec, "ADCInfo");
+        if (eselect == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_adcinfo *ainfo;
-        ainfo = (struct abf2_adcinfo *) malloc(sizeof(struct abf2_adcinfo));
-        if (0 == fread(buf, ABF2_ADCINFOSIZE, 1, f)) {
-            printf("Read ADC info error\n");
-            return -1;
+        err = abf2_section_load_entry(f, sec, buf, eselect-1);
+        if (0 != err) {
+            printf("Read entry error\n");
+            return err;
         }
-        abf2_read_adcinfo(buf, ainfo, to_swap);
+        abf2_read_adcinfo(buf, info, to_swap);
         printf("\n");
-        abf2_print_adcinfo(ainfo, 0);
+        abf2_print_adcinfo(info, 0);
         printf("\n");
-        if (sec->llNumEntries == 1)
-            entry_select = 0;
-        else {
-            entry_select = -1;
-            printf("---------------------------------------------\n");
-        }
+        abf2_display_cleanup(sec, &eselect);
     }
+    free(info); info = NULL;
     return 0;
 }
 

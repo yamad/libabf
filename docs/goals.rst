@@ -10,20 +10,21 @@ electrophysiology data acquisition software. Axon provides file
 support for the Windows OS only in the form of a dynamic link library
 (*.dll).
 
-As of March 2012, there are two versions of the ABF format--ABF1 and
-ABF2. ABF2 improves on ABF1 by allowing for a dynamically sized header
+As of March 2012, there are two versions of the ABF format--ABFv1 and
+ABFv2. ABFv2 improves on ABFv1 by allowing for a variable-size header
 region.
 
-A file support pack provided by Axon contains C++ source code that
-provides rudimentary support for reading ABF files. The code uses the
-Windows API extensively and makes assumptions about struct packing and
-type sizes that are only appropriate for Windows.
+Axon releases the full C++ source code for reading and writing
+ABFv1. For ABFv2, only the structure definitions and rudimentary
+example code is available. All of Axon's code is Windows-specific. In
+particular, it makes assumptions about struct packing and type sizes
+that work on Windows but not necessarily elsewhere.
 
 Goals
 =====
 
-`libabf` is a library providing read access to ABF files. In the
-future, it may support all Axon file formats, including the text
+`libabf` is a portable library providing read access to ABF files. In
+the future, it may support all Axon file formats, including the text
 format ATF.
 
 `libabf` is:
@@ -41,9 +42,8 @@ to the following assumptions about the host compiler and architecture:
  * 8-, 16-, 32-, and 64-bit type sizes are exactly representable
  * IEEE-754 standard floating-point values are supported
 
-These assumptions are not required by the C standard. However, almost
-all modern systems on which `libabf` is conceivably useful will
-fulfill these requirements.
+Almost all modern systems on which `libabf` is conceivably useful will
+probably fulfill requirements.
 
 Features of C99, such as exact-width integer types (```stdint.h```)
 and the boolean type (```stdbool.h```), are backported to standard C89
@@ -72,10 +72,10 @@ size of each data member, and the order of data members is preserved.
 Portable C code cannot guarantee that the memory layout of the
 structures is the same as the data layout in the file itself. However,
 all other ABF reading/writing code this author has seen to date
-depends on the non-standard :inline:`#pragma pack` directive
-(supported by Visual Studio and gcc). The data layout of a structure
-as stored in an ABF file is the memory layout of the structure when
-the :inline:`#pragma pack(1)` option is active.
+depends on the non-standard ```#pragma pack``` directive (supported by
+Visual Studio and gcc). The data layout of a structure as stored in an
+ABF file is the memory layout of the structure when the ```#pragma
+pack(1)``` option is active.
 
 Endian
 ------
@@ -95,12 +95,12 @@ stimfit_
     A electrophysiology analysis suite developed by Christoph
     Schmidt-Hieber written in C++ with a Python shell. Contains
     support for opening various electrophysiology data files. Support
-    for ABF files is read-only, and is integrated directly into its
-    file I/O system. Not all struct data is available. Stimfit
-    includes the C++ code released by Axon and supports non-Windows
-    systems using a platform-specific header file that translates
-    Windows-specific types.
-    
+    for ABF files is incomplete, read-only, and integrated directly
+    into its file I/O system. Not all struct data is
+    available. Stimfit includes the C++ code released by Axon and
+    supports non-Windows systems using a platform-specific header file
+    that translates Windows-specific types.
+
 QuB_
 
     QuB is a single-channel data analysis suite developed at the

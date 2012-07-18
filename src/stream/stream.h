@@ -17,15 +17,16 @@
  * C.
  *
  * This abstraction allows client code to work with streams from
- * arbitrary data sources. Functions that work on streams do not have
- * to know about where the actual data comes from. This feature is
- * particularly useful for testing purposes.
+ * arbitrary data sources. Functions that work with streams do not
+ * have to know any details about where the data or how it is
+ * delivered. This feature is particularly useful for testing
+ * purposes.
  *
  * The GNU libc extension fmemopen() is similar, but is
  * non-portable. In theory, the FILE type is already an abstraction
- * for streams. However, platform differences and the inaccessibility
- * of the type for client extension made FILE an impractical place to
- * hang one's hat.
+ * for streams. Unforunately, FILE is impractical to use for this case
+ * because of platform differences and the inaccessibility of the type
+ * for client extension.
  */
 typedef struct stream stream_dt;
 

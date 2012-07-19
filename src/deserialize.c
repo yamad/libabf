@@ -21,7 +21,7 @@ uint8_t read_uint8(const char *buffer, size_t offset)
 uint16_t read_uint16(const char *buf, size_t offset, bool swap)
 {
     uint16_t result;
-    memcpy(&result, buf, sizeof(uint16_t));
+    memcpy(&result, buf+offset, sizeof(result));
     if (swap)
         result = _swap16(result);
     return result;
@@ -30,7 +30,7 @@ uint16_t read_uint16(const char *buf, size_t offset, bool swap)
 uint32_t read_uint32(const char *buf, size_t offset, bool swap)
 {
     uint32_t result;
-    memcpy(&result, buf, sizeof(uint32_t));
+    memcpy(&result, buf+offset, sizeof(result));
     if (swap)
         result = _swap32(result);
     return result;
@@ -39,7 +39,7 @@ uint32_t read_uint32(const char *buf, size_t offset, bool swap)
 uint64_t read_uint64(const char *buf, size_t offset, bool swap)
 {
     uint64_t result;
-    memcpy(&result, buf, sizeof(uint64_t));
+    memcpy(&result, buf+offset, sizeof(result));
     if (swap)
         result = _swap64(result);
     return result;

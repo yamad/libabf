@@ -44,6 +44,18 @@ void test_read_uint16_gets_uint16(void)
     }
 }
 
+void test_read_uint16_gets_uint16_at_offset(void)
+{
+    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    bool swap = 0;
+    uint16_t u1 = read_uint16(buf, 2, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX16(0xEFBE, u1);
+    } else {
+        TEST_ASSERT_EQUAL_HEX16(0xBEEF, u1);
+    }
+}
+
 void test_read_uint16_gets_swapped_uint16(void)
 {
     char buf[2] = { 0xCA, 0xFE };
@@ -65,6 +77,18 @@ void test_read_int16_gets_int16(void)
         TEST_ASSERT_EQUAL_INT16(0xFECA, result);
     } else {
         TEST_ASSERT_EQUAL_INT16(0xCAFE, result);
+    }
+}
+
+void test_read_int16_gets_int16_at_offset(void)
+{
+    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    bool swap = 0;
+    int16_t i1 = read_uint16(buf, 2, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX16(0xEFBE, i1);
+    } else {
+        TEST_ASSERT_EQUAL_HEX16(0xBEEF, i1);
     }
 }
 
@@ -92,6 +116,18 @@ void test_read_uint32_gets_uint32(void)
     }
 }
 
+void test_read_uint32_gets_uint32_at_offset(void)
+{
+    char buf[6] = { 0x00, 0x00, 0xCA, 0xFE, 0xBE, 0xEF };
+    bool swap = 0;
+    uint32_t u1 = read_uint32(buf, 2, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, u1);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, u1);
+    }
+}
+
 void test_read_uint32_gets_swapped_uint32(void)
 {
     char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
@@ -113,6 +149,18 @@ void test_read_int32_gets_int32(void)
         TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, result);
     } else {
         TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, result);
+    }
+}
+
+void test_read_int32_gets_int32_at_offset(void)
+{
+    char buf[6] = { 0x00, 0x00, 0xCA, 0xFE, 0xBE, 0xEF };
+    bool swap = 0;
+    int32_t i1 = read_int32(buf, 2, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX32(0xEFBEFECA, i1);
+    } else {
+        TEST_ASSERT_EQUAL_HEX32(0xCAFEBEEF, i1);
     }
 }
 
@@ -140,6 +188,18 @@ void test_read_uint64_gets_uint64(void)
     }
 }
 
+void test_read_uint64_gets_uint64_at_offset(void)
+{
+    char buf[9] = { 0x00, 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    bool swap = 0;
+    uint64_t result = read_uint64(buf, 1, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX64(0xAFCAADBAEFBEFECA, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX64(0xCAFEBEEFBAADCAAF, result);
+    }
+}
+
 void test_read_uint64_gets_swapped_uint64(void)
 {
     char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
@@ -157,6 +217,18 @@ void test_read_int64_gets_int64(void)
     char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 0;
     int64_t result = read_int64(buf, 0, swap);
+    if (ENDIAN_LITTLE == get_endian()) {
+        TEST_ASSERT_EQUAL_HEX64(0xAFCAADBAEFBEFECA, result);
+    } else {
+        TEST_ASSERT_EQUAL_HEX64(0xCAFEBEEFBAADCAAF, result);
+    }
+}
+
+void test_read_int64_gets_int64_at_offset(void)
+{
+    char buf[9] = { 0x00, 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    bool swap = 0;
+    int64_t result = read_int64(buf, 1, swap);
     if (ENDIAN_LITTLE == get_endian()) {
         TEST_ASSERT_EQUAL_HEX64(0xAFCAADBAEFBEFECA, result);
     } else {

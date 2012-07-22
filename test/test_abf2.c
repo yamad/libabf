@@ -27,8 +27,8 @@ void test_abf2_section_block_offset(void)
 
 void test_abf2_needs_swap_littleendian(void)
 {
-    char bytes[4] = { 0x41, 0x42, 0x46, 0x32 };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0x41, 0x42, 0x46, 0x32 };
+    uint8_t *buf = bytes;
     int swap = abf2_needs_swap(buf);
     if (ENDIAN_LITTLE == get_endian()) {
         TEST_ASSERT_EQUAL_INT(0, swap);
@@ -39,8 +39,8 @@ void test_abf2_needs_swap_littleendian(void)
 
 void test_abf2_needs_swap_bigendian(void)
 {
-    char bytes[4] = { 0x32, 0x46, 0x42, 0x41 };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0x32, 0x46, 0x42, 0x41 };
+    uint8_t *buf = bytes;
     int swap = abf2_needs_swap(buf);
     if (ENDIAN_LITTLE == get_endian()) {
         TEST_ASSERT_EQUAL_INT(1, swap);
@@ -51,33 +51,33 @@ void test_abf2_needs_swap_bigendian(void)
 
 void test_abf2_can_open_tests_for_littleendian_ABF2_filesig(void)
 {
-    char bytes[4] = { 0x41, 0x42, 0x46, 0x32 };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0x41, 0x42, 0x46, 0x32 };
+    uint8_t *buf = bytes;
     int is_abf2_file = abf2_can_open(buf);
     TEST_ASSERT_EQUAL_INT(1, is_abf2_file);
 }
 
 void test_abf2_can_open_tests_for_bigendian_ABF2_filesig(void)
 {
-    char bytes[4] = { 0x32, 0x46, 0x42, 0x41 };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0x32, 0x46, 0x42, 0x41 };
+    uint8_t *buf = bytes;
     int is_abf2_file = abf2_can_open(buf);
     TEST_ASSERT_EQUAL_INT(1, is_abf2_file);
 }
 
 void test_abf2_can_open_fails_on_ABF1_filesig(void)
 {
-    char bytes[4] = { 0x20, 0x46, 0x42, 0x41 };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0x20, 0x46, 0x42, 0x41 };
+    uint8_t *buf = bytes;
     int is_abf2_file = abf2_can_open(buf);
     TEST_ASSERT_EQUAL_INT(0, is_abf2_file);
 }
 
 void test_abf2_read_section(void)
 {
-    char bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+    uint8_t bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                       0x08, 0X09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     bool to_swap = 0;
 
     struct abf2_section sec;
@@ -95,12 +95,12 @@ void test_abf2_read_section(void)
 
 void test_abf2_read_section_swapped(void)
 {
-    char bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+    uint8_t bytes[16] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
                       0x08, 0X09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     bool to_swap = 1;
 
-    char *head = buf;
+    uint8_t *head = buf;
     struct abf2_section sec;
     buf = abf2_read_sectionp(buf, &sec, to_swap);
     TEST_ASSERT_EQUAL_INT(16, (buf - head));
@@ -118,15 +118,15 @@ void test_abf2_read_section_swapped(void)
 void test_abf2_read_guid(void)
 {
     /* example GUID from MSDN docs: 6B29FC40-CA47-1067-B31D-00DD010662DA */
-    char bytes[GUIDSIZE] = {0x6B, 0x29, 0xFC, 0x40,
+    uint8_t bytes[GUIDSIZE] = {0x6B, 0x29, 0xFC, 0x40,
                             0xCA, 0x47,
                             0x10, 0x67,
                             0xB3, 0x1D,
                             0x00, 0xDD, 0x01, 0x06, 0x62, 0xDA};
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     bool to_swap = 0;
 
-    char *head = buf;
+    uint8_t *head = buf;
     struct guid guid;
     buf = abf2_read_guidp(buf, &guid, to_swap);
     TEST_ASSERT_EQUAL_INT(GUIDSIZE, (buf - head)); /* returned pointer moves to next unread byte */
@@ -151,7 +151,7 @@ void test_abf2_read_guid(void)
 
 void test_abf2_read_fileinfo(void)
 {
-    char bytes[ABF2_FILEINFOSIZE] = {
+    uint8_t bytes[ABF2_FILEINFOSIZE] = {
         0x41,0x42,0x46,0x32,0x00,0x00,0x00,0x02,
         0x00,0x02,0x00,0x00,0x00,0x00,0x00,0x00,
         0x43,0x02,0x33,0x01,0x4b,0xe3,0x82,0x03,
@@ -216,8 +216,8 @@ void test_abf2_read_fileinfo(void)
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -251,7 +251,7 @@ void test_abf2_read_fileinfo(void)
 
 void test_abf2_read_protocolinfo(void)
 {
-    char bytes[ABF2_PROTOCOLINFOSIZE] = {
+    uint8_t bytes[ABF2_PROTOCOLINFOSIZE] = {
         0x05,0x00,0x00,0x00,0x20,0x41,0x00,0x00,
         0x00,0x00,0x01,0x00,0x00,0x00,0x00,0x00,
         0xA0,0x40,0x00,0x00,0x00,0x00,0xC0,0x27,
@@ -316,8 +316,8 @@ void test_abf2_read_protocolinfo(void)
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -406,9 +406,9 @@ void test_abf2_read_protocolinfo(void)
 
 void test_abf2_read_mathinfo(void)
 {
-    char bytes[ABF2_MATHINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_MATHINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -424,9 +424,9 @@ void test_abf2_read_mathinfo(void)
 
 void test_abf2_read_adcinfo(void)
 {
-    char bytes[ABF2_ADCINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_ADCINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -442,9 +442,9 @@ void test_abf2_read_adcinfo(void)
 
 void test_abf2_read_dacinfo(void)
 {
-    char bytes[ABF2_DACINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_DACINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -460,9 +460,9 @@ void test_abf2_read_dacinfo(void)
 
 void test_abf2_read_epochinfoperdacinfo(void)
 {
-    char bytes[ABF2_EPOCHINFOPERDACSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_EPOCHINFOPERDACSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -478,9 +478,9 @@ void test_abf2_read_epochinfoperdacinfo(void)
 
 void test_abf2_read_epochinfo(void)
 {
-    char bytes[ABF2_EPOCHINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_EPOCHINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -496,9 +496,9 @@ void test_abf2_read_epochinfo(void)
 
 void test_abf2_read_statsregioninfo(void)
 {
-    char bytes[ABF2_STATSREGIONINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_STATSREGIONINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -514,9 +514,9 @@ void test_abf2_read_statsregioninfo(void)
 
 void test_abf2_read_userlistinfo(void)
 {
-    char bytes[ABF2_USERLISTINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF2_USERLISTINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {

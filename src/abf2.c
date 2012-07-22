@@ -2,7 +2,7 @@
 #include "abf2.h"
 
 /* check that `buf` starts with a valid ABF2 file signature */
-int abf2_can_open(const char *buf)
+int abf2_can_open(const uint8_t *buf)
 {
     uint32_t filesig = read_uint32(buf, 0, 0);
     return abf2_verify_filesignature(filesig);
@@ -19,7 +19,7 @@ int abf2_verify_filesignature(uint32_t filesig)
 }
 
 /* return true if the file endian is different than the host endian*/
-int abf2_needs_swap(const char *buf)
+int abf2_needs_swap(const uint8_t *buf)
 {
     uint32_t filesig = read_uint32(buf, 0, 0);
     if (ABF2_FILESIGNATURE == filesig) {
@@ -43,7 +43,9 @@ size_t abf2_get_block_offset(uint32_t block)
     return (size_t) (block * ABF2_BLOCKSIZE);
 }
 
-char *abf2_read_guidp(char *buf, struct guid *guid, bool to_swap)
+uint8_t *abf2_read_guidp(uint8_t *buf,
+                         struct guid *guid,
+                         bool to_swap)
 {
     int i;
     buf = read_uint32p(buf, &(guid->Data1), to_swap);
@@ -55,7 +57,9 @@ char *abf2_read_guidp(char *buf, struct guid *guid, bool to_swap)
     return buf;                 /* total = 128 bytes */
 }
 
-char *abf2_read_sectionp(char *buf, struct abf2_section *sec, bool to_swap)
+uint8_t *abf2_read_sectionp(uint8_t *buf,
+                            struct abf2_section *sec,
+                            bool to_swap)
 {
     buf = read_uint32p(buf, &(sec->uBlockIndex), to_swap);
     buf = read_uint32p(buf, &(sec->uBytes), to_swap);
@@ -63,7 +67,7 @@ char *abf2_read_sectionp(char *buf, struct abf2_section *sec, bool to_swap)
     return buf;                 /* total = 16 bytes */
 }
 
-char *abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo, bool to_swap)
+uint8_t *abf2_read_fileinfo(uint8_t *buf, struct abf2_fileinfo *finfo, bool to_swap)
 {
     /* deserialize structure members manually */
     buf = read_uint32p(buf, &(finfo->uFileSignature), to_swap);
@@ -107,7 +111,9 @@ char *abf2_read_fileinfo(char *buf, struct abf2_fileinfo *finfo, bool to_swap)
     return buf;                 /* total = 512 bytes */
 }
 
-char *abf2_read_protocolinfo(char *buf, struct abf2_protocolinfo *pinfo, bool to_swap)
+uint8_t *abf2_read_protocolinfo(uint8_t *buf,
+                                struct abf2_protocolinfo *pinfo,
+                                bool to_swap)
 {
     int i;
     buf = read_int16p(buf, &(pinfo->nOperationMode), to_swap);
@@ -191,7 +197,9 @@ char *abf2_read_protocolinfo(char *buf, struct abf2_protocolinfo *pinfo, bool to
     return buf;                 /* total = 512 bytes */
 }
 
-char *abf2_read_mathinfo(char *buf, struct abf2_mathinfo *minfo, bool to_swap)
+uint8_t *abf2_read_mathinfo(uint8_t *buf,
+                            struct abf2_mathinfo *minfo,
+                            bool to_swap)
 {
     int i;
     buf = read_int16p(buf, &(minfo->nMathEnable), to_swap);
@@ -210,7 +218,9 @@ char *abf2_read_mathinfo(char *buf, struct abf2_mathinfo *minfo, bool to_swap)
     return buf;                  /* total = 128 bytes */
 };
 
-char *abf2_read_adcinfo(char *buf, struct abf2_adcinfo *ainfo, bool to_swap)
+uint8_t *abf2_read_adcinfo(uint8_t *buf,
+                           struct abf2_adcinfo *ainfo,
+                           bool to_swap)
 {
     buf = read_int16p(buf, &(ainfo->nADCNum), to_swap);
     buf = read_int16p(buf, &(ainfo->nTelegraphEnable), to_swap);
@@ -243,7 +253,9 @@ char *abf2_read_adcinfo(char *buf, struct abf2_adcinfo *ainfo, bool to_swap)
     return buf;                     /* total = 128 bytes */
 };
 
-char *abf2_read_dacinfo(char *buf, struct abf2_dacinfo *dinfo, bool to_swap)
+uint8_t *abf2_read_dacinfo(uint8_t *buf,
+                           struct abf2_dacinfo *dinfo,
+                           bool to_swap)
 {
     buf = read_int16p(buf, &(dinfo->nDACNum), to_swap);
     buf = read_int16p(buf, &(dinfo->nTelegraphDACScaleFactorEnable), to_swap);
@@ -290,7 +302,9 @@ char *abf2_read_dacinfo(char *buf, struct abf2_dacinfo *dinfo, bool to_swap)
     return buf;                 /* total = 256 bytes */
 };
 
-char *abf2_read_epochinfoperdac(char *buf, struct abf2_epochinfoperdac *einfo, bool to_swap)
+uint8_t *abf2_read_epochinfoperdac(uint8_t *buf,
+                                   struct abf2_epochinfoperdac *einfo,
+                                   bool to_swap)
 {
     buf = read_int16p(buf, &(einfo->nEpochNum), to_swap);
     buf = read_int16p(buf, &(einfo->nDACNum), to_swap);
@@ -305,7 +319,9 @@ char *abf2_read_epochinfoperdac(char *buf, struct abf2_epochinfoperdac *einfo, b
     return buf;                 /* total = 48 bytes */
 };
 
-char *abf2_read_epochinfo(char *buf, struct abf2_epochinfo *einfo, bool to_swap)
+uint8_t *abf2_read_epochinfo(uint8_t *buf,
+                             struct abf2_epochinfo *einfo,
+                             bool to_swap)
 {
     buf = read_int16p(buf, &(einfo->nEpochNum), to_swap);
     buf = read_int16p(buf, &(einfo->nDigitalValue), to_swap);
@@ -317,7 +333,9 @@ char *abf2_read_epochinfo(char *buf, struct abf2_epochinfo *einfo, bool to_swap)
     return buf;                 /* total = 32 bytes */
 }
 
-char *abf2_read_statsregioninfo(char *buf, struct abf2_statsregioninfo *sinfo, bool to_swap)
+uint8_t *abf2_read_statsregioninfo(uint8_t *buf,
+                                   struct abf2_statsregioninfo *sinfo,
+                                   bool to_swap)
 {
     buf = read_int16p(buf, &(sinfo->nRegionNum), to_swap);
     buf = read_int16p(buf, &(sinfo->nADCNum), to_swap);
@@ -343,7 +361,9 @@ char *abf2_read_statsregioninfo(char *buf, struct abf2_statsregioninfo *sinfo, b
     return buf;                 /* total = 128 bytes */
 };
 
-char *abf2_read_userlistinfo(char *buf, struct abf2_userlistinfo *uinfo, bool to_swap)
+uint8_t *abf2_read_userlistinfo(uint8_t *buf,
+                                struct abf2_userlistinfo *uinfo,
+                                bool to_swap)
 {
     buf = read_int16p(buf, &(uinfo->nListNum), to_swap);
     buf = read_int16p(buf, &(uinfo->nULEnable), to_swap);

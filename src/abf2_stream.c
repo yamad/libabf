@@ -4,7 +4,7 @@
 
 StreamError abf2_stream_read_guid(stream_dt *stream, struct guid *guid, bool to_swap)
 {
-    char *buf = malloc(sizeof(struct guid));
+    uint8_t *buf = malloc(sizeof(struct guid));
 
     StreamError err = stream_read(stream, buf, sizeof(struct guid));
     if (StreamError_Success != err) return err;

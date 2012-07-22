@@ -9,32 +9,23 @@
 void setUp(void) {}
 void tearDown(void) {}
 
-void test_read_char_gets_char_at_offset(void)
-{
-    char buf[2] = { 0xCA, 0xFE };
-    char b1 = read_char(buf, 0);
-    char b2 = read_char(buf, 1);
-    TEST_ASSERT_EQUAL_HEX8(0xCA, b1);
-    TEST_ASSERT_EQUAL_HEX8(0xFE, b2);
-}
-
 void test_read_uint8_get_uint8(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
+    uint8_t buf[2] = { 0xCA, 0xFE };
     uint8_t b1 = read_uint8(buf, 1);
     TEST_ASSERT_EQUAL_HEX8(0xFE, b1);
 }
 
 void test_read_int8_get_int8(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
+    uint8_t buf[2] = { 0xCA, 0xFE };
     int8_t b1 = read_int8(buf, 1);
     TEST_ASSERT_EQUAL_INT8(0xFE, b1);
 }
 
 void test_read_uint16_gets_uint16(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
+    uint8_t buf[2] = { 0xCA, 0xFE };
     bool swap = 0;
     uint16_t result = read_uint16(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -46,7 +37,7 @@ void test_read_uint16_gets_uint16(void)
 
 void test_read_uint16_gets_uint16_at_offset(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 0;
     uint16_t u1 = read_uint16(buf, 2, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -58,7 +49,7 @@ void test_read_uint16_gets_uint16_at_offset(void)
 
 void test_read_uint16_gets_swapped_uint16(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
+    uint8_t buf[2] = { 0xCA, 0xFE };
     bool swap = 1;
     uint16_t result = read_uint16(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -70,7 +61,7 @@ void test_read_uint16_gets_swapped_uint16(void)
 
 void test_read_int16_gets_int16(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
+    uint8_t buf[2] = { 0xCA, 0xFE };
     bool swap = 0;
     int16_t result = read_int16(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -82,7 +73,7 @@ void test_read_int16_gets_int16(void)
 
 void test_read_int16_gets_int16_at_offset(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 0;
     int16_t i1 = read_uint16(buf, 2, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -94,7 +85,7 @@ void test_read_int16_gets_int16_at_offset(void)
 
 void test_read_int16_gets_swapped_int16(void)
 {
-    char buf[2] = { 0xCA, 0xFE };
+    uint8_t buf[2] = { 0xCA, 0xFE };
     bool swap = 1;
     int16_t result = read_int16(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -106,7 +97,7 @@ void test_read_int16_gets_swapped_int16(void)
 
 void test_read_uint32_gets_uint32(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 0;
     uint32_t result = read_uint32(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -118,7 +109,7 @@ void test_read_uint32_gets_uint32(void)
 
 void test_read_uint32_gets_uint32_at_offset(void)
 {
-    char buf[6] = { 0x00, 0x00, 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[6] = { 0x00, 0x00, 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 0;
     uint32_t u1 = read_uint32(buf, 2, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -130,7 +121,7 @@ void test_read_uint32_gets_uint32_at_offset(void)
 
 void test_read_uint32_gets_swapped_uint32(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 1;
     uint32_t result = read_uint32(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -142,7 +133,7 @@ void test_read_uint32_gets_swapped_uint32(void)
 
 void test_read_int32_gets_int32(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 0;
     int32_t result = read_int32(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -154,7 +145,7 @@ void test_read_int32_gets_int32(void)
 
 void test_read_int32_gets_int32_at_offset(void)
 {
-    char buf[6] = { 0x00, 0x00, 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[6] = { 0x00, 0x00, 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 0;
     int32_t i1 = read_int32(buf, 2, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -166,7 +157,7 @@ void test_read_int32_gets_int32_at_offset(void)
 
 void test_read_int32_gets_swapped_int32(void)
 {
-    char buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t buf[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
     bool swap = 1;
     int32_t result = read_int32(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -178,7 +169,7 @@ void test_read_int32_gets_swapped_int32(void)
 
 void test_read_uint64_gets_uint64(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 0;
     uint64_t result = read_uint64(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -190,7 +181,7 @@ void test_read_uint64_gets_uint64(void)
 
 void test_read_uint64_gets_uint64_at_offset(void)
 {
-    char buf[9] = { 0x00, 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t buf[9] = { 0x00, 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 0;
     uint64_t result = read_uint64(buf, 1, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -202,7 +193,7 @@ void test_read_uint64_gets_uint64_at_offset(void)
 
 void test_read_uint64_gets_swapped_uint64(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 1;
     uint64_t result = read_uint64(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -214,7 +205,7 @@ void test_read_uint64_gets_swapped_uint64(void)
 
 void test_read_int64_gets_int64(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 0;
     int64_t result = read_int64(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -226,7 +217,7 @@ void test_read_int64_gets_int64(void)
 
 void test_read_int64_gets_int64_at_offset(void)
 {
-    char buf[9] = { 0x00, 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t buf[9] = { 0x00, 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 0;
     int64_t result = read_int64(buf, 1, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -238,7 +229,7 @@ void test_read_int64_gets_int64_at_offset(void)
 
 void test_read_int64_gets_swapped_int64(void)
 {
-    char buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t buf[8] = { 0xCA, 0xFE, 0xBE, 0xEF , 0xBA, 0xAD, 0xCA, 0xAF };
     bool swap = 1;
     int64_t result = read_int64(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -250,7 +241,7 @@ void test_read_int64_gets_swapped_int64(void)
 
 void test_read_float32_get_float(void)
 {
-    char buf[4] = { 0x66, 0xA6, 0xE6, 0x3F };
+    uint8_t buf[4] = { 0x66, 0xA6, 0xE6, 0x3F };
     bool swap = false;
     float f = read_float32(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -262,7 +253,7 @@ void test_read_float32_get_float(void)
 
 void test_read_float32_get_swapped_float(void)
 {
-    char buf[4] = { 0x66, 0xA6, 0xE6, 0x3F };
+    uint8_t buf[4] = { 0x66, 0xA6, 0xE6, 0x3F };
     bool swap = true;
     float f = read_float32(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -274,7 +265,7 @@ void test_read_float32_get_swapped_float(void)
 
 void test_read_float64_get_double(void)
 {
-    char buf[8] = { 0x7A, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x84, 0x7F };
+    uint8_t buf[8] = { 0x7A, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x84, 0x7F };
     bool swap = false;
     double d = read_float64(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -286,7 +277,7 @@ void test_read_float64_get_double(void)
 
 void test_read_float64_get_swapped_double(void)
 {
-    char buf[8] = { 0x7A, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x84, 0x7F };
+    uint8_t buf[8] = { 0x7A, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x84, 0x7F };
     bool swap = true;
     double d = read_float64(buf, 0, swap);
     if (ENDIAN_LITTLE == get_endian()) {
@@ -296,24 +287,13 @@ void test_read_float64_get_swapped_double(void)
     }
 }
 
-void test_read_charp_advances_pointer(void)
+void test_readn_uint8p_reads_n_bytes(void)
 {
-    char bytes[2] = { 0xCA, 0xFE };
-    char *buf = bytes;
-    char b1, b2;
-    buf = read_charp(buf, &b1);
-    buf = read_charp(buf, &b2);
-    TEST_ASSERT_EQUAL_HEX8(0xCA, b1);
-    TEST_ASSERT_EQUAL_HEX8(0xFE, b2);
-}
-
-void test_read_charnp_reads_n_bytes(void)
-{
-    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    char *buf = bytes;
-    char *head = buf;
-    char res[2];
-    buf = read_charnp(buf, res, 2);
+    uint8_t bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
+    uint8_t res[2];
+    buf = readn_uint8p(buf, res, 2);
     TEST_ASSERT_EQUAL_INT(2, buf - head); /* pointer advances */
     TEST_ASSERT_EQUAL_HEX8(0xCA, res[0]); /* can get data */
     TEST_ASSERT_EQUAL_HEX8(0xFE, res[1]);
@@ -322,8 +302,8 @@ void test_read_charnp_reads_n_bytes(void)
 
 void test_read_uint8p_reads_uint8s_inorder(void)
 {
-    char bytes[2] = { 0xCA, 0xFE };
-    char *buf = bytes;
+    uint8_t bytes[2] = { 0xCA, 0xFE };
+    uint8_t *buf = bytes;
     uint8_t b1, b2;
     buf = read_uint8p(buf, &b1);
     buf = read_uint8p(buf, &b2);
@@ -333,8 +313,8 @@ void test_read_uint8p_reads_uint8s_inorder(void)
 
 void test_read_int8p_reads_int8(void)
 {
-    char bytes[2] = { 0xCA, 0xFE };
-    char *buf = bytes;
+    uint8_t bytes[2] = { 0xCA, 0xFE };
+    uint8_t *buf = bytes;
     int8_t b1, b2;
     buf = read_int8p(buf, &b1);
     buf = read_int8p(buf, &b2);
@@ -344,8 +324,8 @@ void test_read_int8p_reads_int8(void)
 
 void test_read_uint16p_reads_uint16s_inorder(void)
 {
-    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t *buf = bytes;
     uint16_t i1, i2;
     bool swap = 0;
     buf = read_uint16p(buf, &i1, swap);
@@ -361,8 +341,8 @@ void test_read_uint16p_reads_uint16s_inorder(void)
 
 void test_read_uint16p_reads_swapped_uint16s(void)
 {
-    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t *buf = bytes;
     uint16_t i1, i2;
     bool swap = 1;
     buf = read_uint16p(buf, &i1, swap);
@@ -378,8 +358,8 @@ void test_read_uint16p_reads_swapped_uint16s(void)
 
 void test_read_int16p_reads_int16(void)
 {
-    char bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
-    char *buf = bytes;
+    uint8_t bytes[4] = { 0xCA, 0xFE, 0xBE, 0xEF };
+    uint8_t *buf = bytes;
     int16_t i1, i2;
     bool swap = 0;
     buf = read_int16p(buf, &i1, swap);
@@ -395,8 +375,8 @@ void test_read_int16p_reads_int16(void)
 
 void test_read_uint32p_reads_uint32s_inorder(void)
 {
-    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
-    char *buf = bytes;
+    uint8_t bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t *buf = bytes;
     uint32_t i1, i2;
     bool swap = 0;
     buf = read_uint32p(buf, &i1, swap);
@@ -412,8 +392,8 @@ void test_read_uint32p_reads_uint32s_inorder(void)
 
 void test_read_uint32p_reads_swapped_uint32s(void)
 {
-    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
-    char *buf = bytes;
+    uint8_t bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t *buf = bytes;
     uint32_t i1, i2;
     bool swap = 1;
     buf = read_uint32p(buf, &i1, swap);
@@ -429,8 +409,8 @@ void test_read_uint32p_reads_swapped_uint32s(void)
 
 void test_read_int32p_reads_int32(void)
 {
-    char bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
-    char *buf = bytes;
+    uint8_t bytes[8] = { 0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF };
+    uint8_t *buf = bytes;
     int32_t i1, i2;
     bool swap = 0;
     buf = read_int32p(buf, &i1, swap);
@@ -446,11 +426,11 @@ void test_read_int32p_reads_int32(void)
 
 void test_read_uint64p_reads_uint64s_inorder(void)
 {
-    char bytes[16] = {
+    uint8_t bytes[16] = {
         0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF,
         0x07, 0x03, 0x04, 0x06, 0x08, 0x14, 0x20, 0x54
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     uint64_t i1, i2;
     bool swap = 0;
     buf = read_uint64p(buf, &i1, swap);
@@ -466,11 +446,11 @@ void test_read_uint64p_reads_uint64s_inorder(void)
 
 void test_read_uint64p_reads_swapped_uint64s(void)
 {
-    char bytes[16] = {
+    uint8_t bytes[16] = {
         0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF,
         0x07, 0x03, 0x04, 0x06, 0x08, 0x14, 0x20, 0x54
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     uint64_t i1, i2;
     bool swap = 1;
     buf = read_uint64p(buf, &i1, swap);
@@ -486,11 +466,11 @@ void test_read_uint64p_reads_swapped_uint64s(void)
 
 void test_read_int64p_reads_int64(void)
 {
-    char bytes[16] = {
+    uint8_t bytes[16] = {
         0xCA, 0xFE, 0xBE, 0xEF, 0xBA, 0xAD, 0xCA, 0xAF,
         0x07, 0x03, 0x04, 0x06, 0x08, 0x14, 0x20, 0x54
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     int64_t i1, i2;
     bool swap = 0;
     buf = read_int64p(buf, &i1, swap);
@@ -506,11 +486,11 @@ void test_read_int64p_reads_int64(void)
 
 void test_read_float32p_reads_single_floats(void)
 {
-    char bytes[8] = {
+    uint8_t bytes[8] = {
         0x66, 0xA6, 0xE6, 0x3F,
         0x3F, 0xE6, 0xA6, 0x66
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     float f1, f2;
     bool swap = false;
     buf = read_float32p(buf, &f1, swap);
@@ -526,11 +506,11 @@ void test_read_float32p_reads_single_floats(void)
 
 void test_read_float32p_reads_swapped_floats(void)
 {
-    char bytes[8] = {
+    uint8_t bytes[8] = {
         0x66, 0xA6, 0xE6, 0x3F,
         0x3F, 0xE6, 0xA6, 0x66
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     float f1, f2;
     bool swap = true;
     buf = read_float32p(buf, &f1, swap);
@@ -546,11 +526,11 @@ void test_read_float32p_reads_swapped_floats(void)
 
 void test_read_float64p_reads_double_floats(void)
 {
-    char bytes[16] = {
+    uint8_t bytes[16] = {
         0x7A, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x84, 0x7F,
         0x7F, 0x84, 0x7A, 0xE1, 0x47, 0xAE, 0x14, 0x7A
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     double f1, f2;
     bool swap = false;
     buf = read_float64p(buf, &f1, swap);
@@ -566,11 +546,11 @@ void test_read_float64p_reads_double_floats(void)
 
 void test_read_float64p_reads_swapped_double_floats(void)
 {
-    char bytes[16] = {
+    uint8_t bytes[16] = {
         0x7A, 0x14, 0xAE, 0x47, 0xE1, 0x7A, 0x84, 0x7F,
         0x7F, 0x84, 0x7A, 0xE1, 0x47, 0xAE, 0x14, 0x7A
     };
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     double f1, f2;
     bool swap = true;
     buf = read_float64p(buf, &f1, swap);

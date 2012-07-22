@@ -10,9 +10,9 @@ void tearDown(void) {}
 
 void test_abf_read_logfont(void)
 {
-    char bytes[ABF_LOGFONTSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_LOGFONTSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -27,9 +27,9 @@ void test_abf_read_logfont(void)
 
 void test_abf_read_signal(void)
 {
-    char bytes[ABF_SIGNALSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_SIGNALSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -44,9 +44,9 @@ void test_abf_read_signal(void)
 
 void test_abf_read_scopeconfig(void)
 {
-    char bytes[ABF_SCOPECONFIGSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_SCOPECONFIGSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -61,9 +61,9 @@ void test_abf_read_scopeconfig(void)
 
 void test_abf_read_tag(void)
 {
-    char bytes[ABF_TAGSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_TAGSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -78,9 +78,9 @@ void test_abf_read_tag(void)
 
 void test_abf_read_synch(void)
 {
-    char bytes[ABF_SYNCHSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_SYNCHSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -95,9 +95,9 @@ void test_abf_read_synch(void)
 
 void test_abf_read_voicetaginfo(void)
 {
-    char bytes[ABF_VOICETAGINFOSIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_VOICETAGINFOSIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {
@@ -112,9 +112,9 @@ void test_abf_read_voicetaginfo(void)
 
 void test_abf_read_delta(void)
 {
-    char bytes[ABF_DELTASIZE];
-    char *buf = bytes;
-    char *head = buf;
+    uint8_t bytes[ABF_DELTASIZE];
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
 
     bool to_swap;
     if (ENDIAN_LITTLE == get_endian()) {

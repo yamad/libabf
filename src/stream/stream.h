@@ -141,7 +141,7 @@ bool stream_isOpenForWrite(stream_dt *stream);
 
 /** Return true if `position` fits within `stream` */
 bool stream_posfits(stream_dt *stream, streampos_dt position);
-/** Return true if `stream` has `size` bytes or more of remaining memory/data */
+/** Return true if `stream` has at least `size` bytes of remaining memory/data */
 bool stream_sizefits(stream_dt *stream, size_t size);
 
 StreamError stream_write_uint8(stream_dt *stream, const uint8_t from);

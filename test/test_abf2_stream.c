@@ -24,12 +24,12 @@ void tearDown(void)
 void test_abf2_stream_read_guid(void)
 {
     /* example GUID from MSDN docs: 6B29FC40-CA47-1067-B31D-00DD010662DA */
-    char bytes[16] = {0x6B, 0x29, 0xFC, 0x40,
+    uint8_t bytes[16] = {0x6B, 0x29, 0xFC, 0x40,
                       0xCA, 0x47,
                       0x10, 0x67,
                       0xB3, 0x1D,
                       0x00, 0xDD, 0x01, 0x06, 0x62, 0xDA};
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     memstream_fillData((memstream_dt*)test_stream, buf, 16);
     bool to_swap = false;
 
@@ -63,12 +63,12 @@ void test_abf2_stream_read_guid(void)
 void test_abf2_stream_read_guid_swap(void)
 {
     /* example GUID from MSDN docs: 6B29FC40-CA47-1067-B31D-00DD010662DA */
-    char bytes[16] = {0x6B, 0x29, 0xFC, 0x40,
+    uint8_t bytes[16] = {0x6B, 0x29, 0xFC, 0x40,
                       0xCA, 0x47,
                       0x10, 0x67,
                       0xB3, 0x1D,
                       0x00, 0xDD, 0x01, 0x06, 0x62, 0xDA};
-    char *buf = bytes;
+    uint8_t *buf = bytes;
     memstream_fillData((memstream_dt*)test_stream, buf, 16);
     bool to_swap = true;
 

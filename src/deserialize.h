@@ -7,20 +7,19 @@
 
 /* read_* functions
  *
- * Each function reads the appropriate data type from the *buffer* at
+ * Each function reads the appropriate data type from buffer *buf* at
  * the specified *offset*. For data sizes over one byte, if the *swap*
  * flag evaluates true, the returned value is byte-swapped. */
-unsigned char read_char(const char *buffer, size_t offset);
-uint8_t read_uint8(const char *buffer, size_t offset);
-uint16_t read_uint16(const char *buffer, size_t offset, bool swap);
-uint32_t read_uint32(const char *buffer, size_t offset, bool swap);
-uint64_t read_uint64(const char *buffer, size_t offset, bool swap);
-int8_t read_int8(const char *buffer, size_t offset);
-int16_t read_int16(const char *buffer, size_t offset, bool swap);
-int32_t read_int32(const char *buffer, size_t offset, bool swap);
-int64_t read_int64(const char *buffer, size_t offset, bool swap);
-float read_float32(const char *buffer, size_t offset, bool swap);
-double read_float64(const char *buffer, size_t offset, bool swap);
+uint8_t read_uint8(const uint8_t *buf, size_t offset);
+uint16_t read_uint16(const uint8_t *buf, size_t offset, bool swap);
+uint32_t read_uint32(const uint8_t *buf, size_t offset, bool swap);
+uint64_t read_uint64(const uint8_t *buf, size_t offset, bool swap);
+int8_t read_int8(const uint8_t *buf, size_t offset);
+int16_t read_int16(const uint8_t *buf, size_t offset, bool swap);
+int32_t read_int32(const uint8_t *buf, size_t offset, bool swap);
+int64_t read_int64(const uint8_t *buf, size_t offset, bool swap);
+float read_float32(const uint8_t *buf, size_t offset, bool swap);
+double read_float64(const uint8_t *buf, size_t offset, bool swap);
 
 /** read_*p functions
  *
@@ -32,17 +31,16 @@ double read_float64(const char *buffer, size_t offset, bool swap);
  *  Note that it is possible to read off the end of the buffer, and
  *  this condition must be checked.
  */
-char *read_charp(char *buf, char *to);
-char *read_charnp(char *buf, char *to, size_t nbytes);
-char *read_uint8p(char *buf, uint8_t *to);
-char *read_int8p(char *buf, int8_t *to);
-char *read_uint16p(char *buf, uint16_t *to, bool swap);
-char *read_int16p(char *buf, int16_t *to, bool swap);
-char *read_uint32p(char *buf, uint32_t *to, bool swap);
-char *read_int32p(char *buf, int32_t *to, bool swap);
-char *read_uint64p(char *buf, uint64_t *to, bool swap);
-char *read_int64p(char *buf, int64_t *to, bool swap);
-char *read_float32p(char *buf, float *to, bool swap);
-char *read_float64p(char *buf, double *to, bool swap);
+uint8_t *read_uint8p(uint8_t *buf, uint8_t *to);
+uint8_t *readn_uint8p(uint8_t *buf, uint8_t *to, size_t nbytes);
+uint8_t *read_int8p(uint8_t *buf, int8_t *to);
+uint8_t *read_uint16p(uint8_t *buf, uint16_t *to, bool swap);
+uint8_t *read_int16p(uint8_t *buf, int16_t *to, bool swap);
+uint8_t *read_uint32p(uint8_t *buf, uint32_t *to, bool swap);
+uint8_t *read_int32p(uint8_t *buf, int32_t *to, bool swap);
+uint8_t *read_uint64p(uint8_t *buf, uint64_t *to, bool swap);
+uint8_t *read_int64p(uint8_t *buf, int64_t *to, bool swap);
+uint8_t *read_float32p(uint8_t *buf, float *to, bool swap);
+uint8_t *read_float64p(uint8_t *buf, double *to, bool swap);
 
 #endif

@@ -2,6 +2,8 @@
 #ifndef ABF_STRUCT_H
 #define ABF_STRUCT_H
 
+#include <stdint.h>
+
 #define ABF_LOGFONTSIZE 40
 #define ABF_SIGNALSIZE 34
 #define ABF_SCOPECONFIGSIZE 769

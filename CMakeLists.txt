@@ -7,5 +7,3 @@ add_subdirectory(src)
 
 include_directories(vendor/ceedling/vendor/unity/src)
 add_subdirectory(test)
-
-

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "unity.h"
 
-#include "abf2.h"
+#include "abf2_read.h"
 #include "abf2_stream.h"
 #include "stream.h"
 #include "memstream.h"

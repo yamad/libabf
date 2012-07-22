@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "printutil.h"
-#include "abf2.h"
+#include "abf2_read.h"
 
 int abf2_print_guid(const struct guid *guid, int indent);
 int abf2_print_section(const struct abf2_section *sec, int indent);

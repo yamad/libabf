@@ -1,5 +1,5 @@
 #include "swap.h"
-#include "abf2.h"
+#include "abf2_read.h"
 
 /* check that `buf` starts with a valid ABF2 file signature */
 int abf2_can_open(const uint8_t *buf)

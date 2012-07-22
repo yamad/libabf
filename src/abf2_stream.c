@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "abf2_stream.h"
-#include "abf2.h"
+#include "abf2_read.h"
 
 StreamError abf2_stream_read_guid(stream_dt *stream, struct guid *guid, bool to_swap)
 {

@@ -181,4 +181,15 @@ struct abf_delta
     /* size = 12 bytes */
 };
 
+struct abf_stringcacheheader
+{
+    uint32_t dwSignature;
+    uint32_t dwVersion;
+    uint32_t uNumStrings;
+    uint32_t uMaxSize;
+    int32_t lTotalBytes;
+    uint32_t uUnused[6];
+    /* size = 44 bytes */
+};
+
 #endif /* ABF_STRUCT_H */

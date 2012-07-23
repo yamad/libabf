@@ -563,3 +563,50 @@ void test_read_float64p_reads_swapped_double_floats(void)
         TEST_ASSERT_EQUAL_DOUBLE(11731214887579692300750387334399227980730006290306971769102461373710196481992665851316629523374336388817328033953416558476377592188969935274886220748934030397222706304474864884233531207106413830435199508403584936941314263743467511926564159735259568285560827574331855785640668954624.000000, f2);
     }
 }
+
+void test_read_string_gets_valid_string(void) {
+    uint8_t bytes[10] = { 0x63,0x6C,0x61,0x6D,0x70,0x65,0x78,0x00,0x43,0x3A };
+    size_t MAX_STRING_SIZE = 100;
+    size_t bytes_consumed;
+    char *str1 = read_string(bytes, MAX_STRING_SIZE, &bytes_consumed);
+    TEST_ASSERT_EQUAL_STRING("clampex", str1);
+    TEST_ASSERT_EQUAL(*(str1+8), '\0');
+    TEST_ASSERT_EQUAL(8, bytes_consumed);
+}
+
+void test_read_string_truncates_at_nmax_chars(void) {
+    uint8_t bytes[8] = { 0x63,0x6C,0x61,0x6D,0x70,0x65,0x78,0x00 };
+    size_t bytes_consumed;
+    char *str1 = read_string(bytes, 4, &bytes_consumed);
+    TEST_ASSERT_EQUAL_STRING("clam", str1);
+    TEST_ASSERT_EQUAL(*(str1+4), '\0');
+    TEST_ASSERT_EQUAL(4, bytes_consumed);
+}
+
+void test_read_stringp_gets_valid_string(void) {
+    uint8_t bytes[10] = { 0x63,0x6C,0x61,0x6D,0x70,0x65,0x78,0x00,0x43,0x3A };
+    uint8_t *buf = bytes;
+    size_t MAX_STRING_SIZE = 100;
+
+    char *str1;
+    buf = read_stringp(buf, &str1, MAX_STRING_SIZE);
+    TEST_ASSERT_EQUAL_STRING("clampex", str1);
+}
+
+void test_read_stringp_advances_buf_pointer(void) {
+    uint8_t bytes[10] = { 0x63,0x6C,0x61,0x6D,0x70,0x65,0x78,0x00,0x43,0x3A };
+    uint8_t *buf = bytes;
+    uint8_t *head = buf;
+
+    size_t MAX_STRING_SIZE = 100;
+
+    char *str1;
+    buf = read_stringp(buf, &str1, MAX_STRING_SIZE);
+
+    /* should advance past null terminator */
+    size_t len = strlen(str1);
+    TEST_ASSERT_EQUAL_INT(len+1, buf - head);
+
+    uint8_t b = read_uint8(buf, 0);
+    TEST_ASSERT_EQUAL_HEX8(0x43, b);
+}

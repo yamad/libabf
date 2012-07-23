@@ -20,6 +20,7 @@ int32_t read_int32(const uint8_t *buf, size_t offset, bool swap);
 int64_t read_int64(const uint8_t *buf, size_t offset, bool swap);
 float read_float32(const uint8_t *buf, size_t offset, bool swap);
 double read_float64(const uint8_t *buf, size_t offset, bool swap);
+char *read_string(const uint8_t* buf, size_t nmax, size_t *nconsumed);
 
 /** read_*p functions
  *
@@ -42,5 +43,6 @@ uint8_t *read_uint64p(uint8_t *buf, uint64_t *to, bool swap);
 uint8_t *read_int64p(uint8_t *buf, int64_t *to, bool swap);
 uint8_t *read_float32p(uint8_t *buf, float *to, bool swap);
 uint8_t *read_float64p(uint8_t *buf, double *to, bool swap);
+uint8_t *read_stringp(uint8_t* buf, char **to, size_t nmax);
 
 #endif

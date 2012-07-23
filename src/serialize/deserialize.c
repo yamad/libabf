@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <limits.h>
 #include <string.h>
@@ -82,6 +83,25 @@ double read_float64(const uint8_t *buf, size_t offset, bool swap)
     return u.d;
 }
 
+char *read_string(const uint8_t* buf, size_t nmax, size_t *nconsumed) {
+    size_t len = strlen((char*)buf);
+    if (len > nmax)
+        len = nmax;
+
+    char *res = malloc(len+1);
+    if (NULL == res)
+        return NULL;
+
+    strncpy(res, (char*)buf, len);
+    *(res+len) = '\0';
+
+    /* if null terminator is in buffer, count it as consumed */
+    if (*(buf+len) == '\0')
+        len++;
+    *nconsumed = len;
+    return res;
+};
+
 uint8_t *readn_uint8p(uint8_t *buf, uint8_t *to, size_t nbytes)
 {
     memcpy(to, buf, nbytes);
@@ -147,3 +167,9 @@ uint8_t *read_float64p(uint8_t *buf, double *to, bool swap)
     *to = read_float64(buf, 0, swap);
     return (buf + sizeof(*to));
 }
+
+uint8_t *read_stringp(uint8_t* buf, char **to, size_t nmax) {
+    size_t nconsumed;
+    *to = read_string(buf, nmax, &nconsumed);
+    return (buf+nconsumed);         /* advance past terminator */
+};

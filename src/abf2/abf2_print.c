@@ -14,6 +14,7 @@ int abf2_print_guid(const struct guid *guid, int indent)
     for (;i<8; i++)
         printf("%X", guid->Data4[i]);
     printf("\n");
+    free(spaces);
     return 0;
 }
 

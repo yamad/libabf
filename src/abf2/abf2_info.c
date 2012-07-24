@@ -198,7 +198,7 @@ int abf2_display_adcinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
     while (eselect != 0) {
         eselect = abf2_select_section_entry(sec, "ADCInfo");
         if (eselect == 0)
-            return 0; /* exit on selecting 0 */
+            goto clean_exit;
 
         err = abf2_section_load_entry(f, sec, buf, eselect-1);
         if (0 != err) {
@@ -211,15 +211,19 @@ int abf2_display_adcinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
         printf("\n");
         abf2_display_cleanup(sec, &eselect);
     }
-    free(info); info = NULL;
+clean_exit:
+    free(info);
+    info = NULL;
     return 0;
 }
 
 int abf2_display_dacinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
 {
+    struct abf2_dacinfo *ainfo;
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    ainfo = (struct abf2_dacinfo *) malloc(sizeof(struct abf2_dacinfo));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -227,8 +231,6 @@ int abf2_display_dacinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_dacinfo *ainfo;
-        ainfo = (struct abf2_dacinfo *) malloc(sizeof(struct abf2_dacinfo));
         if (0 == fread(buf, ABF2_DACINFOSIZE, 1, f)) {
             printf("Read DAC info error\n");
             return -1;
@@ -244,14 +246,17 @@ int abf2_display_dacinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
             printf("---------------------------------------------\n");
         }
     }
+    free(ainfo);
     return 0;
 }
 
 int abf2_display_epochinfoperdac(FILE* f, const struct abf2_section *sec, bool to_swap)
 {
+    struct abf2_epochinfoperdac *ainfo;
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    ainfo = (struct abf2_epochinfoperdac *) malloc(sizeof(struct abf2_epochinfoperdac));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -259,8 +264,6 @@ int abf2_display_epochinfoperdac(FILE* f, const struct abf2_section *sec, bool t
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_epochinfoperdac *ainfo;
-        ainfo = (struct abf2_epochinfoperdac *) malloc(sizeof(struct abf2_epochinfoperdac));
         if (0 == fread(buf, ABF2_EPOCHINFOPERDACSIZE, 1, f)) {
             printf("Read DAC info error\n");
             return -1;
@@ -276,6 +279,7 @@ int abf2_display_epochinfoperdac(FILE* f, const struct abf2_section *sec, bool t
             printf("---------------------------------------------\n");
         }
     }
+    free(ainfo);
     return 0;
 }
 
@@ -284,6 +288,8 @@ int abf2_display_epochinfo(FILE* f, const struct abf2_section *sec, bool to_swap
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf2_epochinfo *ainfo;
+    ainfo = (struct abf2_epochinfo *) malloc(sizeof(struct abf2_epochinfo));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -291,8 +297,6 @@ int abf2_display_epochinfo(FILE* f, const struct abf2_section *sec, bool to_swap
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_epochinfo *ainfo;
-        ainfo = (struct abf2_epochinfo *) malloc(sizeof(struct abf2_epochinfo));
         if (0 == fread(buf, ABF2_EPOCHINFOSIZE, 1, f)) {
             printf("Read DAC info error\n");
             return -1;
@@ -308,6 +312,7 @@ int abf2_display_epochinfo(FILE* f, const struct abf2_section *sec, bool to_swap
             printf("---------------------------------------------\n");
         }
     }
+    free(ainfo);
     return 0;
 }
 
@@ -316,15 +321,14 @@ int abf2_display_statsregioninfo(FILE* f, const struct abf2_section *sec, bool t
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf2_statsregioninfo *ainfo;
+    ainfo = (struct abf2_statsregioninfo *) malloc(sizeof(struct abf2_statsregioninfo));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
         entry_select = abf2_seek_to_section_entry(f, sec, "StatsRegionInfo");
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
-
-        struct abf2_statsregioninfo *ainfo;
-        ainfo = (struct abf2_statsregioninfo *) malloc(sizeof(struct abf2_statsregioninfo));
         if (0 == fread(buf, ABF2_STATSREGIONINFOSIZE, 1, f)) {
             printf("Read StatsRegion info error\n");
             return -1;
@@ -340,6 +344,7 @@ int abf2_display_statsregioninfo(FILE* f, const struct abf2_section *sec, bool t
             printf("---------------------------------------------\n");
         }
     }
+    free(ainfo);
     return 0;
 }
 
@@ -348,6 +353,8 @@ int abf2_display_userlistinfo(FILE* f, const struct abf2_section *sec, bool to_s
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf2_userlistinfo *ainfo;
+    ainfo = (struct abf2_userlistinfo *) malloc(sizeof(struct abf2_userlistinfo));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -355,8 +362,6 @@ int abf2_display_userlistinfo(FILE* f, const struct abf2_section *sec, bool to_s
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_userlistinfo *ainfo;
-        ainfo = (struct abf2_userlistinfo *) malloc(sizeof(struct abf2_userlistinfo));
         if (0 == fread(buf, ABF2_USERLISTINFOSIZE, 1, f)) {
             printf("Read UserList info error\n");
             return -1;
@@ -372,6 +377,7 @@ int abf2_display_userlistinfo(FILE* f, const struct abf2_section *sec, bool to_s
             printf("---------------------------------------------\n");
         }
     }
+    free(ainfo);
     return 0;
 }
 
@@ -380,6 +386,8 @@ int abf2_display_mathinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf2_mathinfo *ainfo;
+    ainfo = (struct abf2_mathinfo *) malloc(sizeof(struct abf2_mathinfo));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -387,8 +395,6 @@ int abf2_display_mathinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf2_mathinfo *ainfo;
-        ainfo = (struct abf2_mathinfo *) malloc(sizeof(struct abf2_mathinfo));
         if (0 == fread(buf, ABF2_MATHINFOSIZE, 1, f)) {
             printf("Read Math info error\n");
             return -1;
@@ -404,6 +410,7 @@ int abf2_display_mathinfo(FILE* f, const struct abf2_section *sec, bool to_swap)
             printf("---------------------------------------------\n");
         }
     }
+    free(ainfo);
     return 0;
 }
 
@@ -412,6 +419,8 @@ int abf2_display_tags(FILE* f, const struct abf2_section *sec, bool to_swap)
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf_tag *tag;
+    tag = (struct abf_tag *) malloc(sizeof(struct abf_tag));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -419,8 +428,6 @@ int abf2_display_tags(FILE* f, const struct abf2_section *sec, bool to_swap)
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf_tag *tag;
-        tag = (struct abf_tag *) malloc(sizeof(struct abf_tag));
         if (0 == fread(buf, ABF_TAGSIZE, 1, f)) {
             printf("Read Tags error\n");
             return -1;
@@ -436,6 +443,7 @@ int abf2_display_tags(FILE* f, const struct abf2_section *sec, bool to_swap)
             printf("---------------------------------------------\n");
         }
     }
+    free(tag);
     return 0;
 }
 
@@ -444,6 +452,8 @@ int abf2_display_scopeconfigs(FILE* f, const struct abf2_section *sec, bool to_s
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf_scopeconfig *sc;
+    sc = (struct abf_scopeconfig *) malloc(sizeof(struct abf_scopeconfig));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -451,8 +461,6 @@ int abf2_display_scopeconfigs(FILE* f, const struct abf2_section *sec, bool to_s
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf_scopeconfig *sc;
-        sc = (struct abf_scopeconfig *) malloc(sizeof(struct abf_scopeconfig));
         if (0 == fread(buf, ABF_SCOPECONFIGSIZE, 1, f)) {
             printf("Read Scope Config error\n");
             return -1;
@@ -468,6 +476,7 @@ int abf2_display_scopeconfigs(FILE* f, const struct abf2_section *sec, bool to_s
             printf("---------------------------------------------\n");
         }
     }
+    free(sc);
     return 0;
 }
 
@@ -476,6 +485,8 @@ int abf2_display_deltas(FILE* f, const struct abf2_section *sec, bool to_swap)
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf_delta *delta;
+    delta = (struct abf_delta *) malloc(sizeof(struct abf_delta));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -483,8 +494,6 @@ int abf2_display_deltas(FILE* f, const struct abf2_section *sec, bool to_swap)
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf_delta *delta;
-        delta = (struct abf_delta *) malloc(sizeof(struct abf_delta));
         if (0 == fread(buf, ABF_DELTASIZE, 1, f)) {
             printf("Read Deltas error\n");
             return -1;
@@ -500,6 +509,7 @@ int abf2_display_deltas(FILE* f, const struct abf2_section *sec, bool to_swap)
             printf("---------------------------------------------\n");
         }
     }
+    free(delta);
     return 0;
 }
 
@@ -508,15 +518,14 @@ int abf2_display_voicetags(FILE* f, const struct abf2_section *sec, bool to_swap
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf_voicetaginfo *voicetag;
+    voicetag = (struct abf_voicetaginfo *) malloc(sizeof(struct abf_voicetaginfo));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
         entry_select = abf2_seek_to_section_entry(f, sec, "Voice Tags");
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
-
-        struct abf_voicetaginfo *voicetag;
-        voicetag = (struct abf_voicetaginfo *) malloc(sizeof(struct abf_voicetaginfo));
         if (0 == fread(buf, ABF_VOICETAGINFOSIZE, 1, f)) {
             printf("Read Voice Tags error\n");
             return -1;
@@ -532,6 +541,7 @@ int abf2_display_voicetags(FILE* f, const struct abf2_section *sec, bool to_swap
             printf("---------------------------------------------\n");
         }
     }
+    free(voicetag);
     return 0;
 }
 
@@ -540,6 +550,8 @@ int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap)
     if (0 == abf2_check_section_data_exists(sec)) {
         return 0;
     }
+    struct abf_synch *synch;
+    synch = (struct abf_synch *) malloc(sizeof(struct abf_synch));
 
     int64_t entry_select = -1;
     while (entry_select != 0) {
@@ -547,8 +559,6 @@ int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap)
         if (entry_select == 0)
             return 0; /* exit on selecting 0 */
 
-        struct abf_synch *synch;
-        synch = (struct abf_synch *) malloc(sizeof(struct abf_synch));
         if (0 == fread(buf, ABF_SYNCHSIZE, 1, f)) {
             printf("Read Synchs error\n");
             return -1;
@@ -564,6 +574,7 @@ int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap)
             printf("---------------------------------------------\n");
         }
     }
+    free(synch);
     return 0;
 }
 

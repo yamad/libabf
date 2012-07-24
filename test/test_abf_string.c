@@ -3,8 +3,14 @@
 #include "unity.h"
 #include "abf_string.h"
 
-void setUp(void) {}
-void tearDown(void) {}
+struct abf_strcache sc;
+
+void setUp(void) {
+    abf_strcache_init(&sc);
+}
+void tearDown(void) {
+    abf_strcache_destroy(&sc);
+}
 
 void test_abf_read_strings_gets_all_strings(void) {
     uint8_t bytes[] = { 0x63,0x6C,0x61,0x6D,0x70,0x65,0x78,0x00,0x43,0x3A,
@@ -23,21 +29,16 @@ void test_abf_read_strings_gets_all_strings(void) {
                         0x43,0x43,0x5F,0x43,0x6D,0x64,0x31,0x00,0x70,0x41,
                         0x00,0x4F,0x55,0x54,0x20,0x32,0x00,0x56,0x00,0x4F,
                         0x55,0x54,0x20,0x33,0x00,0x56,0x00 };
-    struct abf_strcache sc;
 //    abf_read_strings(&sc, bytes, 15);
 //    TEST_ASSERT_EQUAL_STRING("clampex", *(sc->strings));
 }
 
 void test_abf_strcache_init(void) {
-    struct abf_strcache sc;
-    abf_strcache_init(&sc);
     TEST_ASSERT_EQUAL_INT(0, sc.count);
 }
 
 void test_abf_strcache_add(void) {
     char *expected = "Hello, world!";
-    struct abf_strcache sc;
-    abf_strcache_init(&sc);
     abf_strcache_add(&sc, expected);
     TEST_ASSERT_EQUAL_INT(1, sc.count);
     TEST_ASSERT_EQUAL_STRING(expected, *(sc.strings));
@@ -47,8 +48,6 @@ void test_abf_strcache_add_multiple(void) {
     char *str1 = "Hello, world!";
     char *str2 = "Goodbye, world!";
 
-    struct abf_strcache sc;
-    abf_strcache_init(&sc);
     abf_strcache_add(&sc, str1);
     abf_strcache_add(&sc, str2);
 
@@ -58,24 +57,41 @@ void test_abf_strcache_add_multiple(void) {
 }
 
 void test_abf_strcache_expands_when_needed(void) {
-    struct abf_strcache sc;
-    abf_strcache_init(&sc);
+    char *str1 = "one";
+    int i;
+    for (i=0; i<10; i++) {
+        abf_strcache_add(&sc, str1);
+    }
+    char *str2 = "two";
+    abf_strcache_add(&sc, str2);
+    TEST_ASSERT_EQUAL_STRING(str1, sc.strings[i-1]);
+    TEST_ASSERT_EQUAL_STRING(str2, sc.strings[i]);
+}
 
+void test_abf_strcache_get_retrieves_string(void) {
+    char *str1 = "A string cache string";
+    char *str2 = "Another string";
+    abf_strcache_add(&sc, str1);
+    abf_strcache_add(&sc, str2);
+    TEST_ASSERT_EQUAL_STRING(str1, abf_strcache_get(&sc, 0));
+    TEST_ASSERT_EQUAL_STRING(str2, abf_strcache_get(&sc, 1));
+}
+
+void test_abf_strcache_get_returns_null_if_no_string(void) {
+    char *str1 = "A string cache string";
+    abf_strcache_add(&sc, str1);
+    TEST_ASSERT_NULL(abf_strcache_get(&sc, 1));
+}
+
+void test_abf_strcache_remove_deletes_string(void) {
     char *str1 = "one";
     char *str2 = "two";
     char *str3 = "three";
-    char *str4 = "four";
-    char *str5 = "five";
-    char *str6 = "six";
-    char *str7 = "seven";
-    char *str8 = "eight";
-
     abf_strcache_add(&sc, str1);
     abf_strcache_add(&sc, str2);
     abf_strcache_add(&sc, str3);
 
-    TEST_ASSERT_EQUAL_INT(3, sc.count);
-    TEST_ASSERT_EQUAL_STRING(str1, sc.strings[0]);
-    TEST_ASSERT_EQUAL_STRING(str2, sc.strings[1]);
-    TEST_ASSERT_EQUAL_STRING(str3, sc.strings[2]);
+    abf_strcache_remove(&sc, 1);
+    TEST_ASSERT_EQUAL_INT(2, sc.count);
+    TEST_ASSERT_EQUAL_STRING(str3, abf_strcache_get(&sc, 1));
 }

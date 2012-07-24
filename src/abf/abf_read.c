@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "abf_read.h"
 
 uint8_t *abf_read_logfont(uint8_t *buf, struct abf_logfont *linfo, bool to_swap)
@@ -109,4 +111,25 @@ uint8_t *abf_read_delta(uint8_t *buf, struct abf_delta *dinfo, bool to_swap)
     buf = read_int32p(buf, &(dinfo->lParameterID), to_swap);
     buf = read_uint32p(buf, (uint32_t*)&(dinfo->lNewParamValue), to_swap);
     return buf;                 /* total = 12 bytes */
+}
+
+uint8_t *abf_read_stringcache(uint8_t *buf,
+                              struct abf_stringcacheheader *sch,
+                              struct abf_strcache *sc,
+                              bool to_swap)
+{
+    buf = read_uint32p(buf, &(sch->dwSignature), to_swap);
+    buf = read_uint32p(buf, &(sch->dwVersion), to_swap);
+    buf = read_uint32p(buf, &(sch->uNumStrings), to_swap);
+    buf = read_uint32p(buf, &(sch->uMaxSize), to_swap);
+    buf = read_int32p(buf, &(sch->lTotalBytes), to_swap);
+    buf += 24;
+    uint32_t i;
+    char *strbuf = NULL;
+    for (i=0; i < sch->uNumStrings; i++) {
+        buf = read_stringp(buf, &strbuf, sch->uMaxSize);
+        abf_strcache_add(sc, strbuf);
+        free(strbuf);           /* read_stringp allocates a string buffer */
+    }
+    return buf;
 }

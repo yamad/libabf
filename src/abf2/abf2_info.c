@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "memory.h"
+#include "abf_string.h"
 #include "abf_read.h"
 #include "abf_print.h"
 #include "abf2_print.h"
@@ -23,14 +24,13 @@ int abf2_display_epochinfoperdac(FILE* f, const struct abf2_section *sec, bool t
 int abf2_display_epochinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_statsregioninfo(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_userlistinfo(FILE* f, const struct abf2_section *sec, bool to_swap);
-/* int abf2_display_strings(FILE* f, const struct abf2_section *sec, bool to_swap); */
+int abf2_display_stringcache(FILE* f, const struct abf2_section *sec, bool to_swap);
 
 int abf2_display_scopeconfigs(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_tags(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_deltas(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_voicetags(FILE* f, const struct abf2_section *sec, bool to_swap);
 int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap);
-/* int abf_display_annotations(FILE* f, const struct abf2_section *sec, bool to_swap); */
 
 enum ABF2SELECT_OPTIONS {
     ABF2SELECT_FileInfo = 1,
@@ -567,6 +567,34 @@ int abf2_display_synchs(FILE* f, const struct abf2_section *sec, bool to_swap)
     return 0;
 }
 
+int abf2_display_stringcache(FILE* f, const struct abf2_section *sec, bool to_swap)
+{
+    int err = 0;
+    int64_t eselect = -1;
+    struct abf_stringcacheheader *sch;
+    struct abf_strcache *sc;
+    if (0 == abf2_check_section_data_exists(sec)) {
+        return 0;
+    }
+    sch = malloc(sizeof(struct abf_stringcacheheader));
+    sc = malloc(sizeof(struct abf_strcache));
+    abf_strcache_init(sc);
+
+    abf2_section_load_entry(f, sec, buf, 0);
+    abf_read_stringcache(buf, sch, sc, to_swap);
+    printf("\n");
+    abf_print_stringcacheheader(sch, 0);
+    printf("\n");
+    abf_strcache_printall(sc, 0);
+    printf("\n");
+    abf2_display_cleanup(sec, &eselect);
+
+    abf_strcache_destroy(sc);
+    free(sc); sc = NULL;
+    free(sch); sch = NULL;
+    return err;
+}
+
 int main(int argc, char *argv[])
 {
     FILE *f;
@@ -703,30 +731,31 @@ int main(int argc, char *argv[])
             abf2_print_section(sec, 2);
             abf2_display_synchs(f, sec, to_swap);
             break;
-        /* case ABF2SELECT_Annotations: */
-        /*     sec = &(finfo->AnnotationSection); */
-        /*     printf("AnnotationSection\n"); */
-        /*     abf2_print_section(sec, 2); */
-        /*     abf2_display_annotations(f, sec, to_swap); */
-        /*     break; */
+        case ABF2SELECT_Annotations:
+            sec = &(finfo->AnnotationSection);
+            printf("AnnotationSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_stringcache(f, sec, to_swap);
+            break;
         case ABF2SELECT_Stats:
             sec = &(finfo->StatsSection);
             printf("StatsSection\n");
             abf2_print_section(sec, 2);
             abf2_display_scopeconfigs(f, sec, to_swap);
             break;
-        /* case ABF2SELECT_Strings: */
-        /*     sec = &(finfo->StringsSection); */
-        /*     printf("StringsSection\n"); */
-        /*     abf2_print_section(sec, 2); */
-        /*     abf2_display_strings(f, sec, to_swap); */
-        /*     break; */
+        case ABF2SELECT_Strings:
+            sec = &(finfo->StringsSection);
+            printf("StringsSection\n");
+            abf2_print_section(sec, 2);
+            abf2_display_stringcache(f, sec, to_swap);
+            break;
         default:
             printf("Unknown option. Try again, please.\n\n");
             break;
         }
     }
 
+    free(finfo);
     fclose(f);
     return 0;
-}
+ }

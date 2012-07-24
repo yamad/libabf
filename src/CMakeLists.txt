@@ -17,8 +17,10 @@ add_library(stream STATIC stream/stream.c stream/memstream.c)
 target_link_libraries(stream deserialize)
 
 # ABF general
+add_library(abf_string abf/abf_string.c)
+
 add_library(abf_read abf/abf_read.c)
-target_link_libraries(abf_read deserialize)
+target_link_libraries(abf_read abf_string deserialize)
 
 add_library(abf_print abf/abf_print.c)
 target_link_libraries(abf_print abf_read printutil)

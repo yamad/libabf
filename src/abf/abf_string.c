@@ -65,3 +65,10 @@ int abf_strcache_extend(struct abf_strcache *sc, size_t nentries) {
     sc->cache_size = new_size;
     return 0;
 }
+
+int abf_strcache_printall(struct abf_strcache *sc, int indent) {
+    int i;
+    for (i=0; i < sc->count; i++) {
+        printf("[%2.2d] %s\n", i, abf_strcache_get(sc, i));
+    }
+}

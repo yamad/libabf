@@ -127,3 +127,15 @@ int abf_print_delta(const struct abf_delta *s, int indent)
     free(spaces);
     return 0;
 }
+
+int abf_print_stringcacheheader(const struct abf_stringcacheheader *s, int indent)
+{
+    char *spaces = get_repeated_string(' ', indent);
+    printf("%s%-11s: %s\n", spaces, "dwSignature", (char*)&(s->dwSignature));
+    printf("%s%-11s: %u\n", spaces, "dwVersion", s->dwVersion);
+    printf("%s%-11s: %u\n", spaces, "uNumStrings", s->uNumStrings);
+    printf("%s%-11s: %u\n", spaces, "uMaxSize", s->uMaxSize);
+    printf("%s%-11s: %d\n", spaces, "lTotalBytes", s->lTotalBytes);
+    free(spaces);
+    return 0;
+}
